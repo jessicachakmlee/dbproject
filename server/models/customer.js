@@ -23,7 +23,6 @@ class Customer {
             callback(res);
         });
     }
-
 }
 
 module.exports = Customer;
