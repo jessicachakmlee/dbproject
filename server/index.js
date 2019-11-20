@@ -11,7 +11,14 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+
+app.use('/api/branch', require('./api/branch'));
 app.use('/api/customer', require('./api/customer'));
+app.use('/api/rent', require('./api/rent'));
+app.use('/api/reservations', require('./api/reservations'));
+app.use('/api/return', require('./api/return'));
+app.use('/api/vehicle', require('./api/vehicle'));
+app.use('/api/vehicleType', require('./api/vehicleType'));
 
 if(ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/build')));

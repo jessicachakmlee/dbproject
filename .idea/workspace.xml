@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7905c62-030b-4773-b546-023a332be712" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/server/api/customer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/branch.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/branch.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/api/rent.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/api/reservations.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/api/return.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/api/vehicle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/api/customer.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/customer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/api/vehicleType.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/vehicleType.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/database/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/database/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
