@@ -1,0 +1,14 @@
+INSERT INTO Customer VALUES (604-111-1234, 'Robbie Williams', '992  Brew Creek Rd', 1234567, NULL, NULL);
+INSERT INTO Customer VALUES (778-123-4567, 'Baymax', '675 Robson St', 1111111, NULL, NULL);
+INSERT INTO Customer VALUES (604-333-5555, 'Steven Hawkings', '3787 Mesa Vista Drive', 2222222, NULL, NULL);
+INSERT INTO Customer VALUES (604-515-9278, 'Goku Son', '472 Essendene Avenue', 3333333, 100, 20);
+INSERT INTO Customer VALUES (778-753-4890, 'Gandalf', '295 Sixth Street', 4444444, 1, 20);
+INSERT INTO Customer VALUES (604-829-4312, 'Sherlock Holmes', '3966 Tchesinkut Lake Rd', 55555555, 3, 20);
+INSERT INTO Customer VALUES (604-484-9278, 'James Bond', '3170 Roger Street', 6666666, 2000, 20);
+INSERT INTO Customer VALUES (604-777-9999, 'Severus Snape', '3860 Coldstream Avenue', 7777777, 6000, 20);
+INSERT INTO Customer VALUES (778-578-9982, 'Albus Dumbledore', '2860 Wallace Street', 8888888, NULL, NULL);
+INSERT INTO Customer VALUES (778-481-3671, 'Fitzwilliam Darcy', '1061 Glover Road', 9999999, NULL, NULL);
+INSERT INTO Customer VALUES (778-501-6092, 'Elizabeth Bennet', '408 Kinchant St', 1010101, 350, 20);
+INSERT INTO Customer VALUES (604-494-9956, 'Jack Sparrow', '4331 Old Spallumcheen Rd', 2020202, 30, 20);
+INSERT INTO Customer VALUES (778-155-8897, 'James T. Kirk', '3556 Blind Bay Road', 3030303, 8, 20);
+INSERT INTO Customer VALUES (778-323-4565, 'Homer Simpson', '4450 Tchesinkut Lake Rd', 4040404, NULL, NULL);
