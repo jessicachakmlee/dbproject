@@ -1,7 +1,6 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const db = require('./database/index.js');
 
 const ENV = process.env.NODE_ENV;
@@ -12,8 +11,14 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+app.use('/api/customer', require('./api/customer'));
 
-app.use('/api/branch', require('./api/branch'));
+if(ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/build')));
+    app.use((req, res) => {
+        res.sendFile(path.join(__dirname, '/client/build/index.html'));
+    });
+}
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}...`);

@@ -3,7 +3,6 @@ const branch = require('../models/branch');
 
 const router = express.Router();
 
-
 router.get('/', function (req, res) {
     branch.retrieveAll(function (err, branch) {
         if (err)

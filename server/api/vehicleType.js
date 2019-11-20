@@ -1,11 +1,10 @@
 const express = require('express');
-const branch = require('../models/vehicleType');
+const vehicleType = require('../models/vehicleType');
 
 const router = express.Router();
 
-
 router.get('/', function (req, res) {
-    branch.retrieveAll(function (err, branch) {
+    vehicleType.retrieveAll(function (err, branch) {
         if (err)
             return res.json(err);
         return res.json(branch);
@@ -24,7 +23,7 @@ router.post('/', function (req, res) {
     const hirate = req.body.hirate;
     const krate = req.body.krate;
 
-    branch.insert(vtname, features, wrate, drate, hrate,
+    vehicleType.insert(vtname, features, wrate, drate, hrate,
         wirate, dirate, hirate, krate, function (err, result) {
         if(err)
             return res.json(err);

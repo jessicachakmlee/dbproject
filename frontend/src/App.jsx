@@ -1,20 +1,20 @@
 import React, {useState} from 'react';
 
 const App = () => {
-    const [branchList, setBranchList] = useState([]);
     const getBranchList = () => {
-        fetch('/api/branch')
+        fetch('/api/customer')
             .then(res => res.json())
             .then(res => {
-                let branches = res.length === 0 ? res : res.map(b => b.location);
-                setBranchList(branches);
+                console.log(res);
+                let branches = res.length === 0 ? res : res;
+                return branches;
             })
     };
 
     return (
         <div>
             <div>304 Project</div>
-            <div>Branch: {branchList}</div>
+            <div>Branch: {getBranchList()}</div>
         </div>
     );
 }
