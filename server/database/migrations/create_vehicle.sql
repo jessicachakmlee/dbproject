@@ -16,7 +16,7 @@ CREATE TABLE Vehicle (
 =======
     PRIMARY KEY (vlicense),
     FOREIGN KEY (vtname) REFERENCES VehicleType(vtname),
-    CHECK (status = 'for_rent' 
+    CHECK (status = 'being_rented' 
             or status = 'in_shop' 
             or status = 'available')
 >>>>>>> Implemented all tables given in D3 Description - Not yet double checked
