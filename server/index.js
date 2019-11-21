@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 // This is where the api endpoints are defined (in the fn)
 app.use('/api/customer', require('./api/customer'));
 app.use('/api/rent', require('./api/rent'));
-app.use('/api/reservations', require('./api/reservations'));
+app.use('/api/reservation', require('./api/reservations'));
 app.use('/api/return', require('./api/return'));
 app.use(`/api/vehicle/:location/:city/all`, (req, res, next) => {
     getAllVehicles(req.params.location, req.params.city);

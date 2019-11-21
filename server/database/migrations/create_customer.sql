@@ -5,5 +5,5 @@ CREATE TABLE Customer (
       dlicense        char(50),
       points          int,
       fees            int,
-      PRIMARY KEY     (cellphone)
+      PRIMARY KEY     (dlicense)
   );

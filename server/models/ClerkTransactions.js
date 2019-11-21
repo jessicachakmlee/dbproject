@@ -1,5 +1,5 @@
 const Receipt = require(Receipt);
-const Reservation = require('models/reservation');
+const Reservation = require('server/models/reservation');
 
 class ClerkTransactions{
     /*TODO: rent a vehicle with or without any reservation*/
