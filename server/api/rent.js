@@ -4,7 +4,7 @@ const rent = require('../models/rent');
 const router = express.Router();
 
 
-router.get('/rent/', function (req, res) {
+router.get('/', function (req, res) {
     rent.retrieveAll(function (err, rent) {
         if (err)
             return res.json(err);
@@ -13,7 +13,7 @@ router.get('/rent/', function (req, res) {
 });
 
 
-router.post('/rent/', function (req, res) {
+router.post('/', function (req, res) {
     const rid = req.body.rid;
     const vid = req.body.vid;
     const cellphone = req.body.cellphone;

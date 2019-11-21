@@ -11,12 +11,14 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+// This is where the api endpoints are defined (in the fn)
 app.use('/api/customer', require('./api/customer'));
 app.use('/api/rent', require('./api/rent'));
 app.use('/api/reservations', require('./api/reservations'));
 app.use('/api/return', require('./api/return'));
 app.use('/api/vehicle', require('./api/vehicle'));
 app.use('/api/vehicleType', require('./api/vehicleType'));
+app.use('/api/branch', require('./api/branch'));
 
 if(ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/build')));
@@ -25,13 +27,16 @@ if(ENV === 'production') {
     });
 }
 
+// start listening to the port
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}...`);
 });
 
+// gets date and time from postgres server
 db.query('SELECT NOW()', (err, res) => {
     if (err.error)
         return console.log(err.error);
+    // takes first row which contains timestamp to print
     console.log(`PostgreSQL connected: ${res[0].now}`);
 });
 

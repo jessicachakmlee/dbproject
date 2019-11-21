@@ -4,7 +4,7 @@ const vehicle = require('../models/vehicle');
 const router = express.Router();
 
 
-router.get('/vehicle/', function (req, res) {
+router.get('/', function (req, res) {
     vehicle.retrieveAll(function (err, vehicle) {
         if (err)
             return res.json(err);
@@ -13,7 +13,7 @@ router.get('/vehicle/', function (req, res) {
 });
 
 
-router.post('/vehicle/', function (req, res) {
+router.post('/', function (req, res) {
     const vid = req.body.vid;
     const vlicense = req.body.vlicense;
     const make = req.body.make;

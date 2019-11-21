@@ -3,7 +3,7 @@ const db = require('../database');
 class Branch {
     // retrieves all entries in branch table
     static retrieveAll(callback) {
-        db.query('SELECT location from branch', function (err, res) {
+        db.query('SELECT * from branch', function (err, res) {
             if (err.error)
                 return callback(err);
             callback(res);

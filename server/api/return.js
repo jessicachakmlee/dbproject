@@ -4,7 +4,7 @@ const _return = require('../models/return');
 const router = express.Router();
 
 
-router.get('/return/', function (req, res) {
+router.get('/', function (req, res) {
     _return.retrieveAll(function (err, ret) {
         if (err)
             return res.json(err);
@@ -13,7 +13,7 @@ router.get('/return/', function (req, res) {
 });
 
 
-router.post('/return/', function (req, res) {
+router.post('/', function (req, res) {
     const rid = req.body.rid;
     const date = req.body.date;
     const time = req.body.time;

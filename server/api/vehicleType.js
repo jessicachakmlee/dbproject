@@ -4,7 +4,7 @@ const vehicleType = require('../models/vehicleType');
 const router = express.Router();
 
 
-router.get('/vehicleType/', function (req, res) {
+router.get('/', function (req, res) {
     vehicleType.retrieveAll(function (err, vehicleType) {
         if (err)
             return res.json(err);
@@ -13,7 +13,7 @@ router.get('/vehicleType/', function (req, res) {
 });
 
 
-router.post('/vehicleType/', function (req, res) {
+router.post('/', function (req, res) {
     const vtname = req.body.vtname;
     const features = req.body.features;
     const wrate = req.body.wrate;
