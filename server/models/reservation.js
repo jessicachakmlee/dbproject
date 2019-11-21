@@ -1,6 +1,11 @@
 const db = require('../database');
 
 class Reservation {
+    confNo = -1;
+    constructor(confNo) {
+        this.confNo = confNo;
+    }
+    // Retrieve a list of all reservations in the database
     static retrieveAll(callback) {
         db.query('SELECT * from reservation', function (err, res) {
             if (err.error)
@@ -9,6 +14,7 @@ class Reservation {
         });
     }
 
+    // Insert reservation into database
     static insert (confNo, vtname, cellphone, fromDate,
                    fromTime, toDate, toTime, callback) {
 
@@ -27,6 +33,18 @@ class Reservation {
         });
     }
 
+    // Select a reservation entry from database by confirmation number
+    static retrieveByConfNo(confNo, callback){
+        const selectQuery = {
+            text: 'SELECT * FROM reservation WHERE confNo = ?',
+            values: [confNo]
+        }
+        db.query(selectQuery, (err, res) => {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        })
+    }
 }
 
 module.exports = Reservation;
