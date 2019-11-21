@@ -2,23 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7905c62-030b-4773-b546-023a332be712" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/components/DropdownComponent.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/models/Report.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/branch.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/branch.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/customer.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/customer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/rent.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/rent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/reservations.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/reservations.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/return.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/return.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/vehicle.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/vehicle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/vehicleType.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/vehicleType.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/database/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/database/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/database/migrations/create_vehicle.sql" beforeDir="false" afterPath="$PROJECT_DIR$/server/database/migrations/create_vehicle.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/models/reservation.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/reservation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/models/vehicle.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/vehicle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/ClerkTransactions.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/ClerkTransactions.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -75,9 +61,11 @@
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.jscs" value="project" />
     <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="" />
     <property name="node.js.selected.package.jscs" value="/usr/local/lib/node_modules/jscs" />
     <property name="node.js.selected.package.standard" value="" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/frontend/node_modules/typescript/lib" />
