@@ -1,6 +1,9 @@
 const { Pool } = require('pg');
 
-const CONNECTION_STRING = process.env.DATABASE_URL;
+// const CONNECTION_STRING = process.env.DATABASE_URL;
+// const CONNECTION_STRING = 'postgresql://postgres:postgres@localhost:5432/dbproject';
+const CONNECTION_STRING = process.env.DATABASE_URL ||
+    'postgresql://postgres:postgres@localhost:5432/dbproject';
 
 const SSL = process.env.NODE_ENV === 'production';
 
@@ -17,18 +20,20 @@ class Database {
         });
     }
 
+    // Send query method to the client
     query(query, ...args) {
         this._pool.connect((err, client, done) => {
             if (err) throw err;
             const params = args.length === 2 ? args[0] : [];
             const callback = args.length === 1 ? args[0] : args[1];
-
+            // reads query string
             client.query(query, params, (err, res) => {
                 done();
                 if (err) {
                     console.log(err.stack);
                     return callback({ error: 'Database error.' }, null);
                 }
+                // returns result back to callback method to handle the data
                 callback({}, res.rows);
             });
         });

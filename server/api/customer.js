@@ -9,7 +9,7 @@ router.get('/', function (req, res) {
         if (err)
             return res.json(err);
         return res.json(customer);
-    })
+    });
 });
 
 
@@ -23,7 +23,17 @@ router.post('/', function (req, res) {
             if(err)
                 return res.json(err);
             return res.json(result);
-        })
+        });
+});
+
+router.get('/dlicense/:dlicense', function (req, res) {
+    const dli = req.params.dlicense;
+    // console.log("The drivers license parameter is: " + dli);
+    customer.retrieveByLicense(dli, function(err, customer) {
+        if (err)
+            return res.json(err);
+        return res.json(customer);
+    });
 });
 
 module.exports = router;

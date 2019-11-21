@@ -1,4 +1,5 @@
-const db = require('../database');
+const db = require('../database/index');
+const client = require('pg');
 
 class Customer {
     static retrieveAll(callback) {
@@ -9,6 +10,7 @@ class Customer {
         });
     }
 
+    // TODO need to test if this works
     static insert (cellphone, name, address, dlicense, callback) {
 
         const insertQuery = {
@@ -22,6 +24,15 @@ class Customer {
                 return callback(err);
             callback(res);
         });
+    }
+
+    // Select a reservation entry from database by confirmation number
+    static retrieveByLicense(dlicense, callback){
+        db.query("SELECT * FROM customer WHERE dlicense = $1", [dlicense], (err, res) => {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        })
     }
 }
 

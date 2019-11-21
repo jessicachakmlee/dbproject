@@ -30,9 +30,9 @@ router.post('/', function (req, res) {
         })
 });
 
-router.get('reservation/', function (req, res) {
+router.get('/', function (req, res) {
     const confNo = req.body.confNo;
-    reservation.retrieveByConfNo(function(err, reservation) {
+    reservation.retrieveByConfNo(confNo, function(err, reservation) {
         if (err)
             return res.json(err);
         return res.json(reservation);
