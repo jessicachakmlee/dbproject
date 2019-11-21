@@ -3,7 +3,7 @@ const branch = require('../models/branch');
 
 const router = express.Router();
 
-router.get('/', function (req, res) {
+router.get('/branch/', function (req, res) {
     branch.retrieveAll(function (err, branch) {
         if (err)
             return res.json(err);
@@ -12,7 +12,7 @@ router.get('/', function (req, res) {
 });
 
 
-router.post('/', function (req, res) {
+router.post('/branch/', function (req, res) {
     const location = req.body.location;
     const city = req.body.city;
 

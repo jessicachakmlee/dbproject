@@ -4,7 +4,7 @@ const customer = require('../models/customer.js');
 const router = express.Router();
 
 
-router.get('/', function (req, res) {
+router.get('/customer/', function (req, res) {
     customer.retrieveAll(function (err, customer) {
         if (err)
             return res.json(err);
@@ -13,7 +13,7 @@ router.get('/', function (req, res) {
 });
 
 
-router.post('/', function (req, res) {
+router.post('/customer/', function (req, res) {
     const cellphone = req.body.cellphone;
     const name = req.body.name;
     const address = req.body.address;

@@ -1,6 +1,6 @@
 class CustomerTransactions {
     private _customer;
-    static CustomerTransactions(customer) {
+    static constructor(customer) {
         this._customer = customer,
             this.getCustomer = function() {
                 return _customer;
