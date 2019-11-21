@@ -8,5 +8,5 @@ CREATE TABLE VehicleType (
     dirate          int,    
     hirate          int,
     krate           int,
-    PRIMARY KEY (vtname)
+    PRIMARY KEY (vehicleType)
 );

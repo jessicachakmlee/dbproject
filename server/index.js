@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('./database/index.js');
+const vehicle = require('./api/vehicle');
 
 const ENV = process.env.NODE_ENV;
 const PORT = process.env.PORT || 5000;
@@ -15,7 +16,10 @@ app.use('/api/customer', require('./api/customer'));
 app.use('/api/rent', require('./api/rent'));
 app.use('/api/reservations', require('./api/reservations'));
 app.use('/api/return', require('./api/return'));
-app.use('/api/vehicle', require('./api/vehicle'));
+app.use(`/api/vehicle/:location/:city/all`, (req, res, next) => {
+    getAllVehicles(req.params.location, req.params.city);
+});
+
 app.use('/api/vehicleType', require('./api/vehicleType'));
 
 if(ENV === 'production') {
