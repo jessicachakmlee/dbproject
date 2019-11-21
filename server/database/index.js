@@ -27,7 +27,7 @@ class Database {
             const params = args.length === 2 ? args[0] : [];
             const callback = args.length === 1 ? args[0] : args[1];
             console.log(query);
-
+            // reads query string
             client.query(query, params, (err, res) => {
                 done();
                 if (err) {
