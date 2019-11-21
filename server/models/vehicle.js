@@ -1,12 +1,20 @@
 const db = require('../database');
 
 class Vehicle {
+    static retrieveAll(callback) {
+        db.query('SELECT * from Vehicle', function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
     static retrieveAllVehiclesFromCurrentBranch(location, city, callback) {
         const currBranchVehiclesQuery =
-            'SELECT * FROM vehicle ' +
-            'WHERE location = ' + location + ' AND city = ' + city;
+            'SELECT * FROM Vehicle ' +
+            'WHERE location = $1 AND city = $2';
 
-        db.query(currBranchVehiclesQuery, function (err, res) {
+        db.query(currBranchVehiclesQuery, [location, city], function (err, res) {
             if (err.error)
                 return callback(err);
             callback(res);

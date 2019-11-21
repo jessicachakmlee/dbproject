@@ -2,15 +2,33 @@ const express = require('express');
 const vehicle = require('../models/vehicle');
 const router = express.Router();
 
-module.exports = getAllVehicles = (location, city) => {
-    router.get('/', function (req, res) {
-        vehicle.retrieveAllVehiclesFromCurrentBranch(location, city, function (err, vehicle) {
-            if (err)
-                return res.json(err);
-            return res.json(vehicle);
-        })
+// module.exports = getAllVehicles = (location, city) => {
+//     router.get('/', function (req, res) {
+//         vehicle.retrieveAllVehiclesFromCurrentBranch(location, city, function (err, vehicle) {
+//             if (err)
+//                 return res.json(err);
+//             return res.json(vehicle);
+//         })
+//     });
+// };
+
+router.get('/', function (req, res) {
+    vehicle.retrieveAll(function (err, vehicles) {
+        if (err)
+            return res.json(err);
+        return res.json(vehicles);
     });
-};
+});
+
+router.get('/:location/:city/all', function (req, res) {
+    const location = req.params.location;
+    const city = req.params.city;
+    vehicle.retrieveAllVehiclesFromCurrentBranch(location, city, function (err, vehicle) {
+        if (err)
+            return res.json(err);
+        return res.json(vehicle);
+    })
+});
 
 // router.post('/vehicle', function (req, res) {
 //     const vid = req.body.vid;

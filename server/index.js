@@ -17,10 +17,7 @@ app.use('/api/customer', require('./api/customer'));
 app.use('/api/rent', require('./api/rent'));
 app.use('/api/reservation', require('./api/reservations'));
 app.use('/api/return', require('./api/return'));
-app.use(`/api/vehicle/:location/:city/all`, (req, res, next) => {
-    getAllVehicles(req.params.location, req.params.city);
-});
-
+app.use('/api/vehicle', require('./api/vehicle'));
 app.use('/api/vehicleType', require('./api/vehicleType'));
 app.use('/api/branch', require('./api/branch'));
 

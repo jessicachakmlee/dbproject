@@ -39,6 +39,8 @@ INSERT INTO Vehicle(vlicense, make, model, year,
 		2000, 'available', 'SUV', '1001 96 Ave', 'Vancouver' ),
 	('J8O2T4', 'Nissan', 'Leaf', 2010, 'Blue',
 		30000, 'available', 'Coupe', '280 Semiahmoo Drive', 'Surrey' );
+	('F1F8B8', 'Toyota', 'Sienna', 2005, 'Silver',
+		10000, 'available', 'Sedan', 'asdfStreet', 'Surrey' );
 
 -- SELECT * FROM Customers;
 -- SELECT * FROM Vehicles;
