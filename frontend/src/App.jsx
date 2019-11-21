@@ -18,56 +18,65 @@ const Title = styled.h1`
 text-align: center;
 `;
 
+const StylingForDropDown = styled.div`
+display: flex;
+justify-content: space-around;
+`;
+
+const Blurb = styled.p`
+text-align: center`
+;
+
 const App = () => {
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [dropdownOpen1, setDropdownOpen1] = useState(false);
+    const [dropdownCityOpen, setDropdownCityOpen] = useState(false);
+    const [dropdownLocationOpen, setDropdownLocationOpen] = useState(false);
+    const [dropdownCarTypeOpen, setDropdownCarTypeOpen] = useState(false);
     const [dropdownCity, setdropdownCity] = useState('Vancouver');
-    const [dropdownLocation, setdropdownLocation] = useState('1');
-    const [customers, setCustomers] = useState([]);
+    const [location, setLocation] = useState('one');
     const [vehicles, setVehicles] = useState([]);
-    const toggle = () => setDropdownOpen(!dropdownOpen);
-    const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
+    const [carType, setCarType] = useState(null);
+    const toggleCity = () => setDropdownCityOpen(!dropdownCityOpen);
+    const toggleLocation = () => setDropdownLocationOpen(!dropdownLocationOpen);
+    const toggleCarType = () => setDropdownCarTypeOpen(!dropdownCarTypeOpen);
+
+
+    const cityDropdownItems = [
+        'Burnaby', 'Coquitlam', 'Richmond', 'Surrey', 'Vancouver'
+    ];
+
+    const locationDropdownItems = [
+        'One', 'Two', 'Three', 'Four', 'Five'
+    ];
+
+    const carTypeDropdownItems = [
+        'compact', 'SUV'
+    ]
 
     const getAllVehniclesFromCurrentBranch = (err, res) => {
-        fetch(`/api/vehicle/${dropdownLocation}/${dropdownCity}/all`)
+        fetch(`/api/vehicle/${location}/${dropdownCity}/all`)
             .then(res => res.json())
             .then(res => {
-                let vehicles = res.length === 0 ? res : res.map(obj => {
-                    return JSON.stringify(obj);
-                });
+                console.log(res);
+                let vehicles = res.length === 0 ? res : res;
                 setVehicles(vehicles);
             })
     };
 
     useEffect(() => {
         getAllVehniclesFromCurrentBranch();
-    }, [dropdownCity, dropdownLocation]);
+    }, [dropdownCity, location]);
 
     return (
         <Container fluid className={'centered'}>
             <Navbar dark color={'dark'}>
-                <Dropdown isOpen={dropdownOpen1} toggle={toggle1}>
-                    <DropdownToggle caret>
-                        {'Location: ' + dropdownLocation}
-                    </DropdownToggle>
-                    <DropdownMenu>
-                        <DropdownItem onClick={() => setdropdownLocation('1')}>1</DropdownItem>
-                        <DropdownItem onClick={() => setdropdownLocation('2')}>2</DropdownItem>
-                        <DropdownItem onClick={() => setdropdownLocation('3')}>3</DropdownItem>
-                        <DropdownItem onClick={() => setdropdownLocation('4')}>4</DropdownItem>
-                        <DropdownItem onClick={() => setdropdownLocation('5')}>5</DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
-                <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+                <Dropdown isOpen={dropdownCityOpen} toggle={toggleCity}>
                     <DropdownToggle caret>
                         {'City: ' + dropdownCity}
                     </DropdownToggle>
                     <DropdownMenu>
-                        <DropdownItem onClick={() => setdropdownCity('Burnaby')}>Burnaby</DropdownItem>
-                        <DropdownItem onClick={() => setdropdownCity('Coquitlam')}>Coquitlam</DropdownItem>
-                        <DropdownItem onClick={() => setdropdownCity('Richmond')}>Richmond</DropdownItem>
-                        <DropdownItem onClick={() => setdropdownCity('Surrey')}>Surrey</DropdownItem>
-                        <DropdownItem onClick={() => setdropdownCity('Vancouver')}>Vancouver</DropdownItem>
+                        {cityDropdownItems.map(str => {
+                            return <DropdownItem onClick={() => setdropdownCity(str)}>{str}</DropdownItem>
+                        })}
                     </DropdownMenu>
                 </Dropdown>
             </Navbar>
@@ -77,6 +86,39 @@ const App = () => {
                         <Title className={'display-3'}>Car Rental</Title>
                     </Jumbotron>
                 </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Jumbotron>
+                        <Title>View Vehicles</Title>
+                        <Blurb>Select the following options to view available vehicles</Blurb>
+                        <StylingForDropDown>
+                        <Dropdown isOpen={dropdownCarTypeOpen} toggle={toggleCarType}>
+                            <DropdownToggle caret>
+                                {carType ? 'Car Type: ' + carType : 'CarType : Select One'}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                {carTypeDropdownItems.map(str => {
+                                   return <DropdownItem onClick={() => setCarType(str)}>{str}</DropdownItem>
+                                })}
+                            </DropdownMenu>
+                        </Dropdown>
+                        <Dropdown isOpen={dropdownLocationOpen} toggle={toggleLocation}>
+                            <DropdownToggle caret>
+                                {'Location: ' + location}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                {locationDropdownItems.map(str => {
+                                    return <DropdownItem onClick={() => setLocation(str)}>{str}</DropdownItem>
+                                })}
+                            </DropdownMenu>
+                        </Dropdown>
+                        </StylingForDropDown>
+                    </Jumbotron>
+                </Col>
+            </Row>
+            <Row>
+                {JSON.stringify(vehicles)}
             </Row>
         </Container>
     );

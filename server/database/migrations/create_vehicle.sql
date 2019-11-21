@@ -7,10 +7,10 @@ CREATE TABLE Vehicle (
     color       char(20),
     odometer    int,
     status      char(8),
-    vtname      char(50),
+    vehicleType char(50),
     location    char(50),
     city        char(50),
     PRIMARY KEY (vid),
     FOREIGN KEY (location, city) REFERENCES Branch(location, city),
-    FOREIGN KEY (vtname)         REFERENCES VehicleType(vtname)
+    FOREIGN KEY (vehicleType)         REFERENCES VehicleType(vehicleType)
 );

@@ -1,9 +1,8 @@
 const db = require('../database');
 
 class Reservation {
-    confNo = -1;
     constructor(confNo) {
-        this.confNo = confNo;
+        this.confNo = -1;
     }
     // Retrieve a list of all reservations in the database
     static retrieveAll(callback) {

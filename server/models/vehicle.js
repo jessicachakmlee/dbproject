@@ -3,8 +3,7 @@ const db = require('../database');
 class Vehicle {
     static retrieveAllVehiclesFromCurrentBranch(location, city, callback) {
         const currBranchVehiclesQuery =
-            'SELECT * FROM vehicle ' +
-            'WHERE location = ' + location + ' AND city = ' + city;
+            `SELECT * FROM vehicle WHERE location LIKE '%${location.toString()}%' AND city LIKE '%${city.toString()}%';`
 
         db.query(currBranchVehiclesQuery, function (err, res) {
             if (err.error)

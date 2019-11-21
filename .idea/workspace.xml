@@ -2,20 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7905c62-030b-4773-b546-023a332be712" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/components/DropdownComponent.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/branch.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/api/branch.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/branch.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/api/customer.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/customer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/api/rent.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/rent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/api/reservations.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/reservations.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/api/return.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/return.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/api/vehicle.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/vehicle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/api/vehicleType.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/vehicleType.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/database/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/database/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/database/migrations/create_vehicleType.sql" beforeDir="false" afterPath="$PROJECT_DIR$/server/database/migrations/create_vehicleType.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/database/migrations/create_vehicle.sql" beforeDir="false" afterPath="$PROJECT_DIR$/server/database/migrations/create_vehicle.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/models/branch.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/reservation.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/reservation.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/models/vehicle.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/vehicle.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -46,6 +48,7 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
+  <component name="ProjectId" id="1Tv0mIOeK5bwHn02iPoduDNZqRp" />
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
       <profile-state>
@@ -65,6 +68,7 @@
   <component name="PropertiesComponent">
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="10.16.3" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -75,7 +79,7 @@
     <property name="node.js.selected.package.jscs" value="/usr/local/lib/node_modules/jscs" />
     <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="settings.editor.selected.configurable" value="Settings.JavaScript.Linters.JSHint" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/frontend/node_modules/typescript/lib" />
   </component>
   <component name="RunDashboard">
@@ -89,6 +93,16 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="App.jsx" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/frontend/src/App.jsx" working-dir="$PROJECT_DIR$/frontend/src">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.App.jsx" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ServiceViewManager">
     <option name="allServicesViewState">
@@ -115,6 +129,7 @@
       <workItem from="1573108955310" duration="76000" />
       <workItem from="1573109034205" duration="9323000" />
       <workItem from="1573328635617" duration="10587000" />
+      <workItem from="1574325420909" duration="14788000" />
     </task>
     <servers />
   </component>

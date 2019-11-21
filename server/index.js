@@ -2,25 +2,15 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('./database/index.js');
-const vehicle = require('./api/vehicle');
 
 const ENV = process.env.NODE_ENV;
 const PORT = process.env.PORT || 5000;
 
 const app = express();
+
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(bodyParser.json());
-
-app.use('/api/customer', require('./api/customer'));
-app.use('/api/rent', require('./api/rent'));
-app.use('/api/reservations', require('./api/reservations'));
-app.use('/api/return', require('./api/return'));
-app.use(`/api/vehicle/:location/:city/all`, (req, res, next) => {
-    getAllVehicles(req.params.location, req.params.city);
-});
-
-app.use('/api/vehicleType', require('./api/vehicleType'));
 
 if(ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/build')));
@@ -44,5 +34,13 @@ db.query('SELECT current_user;', (err, res) => {
         return console.log(err.error);
     console.log(`PostgreSQL connected to user: ${JSON.stringify(res)}`);
 });
+
+
+// All endpoints
+app.use('/api/customer', require('./api/customer'));
+app.use('/api/rent', require('./api/rent'));
+app.use('/api/reservations', require('./api/reservations'));
+app.use('/api/return', require('./api/return'));
+app.use(`/api/vehicle`, require("./api/vehicle"));
 
 module.exports = app;
