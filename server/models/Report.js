@@ -1,3 +1,7 @@
+const rent = require('rent');
+const ret = require('return');
+const vehicle = require('vehicle');
+
 class Report{
 
     /*TODO: Output 1: list all rented out vehicles for this day

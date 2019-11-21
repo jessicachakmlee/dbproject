@@ -20,6 +20,15 @@ class Vehicle {
         });
     }
 
+    static retrieveRented(callback) {
+        db.query('SELECT * from Vehicle ' +
+            'WHERE status = \'rented\'', function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
     static insert (vid, vlicense, make, model, year, colour,
                    odometer, status, vtname, location, city, callback) {
 
