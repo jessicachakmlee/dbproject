@@ -18,6 +18,7 @@ CREATE TABLE Reservation (
     toTime          time,
     PRIMARY KEY     (confNo),
 <<<<<<< HEAD
+<<<<<<< HEAD
     FOREIGN KEY     (vehicleType) REFERENCES VehicleType,
     FOREIGN KEY     (cellphone) REFERENCES Customer
 =======
@@ -25,4 +26,8 @@ CREATE TABLE Reservation (
     FOREIGN KEY     (cellphone, dlicense) REFERENCES Customer,
     FOREIGN KEY     (fromDate, fromTime, toDate, toTime) REFERENCES TimePeriod
 >>>>>>> Implemented all tables given in D3 Description - Not yet double checked
+=======
+    FOREIGN KEY     (vtname) REFERENCES VehicleType(vtname),
+    FOREIGN KEY     (cellphone, dlicense) REFERENCES Customer(cellphone, dlicense)
+>>>>>>> migrations: fixed data type & inconsistencies
 );

@@ -4,7 +4,7 @@ CREATE TABLE Returns (
     time        time,
     odometer    int,
     fulltank    int, 
-    value       int,
+    value       float,
     PRIMARY KEY (rid),
     FOREIGN KEY (rid) REFERENCES Rent
 );

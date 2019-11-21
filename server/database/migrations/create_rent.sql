@@ -13,7 +13,6 @@ CREATE TABLE Rent (
     confNo          int,
     PRIMARY KEY     (rid),
     FOREIGN KEY     (vid) REFERENCES ForRent,
-    FOREIGN KEY     (cellphone) REFERENCES Customer,
-    FOREIGN KEY     (fromDate, fromTime, toDate, toTime) REFERENCES TimePeriod,
-    FOREIGN KEY     (confNo) REFERENCES Reservation
+    FOREIGN KEY     (cellphone) REFERENCES Customer(cellphone),
+    FOREIGN KEY     (confNo) REFERENCES Reservation(confNo)
 );
