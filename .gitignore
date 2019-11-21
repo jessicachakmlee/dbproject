@@ -60,5 +60,6 @@ typings/
 # next.js build output
 .next
 
-# add ide workspace.xml
+# ide settings (user specific settings)
 .idea/workspace.xml
+.idea/tasks.xml
