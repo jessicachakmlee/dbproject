@@ -1,4 +1,5 @@
-const Receipt = require(Receipt);
+const Receipt = require('server/models/Receipt');
+const Report = require('server/models/Report');
 const Reservation = require('server/models/reservation');
 
 class ClerkTransactions{
@@ -27,6 +28,11 @@ class ClerkTransactions{
     public static returnVehicle(){
 
         receipt.printReciept();
+    }
+
+    /*TODO: Make report*/
+    public static makeReport(){
+
     }
 }
 

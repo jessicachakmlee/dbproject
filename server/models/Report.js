@@ -1,8 +1,5 @@
 class Report{
-    /*TODO: Make report*/
-    public static makeRentalReport(){
 
-    }
     /*TODO: Output 1: list all rented out vehicles for this day
             Sorting: Group entries by branch, within each branch, and vehicle category*/
     public static displayAllRentedVehicles(timeInterval, branch) {
@@ -36,6 +33,36 @@ class Report{
 
     }
 
+    /*TODO: Get number of returns of each vehicle category*/
+    public static getNumReturnsByVCategory(){
+
+    }
+
+    /*TODO: Get revenue of returns of each vehicle category*/
+    public static getRetRevenueByVCategory(){
+
+    }
+
+    /*TODO: Get number of returns by branch*/
+    public static getNumReturnsByBranch(){
+
+    }
+
+    /*TODO: Get revenue of returns by branch*/
+    public static getRetRevenueByBranch(){
+
+    }
+
+    /*TODO: Get total number of returns*/
+    public static getNumReturns(){
+
+    }
+
+    /*TODO: Output 1: list daily info on all returned vehicles for company
+    *               Sorting: grouped by branch, within each branch, vehicle category*/
+    public static displayAllReturnedVehicles(timeInterval, branch){
+
+    }
 
     /*TODO: Output 1: list daily info on all returned vehicles for company
     *               Sorting: grouped by branch, within each branch, vehicle category
