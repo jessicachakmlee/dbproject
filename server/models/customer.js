@@ -1,4 +1,5 @@
 const db = require('../database/index');
+const client = require('pg');
 
 class Customer {
     static retrieveAll(callback) {
@@ -9,6 +10,7 @@ class Customer {
         });
     }
 
+    // TODO need to test if this works
     static insert (cellphone, name, address, dlicense, callback) {
 
         const insertQuery = {
@@ -24,21 +26,9 @@ class Customer {
         });
     }
 
-    /* TODO find out how to inject values into the sql query
-        don't know how to use parameterized queries*/
-    // currently returns all rows
     // Select a reservation entry from database by confirmation number
     static retrieveByLicense(dlicense, callback){
-        console.log("The driver's license passed in is: " + dlicense);
-        const selectQuery = "SELECT * FROM customer WHERE dlicense = $1";
-        const values = [dlicense];
-        const selectQuery2 = {
-            text: 'SELECT * FROM customer WHERE dlicense = $1',
-            values: [dlicense]
-        }
-
-        console.log("The select query text is: " + selectQuery2.text);
-        db.query(selectQuery2, (err, res) => {
+        db.query("SELECT * FROM customer WHERE dlicense = $1", [dlicense], (err, res) => {
             if (err.error)
                 return callback(err);
             callback(res);
