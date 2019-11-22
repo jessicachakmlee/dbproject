@@ -2,6 +2,14 @@ const db = require('../database/index');
 const client = require('pg');
 
 class Customer {
+    static retrieveIndvidualCustomerByPhoneNumber(phoneNumber, callback) {
+        db.query(`SELECT * from customer WHERE cellphone = '%${phoneNumber}%';`, function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
     static retrieveAll(callback) {
         db.query('SELECT * from customer', function (err, res) {
             if (err.error)

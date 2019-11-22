@@ -2,23 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7905c62-030b-4773-b546-023a332be712" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/components/DropdownComponent.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/MakeReservationModal.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/components/DropdownComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DropdownComponent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/branch.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/branch.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/api/customer.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/customer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/rent.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/rent.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/api/reservations.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/reservations.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/return.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/return.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/api/vehicle.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/vehicle.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/api/vehicleType.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/vehicleType.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/database/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/database/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/database/migrations/create_reservation.sql" beforeDir="false" afterPath="$PROJECT_DIR$/server/database/migrations/create_reservation.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/database/migrations/create_vehicle.sql" beforeDir="false" afterPath="$PROJECT_DIR$/server/database/migrations/create_vehicle.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/database/migrations/create_view_forRent.sql" beforeDir="false" afterPath="$PROJECT_DIR$/server/database/migrations/create_view_forRent.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/customer.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/customer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/models/reservation.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/reservation.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/models/vehicle.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/vehicle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/vehicleType.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/vehicleType.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -82,6 +85,11 @@
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/frontend/node_modules/typescript/lib" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -129,7 +137,7 @@
       <workItem from="1573108955310" duration="76000" />
       <workItem from="1573109034205" duration="9323000" />
       <workItem from="1573328635617" duration="10587000" />
-      <workItem from="1574325420909" duration="14788000" />
+      <workItem from="1574325420909" duration="45464000" />
     </task>
     <servers />
   </component>

@@ -17,14 +17,7 @@ class Reservation {
     static insert (confNo, vtname, cellphone, fromDate,
                    fromTime, toDate, toTime, callback) {
 
-        const insertQuery = {
-            text: 'INSERT INTO reservation(confNo, vtname, cellphone, ' +
-            'fromDate, fromTime, toDate, toTime) ' +
-            'VALUES ($1, $2, $3, $4, $5, $6, $7)',
-            values: [confNo, vtname, cellphone, fromDate,
-                fromTime, toDate, toTime]
-        }
-
+        const insertQuery = `INSERT INTO reservation(confNo, vtname, cellphone, fromDate, fromTime, toDate, toTime) VALUES(${confNo}, ${vtname}, ${cellphone}, ${fromDate}, ${fromTime}, ${toDate}, ${toTime});`
         db.query(insertQuery, (err, res) => {
             if (err.error)
                 return callback(err);
@@ -34,10 +27,8 @@ class Reservation {
 
     // Select a reservation entry from database by confirmation number
     static retrieveByConfNo(confNo, callback){
-        const selectQuery = {
-            text: 'SELECT * FROM reservation WHERE confNo = ?',
-            values: [confNo]
-        }
+        const selectQuery = `SELECT * FROM reservation WHERE confNo = ${confNo};`
+
         db.query(selectQuery, (err, res) => {
             if (err.error)
                 return callback(err);
