@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/:phoneNumber/retrieveCustomer', function (req, res) {
     const phoneNumber = req.params.phoneNumber;
-    customer.retrieveIndvidualCustomerByPhoneNumber(phoneNumber, function (err, customer) {
+    customer.retrieveIndividualCustomerByPhoneNumber(phoneNumber, function (err, customer) {
         if (err)
             return res.json(err);
         return res.json(customer);

@@ -9,8 +9,6 @@ class Rent {
         });
     }
 
-    static retrieveVid;
-
     static insert (rid, vid, cellphone, fromDate, fromTime,
                    toDate, toTime, odometer, cardName,
                    cardNo, expDate, confNo, callback) {

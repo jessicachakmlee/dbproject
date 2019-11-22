@@ -3,7 +3,6 @@ const reservation = require('../models/reservation');
 
 const router = express.Router();
 
-
 router.get('/', function (req, res) {
     reservation.retrieveAll(function (err, reservation) {
         if (err)
