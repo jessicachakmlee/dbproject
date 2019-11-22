@@ -72,7 +72,7 @@ const App = () => {
                 //TODO count number of results in res
                 //TODO display details of each carType
                 let vehiclesList = res.length === 0 ? res : res;
-                setVehiclesOutput(vehicles);
+                setVehiclesOutput(vehiclesList);
             })
     };
 
