@@ -10,10 +10,14 @@ class Vehicle {
     }
 
     static retrieveAllVehiclesFromCurrentBranch(location, city, callback) {
-        const currBranchVehiclesQuery =
-            `SELECT * FROM vehicle WHERE location LIKE '%${location.toString()}%' AND city LIKE '%${city.toString()}%';`
+        // const currBranchVehiclesQuery =
+        //     `SELECT * FROM vehicle WHERE location LIKE '%${location.toString()}%' AND city LIKE '%${city.toString()}%';`
 
-        db.query(currBranchVehiclesQuery, function (err, res) {
+        const currBranchVehicleQuery = `SELECT * FROM vehicle WHERE location LIKE $1 AND city LIKE $2`;
+        // need to add '%val%' strings here because sql doesn't understand placeholders inside quotes
+        const values = [`%${location}%`, `%${city}%`];
+
+        db.query(currBranchVehicleQuery, values, function (err, res) {
             if (err.error)
                 return callback(err);
             callback(res);
@@ -21,9 +25,10 @@ class Vehicle {
     }
 
     // a method that retrieves list of all rented vehicles in the db
-    static retrieveRentedOnDay(callback) {
+    static retrieveRentedByTimeInterval(fromDateTime, toDateTime, callback) {
         db.query('SELECT * FROM Vehicle ' +
-            'WHERE status = \'rented\'', function (err, res) {
+            'WHERE status = \'rented\' ' +
+            'AND ', function (err, res) {
             if (err.error)
                 return callback(err);
             callback(res);
