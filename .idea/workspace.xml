@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7905c62-030b-4773-b546-023a332be712" name="Default" comment="">
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/frontend/src/components/MakeReservationModal.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/components/DropdownComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DropdownComponent.jsx" afterDir="false" />
@@ -22,6 +23,15 @@
       <change beforePath="$PROJECT_DIR$/server/models/reservation.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/reservation.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/models/vehicle.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/vehicle.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/models/vehicleType.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/vehicleType.js" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/api/vehicle.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/vehicle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/Report.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/Report.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/timePeriod.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/timePeriod.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/vehicle.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/vehicle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/create_test_db_01.sql" beforeDir="false" afterPath="$PROJECT_DIR$/test/create_test_db_01.sql" afterDir="false" />
+>>>>>>> 086f9147b4586d890ed51763b4d4bcbc7c3e19b8
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -78,16 +88,22 @@
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.jscs" value="project" />
     <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="" />
     <property name="node.js.selected.package.jscs" value="/usr/local/lib/node_modules/jscs" />
     <property name="node.js.selected.package.standard" value="" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/frontend/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+<<<<<<< HEAD
       <recent name="$PROJECT_DIR$/frontend/src" />
+=======
+      <recent name="D:\My School Stuff\CPSC 304\Project\Part 3\dbproject\server\models" />
+>>>>>>> 086f9147b4586d890ed51763b4d4bcbc7c3e19b8
     </key>
   </component>
   <component name="RunDashboard">

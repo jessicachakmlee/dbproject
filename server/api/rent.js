@@ -5,13 +5,12 @@ const router = express.Router();
 
 
 router.get('/', function (req, res) {
-    rent.retrieveAll(function (err, rent) {
+    rent.retrieveAll(function (err, rentals) {
         if (err)
             return res.json(err);
-        return res.json(rent);
+        return res.json(rentals);
     })
 });
-
 
 router.post('/', function (req, res) {
     const rid = req.body.rid;

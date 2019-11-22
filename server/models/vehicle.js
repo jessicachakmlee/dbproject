@@ -9,6 +9,37 @@ class Vehicle {
         });
     }
 
+    static retrieveAllVehiclesFromCurrentBranch(location, city, callback) {
+        const currBranchVehiclesQuery =
+            `SELECT * FROM vehicle WHERE location LIKE '%${location.toString()}%' AND city LIKE '%${city.toString()}%';`
+
+        db.query(currBranchVehiclesQuery, function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
+    // a method that retrieves list of all rented vehicles in the db
+    static retrieveRented(callback) {
+        db.query('SELECT * FROM Vehicle ' +
+            'WHERE status = \'rented\'', function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
+    // a method that sums all rented vehicles in the db
+    static retrieveRentedSum(callback) {
+        db.query('SELECT COUNT(*) FROM Vehicle ' +
+            'WHERE status = \'rented\' ', (err, res) => {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        })
+    }
+
     static insert (vid, vlicense, make, model, year, colour,
                    odometer, status, vtname, location, city, callback) {
 

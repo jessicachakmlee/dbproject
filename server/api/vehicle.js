@@ -10,6 +10,25 @@ router.get('/', function (req, res) {
     });
 });
 
+
+router.get('/rented', function(req, res) {
+    vehicle.retrieveRented((err, rentals) => {
+        if (err)
+            return res.json(err);
+        return res.json(rentals);
+    })
+})
+
+router.get('/rented/sum', (req, res) => {
+    vehicle.retrieveRentedSum((err, sum) => {
+        if (err)
+            return res.json(err);
+        let result = res.json(count);
+        result = result.getValue
+        return result;
+    })
+})
+
 router.post('/', function (req, res) {
     const vid = req.body.vid;
     const vlicense = req.body.vlicense;

@@ -42,6 +42,38 @@ INSERT INTO Vehicle(vlicense, make, model, year,
 	('F1F8B8', 'Toyota', 'Sienna', 2005, 'Silver',
 		10000, 'available', 'Sedan', 'asdfStreet', 'Surrey' );
 
+DROP TABLE IF EXISTS Rent;
+DROP TABLE IF EXISTS Rentals;
+CREATE TABLE Rent (
+	rid VARCHAR(10),
+	vid VARCHAR(32),
+	cellphone VARCHAR(32),
+	fromDate DATE,
+	fromTime TIME,
+	toDate DATE,
+	toTime TIME,
+	odometer VARCHAR(32),
+	cardName VARCHAR(32),
+	cardNo VARCHAR(32),
+	expDate VARCHAR(32),
+	confNo VARCHAR(32),
+	PRIMARY KEY (rid)
+);
+
+--INSERT INTO Rent(rid, vid, cellphone, fromDate, fromTime,
+--                 toDate, toTime, odometer, cardName,
+--                 cardNo, expDate, confNo) VALUES
+--	('12345', 'Honda', 'Civic', 2005, 'Silver',
+--		1000, 'available', 'Sedan', '1001 96 Ave', 'Surrey' ),
+--	('MSY600Y', 'BMW', 'X1', 2005, 'White',
+--		2000, 'available', 'SUV', '1001 96 Ave', 'Vancouver' ),
+--	('J8O2T4', 'Nissan', 'Leaf', 2010, 'Blue',
+--		30000, 'available', 'Coupe', '280 Semiahmoo Drive', 'Surrey' );
+--	('F1F8B8', 'Toyota', 'Sienna', 2005, 'Silver',
+--		10000, 'available', 'Sedan', 'asdfStreet', 'Surrey' );
+
+
+
 -- SELECT * FROM Customers;
 -- SELECT * FROM Vehicles;
 
