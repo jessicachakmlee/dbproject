@@ -34,6 +34,18 @@ text-align: center;
 const StyledButton = styled.div`
 margin-top: 25px;
 text-align: center;
+
+button {
+margin-right: 10px;
+}
+`;
+
+const StyledMakeAReservationButton = styled(Link)`
+color: white;
+:hover {
+    color: white;
+    text-decoration: none;
+}
 `;
 
 const App = () => {
@@ -64,6 +76,8 @@ const App = () => {
     const carTypeDropdownItems = [
         'Economy', 'Compact', 'Midsize', 'Standard', 'Full-size', 'SUV', 'Truck'
     ];
+
+    const disableMakeReservation = city && location && vehicleType && startDate && startTime && endDate && endTime;
 
     const getAllVehniclesFromGivenData = (err, res) => {
         fetch(`/api/vehicleType/${city}/${location}/${vehicleType}/${startDate}/${startTime}/displayVehicleTypes`)
@@ -176,10 +190,10 @@ const App = () => {
                         </StylingForDropDown>
                         <StyledButton>
                         <Button color={'primary'} onClick={() => getAllVehniclesFromGivenData()}>Get Vehicles</Button>
-                            <Button color={'danger'}>
-                                <Link to={{pathname: '/makeReservation', state: { isModal: true, city: city, vehicleType: vehicleType, location: location,
+                            <Button color={!disableMakeReservation ? 'secondary' :'danger'} disabled={!disableMakeReservation}>
+                                <StyledMakeAReservationButton onClick={() => !disableMakeReservation ? alert('Please input information first to see if there are available vehicles before making a reservation.') : null} to={{pathname: !disableMakeReservation ? '/' : '/makeReservation', state: { isModal: true, city: city, vehicleType: vehicleType, location: location,
                                         fromDate: startDate, fromTime: startTime, toDate: endDate, toTime: endTime}
-                                }}>Make a Reservation</Link>
+                                }}>Make a Reservation</StyledMakeAReservationButton>
                             </Button>
                         </StyledButton>
                     </Jumbotron>

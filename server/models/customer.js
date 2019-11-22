@@ -10,24 +10,19 @@ class Customer {
         });
     }
 
-    static retrieveAll(callback) {
-        db.query('SELECT * from customer', function (err, res) {
+    // TODO need to test if this works
+    static insert (cellphone, name, address, dlicense, callback) {
+        const insertQuery = 'INSERT INTO customer(cellphone, name, address, dlicense) VALUES ($1, $2, $3, $4);'
+
+        db.query(insertQuery, [cellphone, name, address, dlicense], (err, res) => {
             if (err.error)
                 return callback(err);
             callback(res);
         });
     }
 
-    // TODO need to test if this works
-    static insert (cellphone, name, address, dlicense, callback) {
-
-        const insertQuery = {
-            text: 'INSERT INTO customer(cellphone, name, address, dlicense) ' +
-            'VALUES ($1, $2, $3, $4)',
-            values: [cellphone, name, address, dlicense]
-        }
-
-        db.query(insertQuery, (err, res) => {
+    static retrieveAll(callback) {
+        db.query('SELECT * from customer', function (err, res) {
             if (err.error)
                 return callback(err);
             callback(res);

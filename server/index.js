@@ -30,14 +30,12 @@ timeHelper.retrieveNow((time, err) => {
     if (err) {
         consoleError(err);
     }
-    // console.log(`PostgreSQL connected: ${JSON.stringify((time))}`);
     console.log(`PostgreSQL connected: ${time[0].now}`);
 });
 
 db.query('SELECT current_user;', (err, res) => {
     if (err.error)
         return console.log(err.error);
-    // console.log(`PostgreSQL connected to user: ${JSON.stringify(res)}`);
     console.log(`PostgreSQL connected to user: ${res[0].current_user}`);
 });
 

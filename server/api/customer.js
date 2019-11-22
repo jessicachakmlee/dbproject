@@ -21,7 +21,7 @@ router.get('/', function (req, res) {
 });
 
 
-router.post('/', function (req, res) {
+router.post('/new', function (req, res) {
     const cellphone = req.body.cellphone;
     const name = req.body.name;
     const address = req.body.address;

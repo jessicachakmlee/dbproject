@@ -47,7 +47,7 @@ const MakeReservationModal: React.FC = props => {
     console.log(props);
     const [name, setName] = useState(null);
     const [phoneNumber, setPhoneNumber] = useState(null);
-    const [email, setEmail] = useState(null);
+    const [dLicense, setDLicense] = useState(null);
     const [address, setAddress] = useState(null);
     const [confNo, setConfNo] = useState(null);
 
@@ -56,15 +56,38 @@ const MakeReservationModal: React.FC = props => {
         fetch(`/api/customer/${phoneNumber}/retrieveCustomer`)
             .then(res => res.json())
             .then(res => {
-                if(res.length === 0) {
+                if (res.length === 0) {
                     alert('Customer does not exist in database. Please create new customer file.');
                 } else {
                     setName(res.name);
-                    setEmail(res.email);
+                    setDLicense(res.dlicense);
                     setAddress(res.address);
                 }
             })
             .catch(err => alert('Error retrieving customer. Please try again.'))
+    }
+
+    const creatingACustomerFile = (err, res) => {
+        let data = {
+            cellphone: phoneNumber,
+            name: name,
+            address: address,
+            dlicense: dLicense,
+        }
+        var myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        fetch('/api/customer/new', {
+            method: "POST",
+            headers: myHeaders,
+            body: JSON.stringify(data)
+        }).then(res => res.json()).then(res => {
+            if (res.error === 'Database error.') {
+                alert('Error creating Customer. Customer may already exist. Please retrieve Customer.' +
+                    ' If retrieving customer does not work, then try creating customer again.');
+            } else {
+                alert('Customer is created');
+            }
+        }).catch(err => alert('Error creating Customer. Please try again'))
     }
 
     const creatingAReservation = (err, res) => {
@@ -77,19 +100,27 @@ const MakeReservationModal: React.FC = props => {
             toDate: props.location.state.toDate,
             toTime: props.location.state.toTime
         };
+        let alertReservationNotCreated = () => alert(`Error in creating reservation. Please try again.`);
+        var myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
         fetch(`/api/reservation/create`, {
             method: "POST",
-            body: data
+            headers: myHeaders,
+            body: JSON.stringify(data)
         }).then(res => res.json()).then(res => {
-            alert(`Reservation created. Your confirmation number is ${confNo}. Here are the details: 
+            if (res.error === 'Database error.') {
+                alertReservationNotCreated();
+            } else {
+                alert(`Reservation created. Your confirmation number is ${confNo}. Here are the details: 
             City: ${props.location.state.city}.
-            location: ${props.location.state.location}.
+            Location: ${props.location.state.location}.
             Vehicle Type: ${props.location.state.vehicleType}.
             FromDate: ${props.location.state.fromDate}.
             FromTime: ${props.location.state.fromTime}.
             ToDate: ${props.location.state.toDate}.
             ToTime: ${props.location.state.toTime}`);
-        }).catch( err => alert(`Error in creating reservation. Please try again.`));
+            }
+        }).catch(err => alertReservationNotCreated());
     }
 
     const createConfirmationNumber = () => {
@@ -123,15 +154,16 @@ const MakeReservationModal: React.FC = props => {
                                            value={name} onChange={e => setName(e.target.value)}/>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="exampleEmail">Email</Label>
-                                    <Input type="email" name="email" id="exampleEmail" value={email}
-                                           onChange={e => setEmail(e.target.value)}/>
+                                    <Label for="exampleDLicense">Driver's License</Label>
+                                    <Input type="dLicense" name="dLicense" id="exampleDLicense" value={dLicense}
+                                           onChange={e => setDLicense(e.target.value)}/>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="exampleAddress">Address</Label>
                                     <Input type="address" name="address" id="exampleAddress" value={address}
                                            onChange={e => setAddress(e.target.value)}/>
                                 </FormGroup>
+                                <Button color={'primary'} onClick={() => creatingACustomerFile()}>Create Customer</Button>
                             </Form>
                         </Row>
                         <Row><h3>Reservation Details</h3></Row>
