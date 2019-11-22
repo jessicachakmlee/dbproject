@@ -20,13 +20,24 @@ class Vehicle {
         });
     }
 
+    // a method that retrieves list of all rented vehicles in the db
     static retrieveRented(callback) {
-        db.query('SELECT * from Vehicle ' +
+        db.query('SELECT * FROM Vehicle ' +
             'WHERE status = \'rented\'', function (err, res) {
             if (err.error)
                 return callback(err);
             callback(res);
         });
+    }
+
+    // a method that sums all rented vehicles in the db
+    static retrieveRentedSum(callback) {
+        db.query('SELECT COUNT(*) FROM Vehicle ' +
+            'WHERE status = \'rented\' ', (err, res) => {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        })
     }
 
     static insert (vid, vlicense, make, model, year, colour,

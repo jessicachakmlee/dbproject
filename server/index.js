@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('./database/index.js');
+const timeHelper = require('./models/timePeriod');
 
 const ENV = process.env.NODE_ENV;
 const PORT = process.env.PORT || 5000;
@@ -24,13 +25,29 @@ app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}...`);
 });
 
-// gets date and time from postgres server
+// // gets date and time from postgres server
 db.query('SELECT NOW()', (err, res) => {
     if (err.error)
         return console.log(err.error);
     // takes first row which contains timestamp to print
     console.log(`PostgreSQL connected: ${res[0].now}`);
 });
+
+// TODO: will get this working one day.
+// async function getCurrTime() {
+//     let currentTime = await timeHelper.retrieveNow()
+//         .then(result => {
+//             console.log('This is the result of async function call: ' + typeof result);
+//             return result;
+//         })
+//     // takes first row which contains timestamp to print
+//     console.log(`PostgreSQL connected: ${currentTime}`)
+// }
+//
+// getCurrTime();
+
+// let currentTime = timeHelper.retrieveNow();
+// console.log(`PostgreSQL connected: ${currentTime}`);
 
 db.query('SELECT current_user;', (err, res) => {
     if (err.error)

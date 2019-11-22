@@ -3,10 +3,35 @@ const ret = require('return');
 const vehicle = require('vehicle');
 
 class Report{
+    // class variables
+    time;
+    reportType;
+    branch = {
+        location: "",
+        city: ""
+    }
+
+    // makes a report object
+    constructor(reportType, location, city, time) {
+        // check if time is omitted in call
+        if (time == undefined) {
+            // Set today's date
+            this.time = new Date();
+            this.time = today.format('Y-m-d');
+        } else {
+            this.time = time;
+        }
+        // TODO: check inputs
+        // set report type
+        this.reportType = reportType;
+        // set branch info
+        this.branch.location = location;
+        this.branch.city = city;
+    }
 
     /*TODO: Output 1: list all rented out vehicles for this day
             Sorting: Group entries by branch, within each branch, and vehicle category*/
-    public static displayAllRentedVehicles(timeInterval, branch) {
+    public static displayAllRentedVehicles() {
 
     }
     /*TODO: get number of vehicles for each category*/
