@@ -21,7 +21,7 @@ class TimePeriod {
             // return the first row of query result which has timestamp
             return callback(res);
         });
-        console.log("received from query: " + currentTime);
+        // console.log("received from query: " + currentTime);
         return currentTime;
     }
 
