@@ -30,7 +30,6 @@ timeHelper.retrieveNow((time, err) => {
     if (err) {
         consoleError(err);
     }
-    currentTime = time.toString();
     // console.log(`PostgreSQL connected: ${JSON.stringify((time))}`);
     console.log(`PostgreSQL connected: ${time[0].now}`);
 });
@@ -50,6 +49,6 @@ app.use('/api/reservation', require('./api/reservations'));
 app.use('/api/return', require('./api/return'));
 app.use(`/api/vehicle`, require("./api/vehicle"));
 app.use('api/', require("./api/timePeriod"));
-app.use(`/api/vehicleType`, require("./api/vehicleType"))
+app.use(`/api/vehicleType`, require("./api/vehicleType"));
 
 module.exports = app;

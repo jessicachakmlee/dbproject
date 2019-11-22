@@ -1,6 +1,6 @@
-const rent = require('rent');
-const ret = require('return');
-const vehicle = require('vehicle');
+const rent = require('./rent');
+const ret = require('./return');
+const vehicle = require('./vehicle');
 
 class Report{
     // class variables
@@ -9,12 +9,12 @@ class Report{
     branch = {
         location: "",
         city: ""
-    }
+    };
 
     // makes a report object
     constructor(reportType, location, city, time) {
         // check if time is omitted in call
-        if (time == undefined) {
+        if (time === undefined) {
             // Set today's date
             this.time = new Date();
             this.time = today.format('Y-m-d');

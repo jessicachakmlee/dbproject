@@ -9,7 +9,7 @@ class Rent {
         });
     }
 
-    static retrieveVid
+    static retrieveVid;
 
     static insert (rid, vid, cellphone, fromDate, fromTime,
                    toDate, toTime, odometer, cardName,
@@ -23,7 +23,7 @@ class Rent {
             values: [rid, vid, cellphone, fromDate, fromTime,
                 toDate, toTime, odometer, cardName,
                 cardNo, expDate, confNo]
-        }
+        };
 
         db.query(insertQuery, (err, res) => {
             if (err.error)
