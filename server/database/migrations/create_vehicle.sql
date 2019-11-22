@@ -8,12 +8,17 @@ CREATE TABLE Vehicle (
     odometer    int,
     status      varchar(20),
     vtname      char(50),
+<<<<<<< HEAD
     location    char(50),
     city        char(50),
 <<<<<<< HEAD
     PRIMARY KEY (vid),
     FOREIGN KEY (vehicleType)    REFERENCES VehicleType(vehicleType)
 =======
+=======
+    location    char(50) NOT NULL,
+    city        char(50) NOT NULL,
+>>>>>>> migrations: added Participation constraint for location & city for Vehicles
     PRIMARY KEY (vlicense),
     FOREIGN KEY (vtname) REFERENCES VehicleType(vtname),
     CHECK (status = 'being_rented' 
