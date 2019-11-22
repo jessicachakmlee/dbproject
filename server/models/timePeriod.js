@@ -10,16 +10,16 @@ class TimePeriod {
     }
 
     // TODO: try to get this working for use in other methods - but not essential
-    static async retrieveNow() {
+    static retrieveNow(callback) {
         let currentTime;
         // gets date and time from postgres server
-        currentTime = await db.query('SELECT NOW()', (err, res) => {
+        currentTime = db.query('SELECT NOW()', (err, res) => {
             if (err.error)
-                return console.log(err.error);
-            console.log("received from select now(): " + res[0].now);
-            console.log("received from select now() type: " + typeof res[0].now);
+                return callback(err);
+            // console.log("received from select now(): " + res[0].now);
+            // console.log("received from select now() type: " + typeof res[0].now);
             // return the first row of query result which has timestamp
-            return res[0].now;
+            return callback(res);
         });
         console.log("received from query: " + currentTime);
         return currentTime;

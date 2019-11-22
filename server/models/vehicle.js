@@ -21,7 +21,7 @@ class Vehicle {
     }
 
     // a method that retrieves list of all rented vehicles in the db
-    static retrieveRented(callback) {
+    static retrieveRentedOnDay(callback) {
         db.query('SELECT * FROM Vehicle ' +
             'WHERE status = \'rented\'', function (err, res) {
             if (err.error)

@@ -25,34 +25,21 @@ app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}...`);
 });
 
-// // gets date and time from postgres server
-db.query('SELECT NOW()', (err, res) => {
-    if (err.error)
-        return console.log(err.error);
-    // takes first row which contains timestamp to print
-    console.log(`PostgreSQL connected: ${res[0].now}`);
+// call time period class to get current time for db
+timeHelper.retrieveNow((time, err) => {
+    if (err) {
+        consoleError(err);
+    }
+    currentTime = time.toString();
+    // console.log(`PostgreSQL connected: ${JSON.stringify((time))}`);
+    console.log(`PostgreSQL connected: ${time[0].now}`);
 });
-
-// TODO: will get this working one day.
-// async function getCurrTime() {
-//     let currentTime = await timeHelper.retrieveNow()
-//         .then(result => {
-//             console.log('This is the result of async function call: ' + typeof result);
-//             return result;
-//         })
-//     // takes first row which contains timestamp to print
-//     console.log(`PostgreSQL connected: ${currentTime}`)
-// }
-//
-// getCurrTime();
-
-// let currentTime = timeHelper.retrieveNow();
-// console.log(`PostgreSQL connected: ${currentTime}`);
 
 db.query('SELECT current_user;', (err, res) => {
     if (err.error)
         return console.log(err.error);
-    console.log(`PostgreSQL connected to user: ${JSON.stringify(res)}`);
+    // console.log(`PostgreSQL connected to user: ${JSON.stringify(res)}`);
+    console.log(`PostgreSQL connected to user: ${res[0].current_user}`);
 });
 
 
@@ -62,5 +49,6 @@ app.use('/api/rent', require('./api/rent'));
 app.use('/api/reservations', require('./api/reservations'));
 app.use('/api/return', require('./api/return'));
 app.use(`/api/vehicle`, require("./api/vehicle"));
+app.use('api/', require("./api/timePeriod"));
 
 module.exports = app;
