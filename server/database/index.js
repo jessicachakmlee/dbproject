@@ -2,9 +2,7 @@ const { Pool } = require('pg');
 
 // const CONNECTION_STRING = process.env.DATABASE_URL;
 // const CONNECTION_STRING = 'postgresql://postgres:postgres@localhost:5432/dbproject';
-const CONNECTION_STRING = process.env.DATABASE_URL ||
-    'postgresql://postgres:postgres@localhost:5432/dbproject';
-
+const CONNECTION_STRING = process.env.DATABASE_URL;
 const SSL = process.env.NODE_ENV === 'production';
 
 class Database {
@@ -26,6 +24,7 @@ class Database {
             if (err) throw err;
             const params = args.length === 2 ? args[0] : [];
             const callback = args.length === 1 ? args[0] : args[1];
+            console.log(query);
             // reads query string
             client.query(query, params, (err, res) => {
                 done();

@@ -13,7 +13,7 @@ router.get('/', function (req, res) {
 });
 
 
-router.post('/', function (req, res) {
+router.post('/create', function (req, res) {
     const confNo = req.body.confNo;
     const vtname = req.body.vtname;
     const cellphone = req.body.cellphone;

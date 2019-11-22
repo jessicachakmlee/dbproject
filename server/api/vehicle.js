@@ -2,17 +2,6 @@ const express = require('express');
 const vehicle = require('../models/vehicle');
 const router = express.Router();
 
-
-router.get('/:location/:city/all', function (req, res) {
-    const location = req.params.location;
-    const city = req.params.city;
-    vehicle.retrieveAllVehiclesFromCurrentBranch(location, city, function (err, vehicle) {
-        if (err)
-            return res.json(err);
-        return res.json(vehicle);
-    })
-});
-
 router.get('/', function (req, res) {
     vehicle.retrieveAll(function (err, vehicles) {
         if (err)
