@@ -9,10 +9,9 @@ class TimePeriod {
         });
     }
 
-    // TODO: try to get this working for use in other methods - but not essential
+    // gets date and time from postgres server
     static retrieveNow(callback) {
         let currentTime;
-        // gets date and time from postgres server
         currentTime = db.query('SELECT NOW()', (err, res) => {
             if (err.error)
                 return callback(err);

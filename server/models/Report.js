@@ -1,6 +1,7 @@
 const rent = require('./rent');
 const ret = require('./return');
 const vehicle = require('./vehicle');
+const timePeriod = require('./timePeriod');
 
 class Report{
     // class variables
@@ -16,11 +17,14 @@ class Report{
         // check if time is omitted in call
         if (time === undefined) {
             // Set today's date
-            this.time = new Date();
-            this.time = today.format('Y-m-d');
-        } else {
-            this.time = time;
-        }
+            this.time = timePeriod.retrieveNow((time, err) => {
+                if (err) {
+                    consoleError(err);
+                }
+                // TODO: format time to return
+                return time[0].now;
+            })
+        };
         // TODO: check inputs
         // set report type
         this.reportType = reportType;
@@ -32,7 +36,7 @@ class Report{
     /*TODO: Output 1: list all rented out vehicles for this day
             Sorting: Group entries by branch, within each branch, and vehicle category*/
     public static displayAllRentedVehicles() {
-
+        return 0;
     }
     /*TODO: get number of vehicles for each category*/
     public static getNumRentalsByVCategory(){

@@ -10,6 +10,15 @@ router.get('/', function (req, res) {
     });
 });
 
+router.get('/branch/:location/:city', function (req, res) {
+    const location = req.params.location;
+    const city = req.params.city;
+    vehicle.retrieveAllVehiclesFromCurrentBranch(location, city,function (err, vehicles) {
+        if (err)
+            return res.json(err);
+        return res.json(vehicles);
+    });
+});
 
 router.get('/rented', function(req, res) {
     vehicle.retrieveRented((err, rentals) => {

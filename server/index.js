@@ -48,7 +48,7 @@ app.use('/api/rent', require('./api/rent'));
 app.use('/api/reservation', require('./api/reservations'));
 app.use('/api/return', require('./api/return'));
 app.use(`/api/vehicle`, require("./api/vehicle"));
-app.use('api/', require("./api/timePeriod"));
+app.use('/api/time', require("./api/timePeriod"));
 app.use(`/api/vehicleType`, require("./api/vehicleType"));
 
 module.exports = app;
