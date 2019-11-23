@@ -6,7 +6,7 @@ class Reservation {
     }
     // Retrieve a list of all reservations in the database
     static retrieveAll(callback) {
-        db.query('SELECT * from reservation', function (err, res) {
+        db.query('SELECT * from reservation;', function (err, res) {
             if (err.error)
                 return callback(err);
             callback(res);

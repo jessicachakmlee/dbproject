@@ -20,7 +20,7 @@ class VehicleType {
     }
 
     static retrieveAll(callback) {
-        db.query('SELECT * from vehicleType', function (err, res) {
+        db.query('SELECT * from vehicleType;', function (err, res) {
             if (err.error)
                 return callback(err);
             callback(res);

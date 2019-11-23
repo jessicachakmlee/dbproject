@@ -4,7 +4,7 @@ class Rent {
     // http://localhost:5000/api/rent/
     // a method that retrieves all rent rows
     static retrieveAll(callback) {
-        db.query('SELECT * from rent', function (err, res) {
+        db.query('SELECT * from rent;', function (err, res) {
             if (err.error)
                 return callback(err);
             callback(res);

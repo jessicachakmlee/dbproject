@@ -20,6 +20,7 @@ import {
 import TextField from '@material-ui/core/TextField';
 import {Link, Route, Switch} from "react-router-dom";
 import MakeReservationModal from '../src/components/MakeReservationModal.jsx';
+import DataDisplayModal from "./components/DataDisplayModal";
 
 const Title = styled.h1`
 text-align: center;
@@ -43,7 +44,7 @@ margin-right: 10px;
 }
 `;
 
-const StyledMakeAReservationButton = styled(Link)`
+const StyledModalButton = styled(Link)`
 color: white;
 :hover {
     color: white;
@@ -56,10 +57,16 @@ justify-content: center;
 margin-bottom: 30px;
 `;
 
+const StylingButtonsAndDropdown = styled.div`
+display: flex;
+justify-items: space-between;
+`;
+
 const App = () => {
     const [dropdownCityOpen, setDropdownCityOpen] = useState(false);
     const [dropdownLocationOpen, setDropdownLocationOpen] = useState(false);
     const [dropdownCarTypeOpen, setDropdownCarTypeOpen] = useState(false);
+    const [dropdownTableOpen, setDropdownTableOpen] = useState(false);
     const [city, setCity] = useState('Vancouver');
     const [location, setLocation] = useState('1278 Granville St');
     const [vehiclesOutput, setVehiclesOutput] = useState([]);
@@ -67,11 +74,14 @@ const App = () => {
     const toggleCity = () => setDropdownCityOpen(!dropdownCityOpen);
     const toggleLocation = () => setDropdownLocationOpen(!dropdownLocationOpen);
     const toggleCarType = () => setDropdownCarTypeOpen(!dropdownCarTypeOpen);
+    const toggleTable = () => setDropdownTableOpen(!dropdownTableOpen);
 
     const [startDate, setStartDate] = useState(null);
     const [startTime, setStartTime] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [endTime, setEndTime] = useState(null);
+    const [table, setTable] = useState(null);
+    const [tableOutput, setTableOutput] = useState(null);
 
     const cityDropdownItems = [
         'Boston Bar', 'Haney', 'Oliver', 'Surrey', 'Vancouver', 'All'
@@ -86,6 +96,10 @@ const App = () => {
         'economy', 'compact', 'midsize', 'standard', 'full-size', 'suv', 'truck', 'All'
     ];
 
+    const tableDropdownItems = [
+        'reservation', 'rental', 'vehicle', 'vehicleType', 'customer', 'return', 'all tables'
+    ];
+
     const disableMakeReservation = city && location && vehicleType && startDate && startTime && endDate && endTime;
 
     const getAllVehiclesFromGivenData = (err, res) => {
@@ -94,10 +108,9 @@ const App = () => {
         const sd = startDate === '' ? null : startDate;
         const st = startTime === '' ? null : startTime;
         const vt = vehicleType === 'All' ? null : vehicleType;
-        fetch(`/api/vehicleType/${cit}/${loc}/${vt}/${sd}/${st}/displayVehicleTypes`)
+        fetch(`/api/vehicleType/${cit}/${loc}/${vt}/${sd}/${st}/displayVehicleTypes/`)
             .then(res => res.json())
             .then(res => {
-                console.log(res);
                 if (res.error === 'Database error.') {
                     alert('There is an issue with this search. Please try again.');
                 } else {
@@ -107,12 +120,40 @@ const App = () => {
                     }
                     setVehiclesOutput(res);
                 }
-            })
+            }).catch(err => console.log(err));
+    };
+
+    const endPointForIndividualTable = () => {
+        switch(table) {
+            case'reservation':
+                return '/api/reservation';
+            case 'rental':
+                return '/api/rent/all';
+            case 'vehicle':
+                return '/api/vehicle';
+            case 'vehicleType':
+                return '/api/vehicleType';
+            case 'customer':
+                return '/api/customer';
+            case 'return':
+                return '/api/return';
+            case 'all tables':
+                return '/api/databaseManipulations/allTables';
+        }
+    };
+
+    const displayTablesInDatabase = (err, res) => {
+        const endpoint = endPointForIndividualTable();
+        fetch(endpoint).then(res => res.json()).then(res => setTableOutput(res)).catch(err => console.log(err));
     };
 
     useEffect(() => {
         getAllVehiclesFromGivenData();
     }, []);
+
+    useEffect(() => {
+        displayTablesInDatabase();
+    }, [table]);
 
     return (
         <Container fluid className={'centered'}>
@@ -133,6 +174,26 @@ const App = () => {
                 <Col>
                     <Jumbotron>
                         <Title className={'display-3'}>Car Rental</Title>
+                        <StylingButtonsAndDropdown>
+                        <Dropdown isOpen={dropdownTableOpen} toggle={toggleTable}>
+                            <DropdownToggle caret>
+                                { table ? 'Table: ' + table : 'Table: select one'}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                {tableDropdownItems.map(str => {
+                                    return <DropdownItem key={str + '_tableDropDown'}
+                                                         onClick={() => setTable(str)}>{str}</DropdownItem>
+                                })}
+                            </DropdownMenu>
+                        </Dropdown>
+                        <Button color={'info'}>
+                            <StyledModalButton to={{pathname: '/displayData', state: {
+                                    isModal: true, dataDisplay: tableOutput
+                                }}}>
+                                Display Table
+                            </StyledModalButton>
+                        </Button>
+                        </StylingButtonsAndDropdown>
                     </Jumbotron>
                 </Col>
             </Row>
@@ -216,14 +277,14 @@ const App = () => {
                                 Vehicles</Button>
                             <Button color={!disableMakeReservation ? 'secondary' : 'danger'}
                                     disabled={!disableMakeReservation}>
-                                <StyledMakeAReservationButton
+                                <StyledModalButton
                                     onClick={() => !disableMakeReservation ? alert('Please input information first to see if there are available vehicles before making a reservation.') : null}
                                     to={{
                                         pathname: !disableMakeReservation ? '/' : '/makeReservation', state: {
                                             isModal: true, city: city, vehicleType: vehicleType, location: location,
                                             fromDate: startDate, fromTime: startTime, toDate: endDate, toTime: endTime
                                         }
-                                    }}>Make a Reservation</StyledMakeAReservationButton>
+                                    }}>Make a Reservation</StyledModalButton>
                             </Button>
                         </StyledButton>
                     </Jumbotron>
@@ -268,10 +329,8 @@ const App = () => {
                 </tbody>
             </Table>
             <Switch>
-                <Route exact path="/makeReservation" component={props =>
-                    <MakeReservationModal
-                        {...props}
-                    />}/>
+                <Route exact path="/makeReservation" component={props => <MakeReservationModal {...props}/>}/>
+                <Route exact path="/displayData" component={props => <DataDisplayModal {...props}/>}/>
             </Switch>
         </Container>
     );

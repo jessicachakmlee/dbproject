@@ -2,7 +2,7 @@ const db = require('../database');
 
 class TimePeriod {
     static retrieveAll(callback) {
-        db.query('SELECT * from timePeriod', function (err, res) {
+        db.query('SELECT * from timePeriod;', function (err, res) {
             if (err.error)
                 return callback(err);
             callback(res);
