@@ -41,6 +41,7 @@ db.query('SELECT current_user;', (err, res) => {
 
 
 // All endpoints
+app.use('/api/databaseManipulations', require('./api/databaseManipulations'));
 app.use('/api/customer', require('./api/customer'));
 app.use('/api/rent', require('./api/rent'));
 app.use('/api/reservation', require('./api/reservations'));

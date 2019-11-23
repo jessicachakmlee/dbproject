@@ -2,7 +2,7 @@ const db = require('../database');
 
 class Return {
     static retrieveAll(callback) {
-        db.query('SELECT * from return', function (err, res) {
+        db.query('SELECT * from returns;', function (err, res) {
             if (err.error)
                 return callback(err);
             callback(res);
