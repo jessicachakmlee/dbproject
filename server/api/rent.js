@@ -109,6 +109,36 @@ router.get('/branch_report/:location/:city/:fromDate', (req, res) => {
         })
 });
 
+// 0 rows: http://localhost:5000/api/rent/report/2019-12-22
+// 1 row: http://localhost:5000/api/rent/report/2019-11-22
+// get vehicles rented on given date
+router.get('/report/sum_type/:fromDate', (req, res) => {
+    const fromDate = req.params.fromDate;
+    // console.log("The datetime parameters being passed are: " +
+    //     fromTime + ", " + fromDate);
+    rent.retrieveDaySumByVCategory(fromDate, (err, rentals) => {
+        if (err)
+            return res.json(err);
+        return res.json(rentals);
+    })
+});
+
+// 1 row: http://localhost:5000/api/rent/branch_report/sum_type/1131%20Haaglund%20Rd/Oliver/2019-11-22
+// get vehicles rented at branch on given date
+router.get('/branch_report/sum_type/:location/:city/:fromDate', (req, res) => {
+
+    const location = req.params.location;
+    const city = req.params.city;
+    const fromDate = req.params.fromDate;
+    // console.log("The datetime parameters being passed are: " +
+    //     fromTime + ", " + fromDate);
+    rent.retrieveDaySumByVCategoryInBranch(fromDate, location, city, (err, rentals) => {
+        if (err)
+            return res.json(err);
+        return res.json(rentals);
+    })
+});
+
 router.post('/', function (req, res) {
     const rid = req.body.rid;
     const vid = req.body.vid;

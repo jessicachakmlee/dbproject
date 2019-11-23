@@ -107,6 +107,7 @@ class Rent {
         });
     }
 
+    // http://localhost:5000/api/rent/branch_report/1131%20Haaglund%20Rd/Oliver/2019-11-22
     // gets all vehicles being rented at the time for one branch
     static retrieveVehiclesRentedOnDateByBranch(fromDate, location, city, callback) {
 
@@ -114,7 +115,47 @@ class Rent {
             'FROM Rent r NATURAL JOIN Vehicle v ' +
             'WHERE r.fromDate = $1 ' +
             'AND v.status = \'being_rented\' ' +
-            'AND v.location = $2 AND v.city = $3';
+            'AND v.location = $2 AND v.city = $3 ' +
+            'ORDER BY v.city, v.location, v.vtname';
+
+        const vals = [fromDate, location, city];
+
+        db.query(queryStatement, vals, function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
+    // TODO:
+    // gets sums of all rentals grouped by vehicle category (vtname)
+    static retrieveDaySumByVCategory(fromDate, callback) {
+
+        const queryStatement = 'SELECT v.vtname, COUNT(*) ' +
+            'FROM Rent r NATURAL JOIN Vehicle v ' +
+            'WHERE r.fromDate = $1 ' +
+            'AND v.status = \'being_rented\' ' +
+            'GROUP BY v.city, v.location, v.vtname';
+
+        const vals = [fromDate];
+
+        db.query(queryStatement, vals, function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
+    // TODO
+    // gets sums of all rentals in a branch grouped by vehicle category (vtname)
+    static retrieveDaySumByVCategoryInBranch(fromDate, location, city, callback) {
+
+        const queryStatement = 'SELECT v.vtname, COUNT(*) ' +
+            'FROM Rent r NATURAL JOIN Vehicle v ' +
+            'WHERE r.fromDate = $1 ' +
+            'AND v.status = \'being_rented\' ' +
+            'AND v.location = $2 AND v.city = $3 ' +
+            'GROUP BY v.city, v.location, v.vtname';
 
         const vals = [fromDate, location, city];
 
