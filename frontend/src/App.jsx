@@ -111,7 +111,7 @@ const App = () => {
         fetch(`/api/vehicleType/${cit}/${loc}/${vt}/${sd}/${st}/displayVehicleTypes/`)
             .then(res => res.text())
             .then(res => {
-                let resp = JSON.parse(res);
+                console.log(res);
                 if (resp.error === 'Database error.') {
                     alert('There is an issue with this search. Please try again.');
                 } else {
