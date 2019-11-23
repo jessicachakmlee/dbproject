@@ -30,7 +30,7 @@ function buildSeedScript() {
 };
 
 function buildDropTablesScript() {
-    let dropTableScript = readFileHelper(folderName, 'migration');
+    let dropTableScript = readFileHelper('migrations', 'drop_tables');
     return dropTableScript;
 };
 

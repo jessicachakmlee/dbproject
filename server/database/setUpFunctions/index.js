@@ -1,4 +1,4 @@
-const database = require('../index.js');
+const psqlCmd = require('../index.js');
 const scriptBuilder = require('./buildScriptFunctions');
 
 function createTables() {
@@ -17,17 +17,18 @@ function dropTables() {
 };
 
 function runQuery(script, successMsg) {
-    database.query(script, (err, res) => {
+    psqlCmd.query(script, (err, res) => {
         if (err.error)
             return console.log(err.error);
         console.log(successMsg);
     });
+    psqlCmd.end();
 }
 
 module.exports = {
     createTables,
     seedTables,
-    dropTables
+    dropTables,
 };
 
 require('make-runnable');
