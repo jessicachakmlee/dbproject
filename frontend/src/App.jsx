@@ -119,7 +119,7 @@ const App = () => {
                         alert(' There are no available vehicles with the given search parameters.' +
                             'Please adjust the parameters and try again');
                     }
-                    setVehiclesOutput(resp);
+                    setVehiclesOutput(res);
                 }
             })
     };
