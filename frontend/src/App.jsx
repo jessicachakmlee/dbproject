@@ -12,7 +12,10 @@ import {
     DropdownMenu,
     DropdownItem,
     DropdownToggle,
-    Button
+    Button,
+    ListGroup,
+    ListGroupItem,
+    Table
 } from 'reactstrap';
 import TextField from '@material-ui/core/TextField';
 import {Link, Route, Switch} from "react-router-dom";
@@ -48,12 +51,17 @@ color: white;
 }
 `;
 
+const CenteredRow = styled(Row)`
+justify-content: center;
+margin-bottom: 30px;
+`;
+
 const App = () => {
     const [dropdownCityOpen, setDropdownCityOpen] = useState(false);
     const [dropdownLocationOpen, setDropdownLocationOpen] = useState(false);
     const [dropdownCarTypeOpen, setDropdownCarTypeOpen] = useState(false);
     const [city, setCity] = useState('Vancouver');
-    const [location, setLocation] = useState('one');
+    const [location, setLocation] = useState('1278 Granville St');
     const [vehiclesOutput, setVehiclesOutput] = useState([]);
     const [vehicleType, setVehicleType] = useState(null);
     const toggleCity = () => setDropdownCityOpen(!dropdownCityOpen);
@@ -66,32 +74,44 @@ const App = () => {
     const [endTime, setEndTime] = useState(null);
 
     const cityDropdownItems = [
-        'Burnaby', 'Coquitlam', 'Richmond', 'Surrey', 'Vancouver'
+        'Boston Bar', 'Haney', 'Oliver', 'Surrey', 'Vancouver', 'All'
     ];
 
     const locationDropdownItems = [
-        'One', 'Two', 'Three', 'Four', 'Five'
+        '1001 96 Ave', '4190 Kinchant St', '1278 Granville St', '1131 Haaglund Rd', '258 Mesa Vista Drive',
+        'asdfStreet', '280 Semiahmoo Drive', 'All'
     ];
 
     const carTypeDropdownItems = [
-        'Economy', 'Compact', 'Midsize', 'Standard', 'Full-size', 'SUV', 'Truck'
+        'economy', 'compact', 'midsize', 'standard', 'full-size', 'suv', 'truck', 'All'
     ];
 
     const disableMakeReservation = city && location && vehicleType && startDate && startTime && endDate && endTime;
 
-    const getAllVehniclesFromGivenData = (err, res) => {
-        fetch(`/api/vehicleType/${city}/${location}/${vehicleType}/${startDate}/${startTime}/displayVehicleTypes`)
+    const getAllVehiclesFromGivenData = (err, res) => {
+        const cit = city === 'All' ? null : city;
+        const loc = location === 'All' ? null : location;
+        const sd = startDate === '' ? null : startDate;
+        const st = startTime === '' ? null : startTime;
+        const vt = vehicleType === 'All' ? null : vehicleType;
+        fetch(`/api/vehicleType/${cit}/${loc}/${vt}/${sd}/${st}/displayVehicleTypes`)
             .then(res => res.json())
             .then(res => {
-                //TODO count number of results in res
-                //TODO display details of each carType
-                let vehiclesList = res.length === 0 ? res : res;
-                setVehiclesOutput(vehiclesList);
+                console.log(res);
+                if (res.error === 'Database error.') {
+                    alert('There is an issue with this search. Please try again.');
+                } else {
+                    if (res.length === 0) {
+                        alert(' There are no available vehicles with the given search parameters.' +
+                            'Please adjust the parameters and try again');
+                    }
+                    setVehiclesOutput(res);
+                }
             })
     };
 
     useEffect(() => {
-        getAllVehniclesFromGivenData();
+        getAllVehiclesFromGivenData();
     }, []);
 
     return (
@@ -103,7 +123,8 @@ const App = () => {
                     </DropdownToggle>
                     <DropdownMenu>
                         {cityDropdownItems.map(str => {
-                            return <DropdownItem key={str + '_cityDropDown'} onClick={() => setCity(str)}>{str}</DropdownItem>
+                            return <DropdownItem key={str + '_cityDropDown'}
+                                                 onClick={() => setCity(str)}>{str}</DropdownItem>
                         })}
                     </DropdownMenu>
                 </Dropdown>
@@ -127,7 +148,8 @@ const App = () => {
                                 </DropdownToggle>
                                 <DropdownMenu>
                                     {carTypeDropdownItems.map(str => {
-                                        return <DropdownItem key={str + '_vehicleDropDown'} onClick={() => setVehicleType(str)}>{str}</DropdownItem>
+                                        return <DropdownItem key={str + '_vehicleDropDown'}
+                                                             onClick={() => setVehicleType(str)}>{str}</DropdownItem>
                                     })}
                                 </DropdownMenu>
                             </Dropdown>
@@ -137,20 +159,21 @@ const App = () => {
                                 </DropdownToggle>
                                 <DropdownMenu>
                                     {locationDropdownItems.map(str => {
-                                        return <DropdownItem key={str + '_locationDropDown'} onClick={() => setLocation(str)}>{str}</DropdownItem>
+                                        return <DropdownItem key={str + '_locationDropDown'}
+                                                             onClick={() => setLocation(str)}>{str}</DropdownItem>
                                     })}
                                 </DropdownMenu>
                             </Dropdown>
                             <TextField
-                            id="date"
-                            label="From Date"
-                            type="date"
-                            defaultValue={startDate}
-                            onChange={e => setStartDate(e.target.value)}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
+                                id="date"
+                                label="From Date"
+                                type="date"
+                                defaultValue={startDate}
+                                onChange={e => setStartDate(e.target.value)}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
                             <TextField
                                 id="time"
                                 label="From Time"
@@ -189,19 +212,61 @@ const App = () => {
                             />
                         </StylingForDropDown>
                         <StyledButton>
-                        <Button color={'primary'} onClick={() => getAllVehniclesFromGivenData()}>Get Vehicles</Button>
-                            <Button color={!disableMakeReservation ? 'secondary' :'danger'} disabled={!disableMakeReservation}>
-                                <StyledMakeAReservationButton onClick={() => !disableMakeReservation ? alert('Please input information first to see if there are available vehicles before making a reservation.') : null} to={{pathname: !disableMakeReservation ? '/' : '/makeReservation', state: { isModal: true, city: city, vehicleType: vehicleType, location: location,
-                                        fromDate: startDate, fromTime: startTime, toDate: endDate, toTime: endTime}
-                                }}>Make a Reservation</StyledMakeAReservationButton>
+                            <Button color={'primary'} onClick={() => getAllVehiclesFromGivenData()}>Get
+                                Vehicles</Button>
+                            <Button color={!disableMakeReservation ? 'secondary' : 'danger'}
+                                    disabled={!disableMakeReservation}>
+                                <StyledMakeAReservationButton
+                                    onClick={() => !disableMakeReservation ? alert('Please input information first to see if there are available vehicles before making a reservation.') : null}
+                                    to={{
+                                        pathname: !disableMakeReservation ? '/' : '/makeReservation', state: {
+                                            isModal: true, city: city, vehicleType: vehicleType, location: location,
+                                            fromDate: startDate, fromTime: startTime, toDate: endDate, toTime: endTime
+                                        }
+                                    }}>Make a Reservation</StyledMakeAReservationButton>
                             </Button>
                         </StyledButton>
                     </Jumbotron>
                 </Col>
             </Row>
-            <Row>
-                {JSON.stringify(vehiclesOutput)}
-            </Row>
+            <CenteredRow noGutters>
+                <ListGroup>
+                    <ListGroupItem>Number of Available Vehicles according to search
+                        parameters: {vehiclesOutput.length}</ListGroupItem>
+                </ListGroup>
+            </CenteredRow>
+            <Table>
+                <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>VehicleType</th>
+                    <th>Vlicense</th>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                    <th>Odometer</th>
+                    <th>Status</th>
+                    <th>features</th>
+                </tr>
+                </thead>
+                <tbody>
+                {vehiclesOutput.map(vo => {
+                    return (
+                        <tr key={vo.vlicense + '_' + vo.vlicense}>
+                            <td >{vo.location}</td>
+                            <td>{vo.vtname}</td>
+                            <td>{vo.vlicense}</td>
+                            <td>{vo.make}</td>
+                            <td>{vo.model}</td>
+                            <td>{vo.year}</td>
+                            <td>{vo.odometer}</td>
+                            <td>{vo.status}</td>
+                            <td>{vo.features}</td>
+                        </tr>
+                    )
+                })}
+                </tbody>
+            </Table>
             <Switch>
                 <Route exact path="/makeReservation" component={props =>
                     <MakeReservationModal
@@ -210,6 +275,6 @@ const App = () => {
             </Switch>
         </Container>
     );
-}
+};
 
 export default App;

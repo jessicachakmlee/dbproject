@@ -43,8 +43,7 @@ const ContentDiv = styled.div`
 
 const StyledXButtonLink = styled(Link)``;
 
-const MakeReservationModal: React.FC = props => {
-    console.log(props);
+const MakeReservationModal = props => {
     const [name, setName] = useState(null);
     const [phoneNumber, setPhoneNumber] = useState(null);
     const [dLicense, setDLicense] = useState(null);
@@ -59,9 +58,9 @@ const MakeReservationModal: React.FC = props => {
                 if (res.length === 0) {
                     alert('Customer does not exist in database. Please create new customer file.');
                 } else {
-                    setName(res.name);
-                    setDLicense(res.dlicense);
-                    setAddress(res.address);
+                    setName(res[0].name);
+                    setDLicense(res[0].dlicense);
+                    setAddress(res[0].address);
                 }
             })
             .catch(err => alert('Error retrieving customer. Please try again.'))
@@ -95,6 +94,7 @@ const MakeReservationModal: React.FC = props => {
             confNo: confNo,
             vtname: props.location.state.vehicleType,
             cellphone: phoneNumber,
+            dlicense: dLicense,
             fromDate: props.location.state.fromDate,
             fromTime: props.location.state.fromTime,
             toDate: props.location.state.toDate,

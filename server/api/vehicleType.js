@@ -10,7 +10,7 @@ router.get('/:city/:location/:vehicleType/:startDate/:startTime/displayVehicleTy
     const startDate = req.params.startDate;
     const startTime = req.params.startTime;
 
-    vehicleType.retrieveVehicleTypesWithOptions(location, city, carType, startDate, startTime, function (err, vehicle) {
+    vehicleType.retrieveVehicleTypesWithOptions(city, location, carType, startDate, startTime, function (err, vehicle) {
         if (err)
             return res.json(err);
         return res.json(vehicle);

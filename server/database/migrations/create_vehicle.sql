@@ -11,6 +11,5 @@ CREATE TABLE Vehicle (
     location    char(50),
     city        char(50),
     PRIMARY KEY (vid),
-    FOREIGN KEY (location, city) REFERENCES Branch(location, city),
     FOREIGN KEY (vehicleType)    REFERENCES VehicleType(vehicleType)
 );

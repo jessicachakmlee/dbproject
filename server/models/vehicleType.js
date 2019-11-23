@@ -2,13 +2,15 @@ const db = require('../database');
 
 class VehicleType {
     static retrieveVehicleTypesWithOptions(city, location, vehicleType, startDate, startTime, callback) {
-        console.log(startDate, startTime);
         const defaultVehicleTypeQuery =
-            `SELECT * FROM vehicleType INNER JOIN vehicle ON (vehicle.vehicleType = vehicleType.vehicleType) INNER JOIN reservation ON (reservation.vtname = vehicleType.vehicleType) WHERE location LIKE '%${location.toString()}%' AND city LIKE '%${city.toString()}%'`;
-        const stringForVehicleType = vehicleType != 'null' ? ` AND vehicleType.vehicleType LIKE '%${vehicleType}%'` : '';
+            `SELECT * FROM vehicleType INNER JOIN vehicle ON (vehicle.vtname = vehicleType.vtname) LEFT OUTER JOIN reservation ON (vehicle.status = '%being_rented%' AND reservation.vtname = vehicle.vtname) WHERE status`;
+        const statusQuery = startDate != 'null' && startTime != 'null' ? ` <> 'in_shop'` : ` LIKE '%available%'`;
+        const stringForCity = city != 'null' ? ` AND city LIKE '%${city.toString()}%'` : '';
+        const stringForLocation = location != 'null' ? ` AND location LIKE '%${location.toString()}%'` : '';
+        const stringForVehicleType = vehicleType != 'null' ? ` AND vehicleType.vtname LIKE '%${vehicleType}%'` : '';
         const stringForStartDateTime = startDate != 'null' && startTime != 'null' ? ` AND toDate::date <= date '${startDate}' AND toTime::time < time '${startTime}'` : '';
-        const stringForEnd = ';'
-        const finalQueryString = defaultVehicleTypeQuery.concat(stringForVehicleType).concat(stringForStartDateTime).concat(stringForEnd);
+        const stringForEnd = ' ORDER BY location ASC, vehicleType.vtname ASC;';
+        const finalQueryString = defaultVehicleTypeQuery.concat(statusQuery).concat(stringForCity).concat(stringForLocation).concat(stringForVehicleType).concat(stringForStartDateTime).concat(stringForEnd);
 
         db.query(finalQueryString, function (err, res) {
             if (err.error)

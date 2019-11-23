@@ -1,6 +1,7 @@
 -- A test script to create tables in your local test server
 DROP TABLE IF EXISTS Customers;
 DROP TABLE IF EXISTS Customer;
+
 CREATE TABLE Customer (
       cellphone       BIGINT NOT NULL,
       name            varchar(30),

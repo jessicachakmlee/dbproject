@@ -1,7 +1,7 @@
 CREATE TABLE Reservation (
     confNo          int,
     vehicleType     char(50),
-    cellphone       varchar(15),
+    cellphone       BIGINT,
     fromDate        date,
     fromTime        time,
     toDate          date,
