@@ -1,6 +1,8 @@
 const db = require('../database');
 
 class Rent {
+    // http://localhost:5000/api/rent/
+    // a method that retrieves all rent rows
     static retrieveAll(callback) {
         db.query('SELECT * from rent', function (err, res) {
             if (err.error)
@@ -9,6 +11,7 @@ class Rent {
         });
     }
 
+    // http://localhost:5000/api/rent/12:00:00/2019-05-03/12:00:00/2019-05-03/
     // a method that retrieves list of all rented vehicles in the db
     static retrieveByTimeInterval(fromTime, fromDate, toTime, toDate, callback) {
 
@@ -25,7 +28,8 @@ class Rent {
         });
     }
 
-    // a method that retrieves list of rented vehicles within time interval in the db
+    // http://localhost:5000/api/rent/vid/12:00:00/2019-05-03/12:00:00/2019-05-03/
+    // a method that retrieves list of rented vehicle licenses within time interval in the db
     static retrieveVidByTimeInterval(fromTime, fromDate, toTime, toDate, callback) {
 
         const queryStatement = 'SELECT vlicense FROM Rent ' +
@@ -41,14 +45,16 @@ class Rent {
         });
     }
 
-    // gets all vehicles being rented at the time
+    //http://localhost:5000/api/rent/vehicle/12:00:00/2019-05-03/12:00:00/2019-05-03/
+    // gets all vehicles being rented at the time interval
     static retrieveVehiclesByTimeInterval(fromTime, fromDate, toTime, toDate, callback) {
 
         const queryStatement = 'SELECT * ' +
-            'FROM Rent r, Vehicle v ' +
+            'FROM Rent r NATURAL JOIN Vehicle v ' +
             'WHERE r.fromTime <= $1 AND r.fromDate <= $2 ' +
             'AND r.toTime >= $3 AND r.toDate >= $4 ' +
-            'AND v.status = \'being_rented\'';
+            'AND v.status = \'being_rented\' ' +
+            'ORDER BY v.city, v.location, v.vtname';
 
         const vals = [fromTime, fromDate, toTime, toDate];
 
@@ -59,18 +65,58 @@ class Rent {
         });
     }
 
+    // http://localhost:5000/api/rent/vehicle/258%20Mesa%20Vista%20Drive/Boston%20Bar/12:00:00/2019-05-03/12:00:00/2019-05-03/
     // gets all vehicles being rented at the time for one branch
     static retrieveBranchVehiclesByTimeInterval(fromTime, fromDate, toTime, toDate,
                                                 location, city, callback) {
 
         const queryStatement = 'SELECT * ' +
-            'FROM Rent r, Vehicle v ' +
+            'FROM Rent r NATURAL JOIN Vehicle v ' +
             'WHERE r.fromTime <= $1 AND r.fromDate <= $2 ' +
             'AND r.toTime >= $3 AND r.toDate >= $4 ' +
             'AND v.status = \'being_rented\' ' +
-            'AND v.location = $5 AND v.city = $6';
+            'AND v.location = $5 AND v.city = $6 ' +
+            'ORDER BY v.vtname';
 
         const vals = [fromTime, fromDate, toTime, toDate, location, city];
+
+        db.query(queryStatement, vals, function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
+    // 0 rows: http://localhost:5000/api/rent/report/2019-12-22
+    // 1 row: http://localhost:5000/api/rent/report/2019-11-22
+    // gets all vehicles being rented at the given time
+    static retrieveVehiclesRentedOnDate(fromDate, callback) {
+
+        const queryStatement = 'SELECT * ' +
+            'FROM Rent r NATURAL JOIN Vehicle v ' +
+            'WHERE r.fromDate = $1 ' +
+            'AND v.status = \'being_rented\' ' +
+            'ORDER BY v.city, v.location, v.vtname';
+
+        const vals = [fromDate];
+
+        db.query(queryStatement, vals, function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
+    // gets all vehicles being rented at the time for one branch
+    static retrieveVehiclesRentedOnDateByBranch(fromDate, location, city, callback) {
+
+        const queryStatement = 'SELECT * ' +
+            'FROM Rent r NATURAL JOIN Vehicle v ' +
+            'WHERE r.fromDate = $1 ' +
+            'AND v.status = \'being_rented\' ' +
+            'AND v.location = $2 AND v.city = $3';
+
+        const vals = [fromDate, location, city];
 
         db.query(queryStatement, vals, function (err, res) {
             if (err.error)
