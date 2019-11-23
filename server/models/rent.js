@@ -127,6 +127,7 @@ class Rent {
         });
     }
 
+    // http://localhost:5000/api/rent/report/sum/2019-10-22
     // gets sums of all rentals in the company
     static retrieveDaySum(fromDate, callback) {
 
@@ -176,6 +177,25 @@ class Rent {
             'GROUP BY v.city, v.location';
 
         const vals = [fromDate];
+
+        db.query(queryStatement, vals, function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
+    // http://localhost:5000/api/rent/branch_report/sum/2019-10-22
+    // gets sums of all rentals in the company
+    static retrieveDaySumInBranch(fromDate, location, city, callback) {
+
+        const queryStatement = 'SELECT COUNT(*) ' +
+            'FROM Rent r NATURAL JOIN Vehicle v ' +
+            'WHERE r.fromDate = $1 ' +
+            'AND v.status = \'being_rented\' ' +
+            'AND v.location = $2 AND v.city = $3 ';
+
+        const vals = [fromDate, location, city];
 
         db.query(queryStatement, vals, function (err, res) {
             if (err.error)

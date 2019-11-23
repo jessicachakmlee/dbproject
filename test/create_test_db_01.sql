@@ -174,9 +174,9 @@ CREATE TABLE Rent (
 INSERT INTO Rent VALUES (66554,
                         (SELECT vlicense FROM Vehicle WHERE vlicense = 'BBB-123'),
                         (SELECT dlicense FROM Customer WHERE dlicense = 1234567),
-                        date '2019-11-22',
+                        '2019-11-22',
                         '17:00:00',
-                        date '2019-12-22',
+                        '2019-12-22',
                         '17:00:00',
                         (SELECT odometer FROM Vehicle WHERE vlicense = 'BBB-123'),
                         'mastercard',
@@ -194,7 +194,7 @@ INSERT INTO Rent VALUES (49480,
                         (SELECT dlicense FROM Customer WHERE dlicense = 2020202),
                         '2019-05-03',
                         '10:00:00',
-                        date '2019-05-10',
+                        '2019-05-10',
                         '15:00:00',
                         (SELECT odometer FROM Vehicle WHERE vlicense = 'SAV-EME'),
                         'mastercard',
@@ -206,6 +206,74 @@ UPDATE Vehicle
 SET status = 'being_rented'
 WHERE vlicense = 'SAV-EME';
 
+INSERT INTO Rent VALUES (49481,
+                        (SELECT vlicense FROM Vehicle WHERE vlicense = 'AAA-123'),
+                        (SELECT dlicense FROM Customer WHERE dlicense = 2020202),
+                        '2019-05-03',
+                        '10:00:00',
+                        '2019-05-15',
+                        '15:00:00',
+                        (SELECT odometer FROM Vehicle WHERE vlicense = 'AAA-123'),
+                        'visa',
+                        '5127 1771 1234 1290',
+                        '12/20',
+                        NULL);
+
+UPDATE Vehicle
+SET status = 'being_rented'
+WHERE vlicense = 'AAA-123';
+
+INSERT INTO Rent VALUES (49482,
+                        (SELECT vlicense FROM Vehicle WHERE vlicense = 'CCC-123'),
+                        (SELECT dlicense FROM Customer WHERE dlicense = 2020202),
+                        '2019-05-03',
+                        '10:00:00',
+                        '2019-05-20',
+                        '03:00:00',
+                        (SELECT odometer FROM Vehicle WHERE vlicense = 'CCC-123'),
+                        'american express',
+                        '4809 1771 1234 1290',
+                        '12/21',
+                        NULL);
+
+UPDATE Vehicle
+SET status = 'being_rented'
+WHERE vlicense = 'CCC-123';
+
+INSERT INTO Rent VALUES (49483,
+                        (SELECT vlicense FROM Vehicle WHERE vlicense = 'DDD-123'),
+                        (SELECT dlicense FROM Customer WHERE dlicense = 2020202),
+                        '2019-05-03',
+                        '10:00:00',
+                        '2019-05-20',
+                        '03:00:00',
+                        (SELECT odometer FROM Vehicle WHERE vlicense = 'DDD-123'),
+                        'mastercard',
+                        '4809 1771 1234 0001',
+                        '12/21',
+                        NULL);
+
+UPDATE Vehicle
+SET status = 'being_rented'
+WHERE vlicense = 'DDD-123';
+
+INSERT INTO Rent VALUES (49484,
+                        (SELECT vlicense FROM Vehicle WHERE vlicense = 'BYE-BYE'),
+                        (SELECT dlicense FROM Customer WHERE dlicense = 1010101),
+                        '2019-05-01',
+                        '10:00:00',
+                        '2019-05-20',
+                        '03:00:00',
+                        (SELECT odometer FROM Vehicle WHERE vlicense = 'BYE-BYE'),
+                        'mastercard',
+                        '3506 4658 1234 0001',
+                        '08/20',
+                        NULL);
+
+UPDATE Vehicle
+SET status = 'being_rented'
+WHERE vlicense = 'BYE-BYE';
+
 CREATE TABLE TimePeriod (
       fromDate       DATE,
       fromTime       TIME,
@@ -213,6 +281,47 @@ CREATE TABLE TimePeriod (
       toTime         TIME,
       PRIMARY KEY     (fromDate, fromTime, toDate, toTime)
   );
+
+CREATE TABLE Returns (
+    rid         int,
+    date        date,
+    time        time,
+    odometer    int,
+    fulltank    int,
+    value       float,
+    PRIMARY KEY (rid),
+    FOREIGN KEY (rid) REFERENCES Rent
+);
+
+INSERT INTO Returns
+    VALUES ((SELECT rid FROM Rent WHERE rid = 49480),
+        '2019-05-11', '17:00:00',
+        (SELECT odometer FROM Rent WHERE rid = 49480) + 10000,
+        100, 40.00);
+
+UPDATE Vehicle
+SET odometer = odometer + 10000, status = 'available'
+WHERE vlicense = 'SAV-EME';
+
+INSERT INTO Returns
+    VALUES ((SELECT rid FROM Rent WHERE rid = 49481),
+        '2019-05-11', '14:00:00',
+        (SELECT odometer FROM Rent WHERE rid = 49481)+ 314,
+        90, 30.64);
+
+UPDATE Vehicle
+SET odometer = odometer + 314, status = 'available'
+WHERE vlicense = 'AAA-123';
+
+INSERT INTO Returns
+    VALUES ((SELECT rid FROM Rent WHERE rid = 49482),
+        '2019-05-15', '12:00:00',
+        (SELECT odometer FROM Rent WHERE rid = 49482)+ 6054,
+        90, 30.64);
+
+UPDATE Vehicle
+SET odometer = odometer + 6054, status = 'available'
+WHERE vlicense = 'CCC-123';
 
 --INSERT INTO Rent(rid, vid, cellphone, fromDate, fromTime,
 --                 toDate, toTime, odometer, cardName,
