@@ -41,14 +41,14 @@ router.get('/rented/sum', (req, res) => {
         if (err)
             return res.json(err);
         let result = res.json(count);
-        result = result.getValue
+        result = result.getValue;
         return result;
     })
 })
 
 // localhost:5000/api/vehicle/options/Boston Bar?location=258 Mesa Vista Drive&vehicleType=full-size&startDate=2019-11-23&startTime=12:00:00&toDate=2019-11-24&toTime=12:00:00// gets list of vehicles with optional inputs
-router.get('/options/:city', (req, res) => {
-    const city = req.params.city;
+router.get('/options', (req, res) => {
+    const city = req.query.city;
     const location = req.query.location;
     const vehicleType = req.query.vehicleType;
     const startDate = req.query.startDate;
