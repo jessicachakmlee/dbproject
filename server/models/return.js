@@ -9,6 +9,24 @@ class Return {
         });
     }
 
+    // http://localhost:5000/api/return/rid/49480
+    // a method that retrieves a return and corresponding rent row by rid
+    static retrieveByRid(rid, callback) {
+
+        const queryStatement = 'SELECT * ' +
+            'FROM Returns r INNER JOIN Rent re ' +
+            'ON r.rid = re.rid ' +
+            'WHERE r.rid = $1 ';
+
+        const vals = [rid];
+
+        db.query(queryStatement, vals, function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
     // http://localhost:5000/api/return/all/12:00:00/2019-05-03/12:00:00/2019-05-13/
     // a method that retrieves list of all returned vehicles in the db
         static retrieveByTimeInterval(fromTime, fromDate, toTime, toDate, callback) {

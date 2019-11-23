@@ -12,6 +12,17 @@ router.get('/all', function (req, res) {
     })
 });
 
+// http://localhost:5000/api/return/rid/49480
+// a method that retrieves a return and corresponding rent row by rid
+router.get('/rid/:rid', (req, res) => {
+    const rid = req.params.rid;
+    _return.retrieveByRid(rid, (err, returns) => {
+        if (err)
+            return res.json(err);
+        return res.json(returns);
+    })
+});
+
 // http://localhost:5000/api/return/all/12:00:00/2019-05-03/12:00:00/2019-05-13/
 // a method that retrieves list of all returned vehicles in the db
 router.get('/all/:fromTime/:fromDate/:toTime/:toDate', (req, res) => {

@@ -11,6 +11,23 @@ class Rent {
         });
     }
 
+    // http://localhost:5000/api/rent/rid/66554
+    // a method that retrieves a rent and corresponding vehicle row by rent id
+    static retrieveByRid(rid, callback) {
+
+        const queryStatement = 'SELECT * ' +
+            'FROM Rent NATURAL JOIN Vehicle ' +
+            'WHERE rid = $1 ';
+
+        const vals = [rid];
+
+        db.query(queryStatement, vals, function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
     // http://localhost:5000/api/rent/12:00:00/2019-05-03/12:00:00/2019-05-03/
     // a method that retrieves list of all rented vehicles in the db
     static retrieveByTimeInterval(fromTime, fromDate, toTime, toDate, callback) {
