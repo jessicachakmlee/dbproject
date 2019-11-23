@@ -2,7 +2,9 @@ const express = require('express');
 const vehicle = require('../models/vehicle');
 const router = express.Router();
 
-router.get('/', function (req, res) {
+// http://localhost:5000/api/vehicle/all
+// gets all vehicles in the db
+router.get('/all', function (req, res) {
     vehicle.retrieveAll(function (err, vehicles) {
         if (err)
             return res.json(err);
@@ -10,6 +12,8 @@ router.get('/', function (req, res) {
     });
 });
 
+// http://localhost:5000/api/vehicle/branch/asdfStreet/Surrey
+// gets all vehicles in a branch
 router.get('/branch/:location/:city', function (req, res) {
     const location = req.params.location;
     const city = req.params.city;
@@ -20,6 +24,8 @@ router.get('/branch/:location/:city', function (req, res) {
     });
 });
 
+// http://localhost:5000/api/vehicle/rented
+// Gets all vehicles that are currently rented
 router.get('/rented', function(req, res) {
     vehicle.retrieveRented((err, rentals) => {
         if (err)
@@ -28,12 +34,33 @@ router.get('/rented', function(req, res) {
     })
 })
 
+// http://localhost:5000/api/vehicle/rented/sum
+// Gets count of all vehicles that are currently rented
 router.get('/rented/sum', (req, res) => {
     vehicle.retrieveRentedSum((err, sum) => {
         if (err)
             return res.json(err);
         let result = res.json(count);
         result = result.getValue
+        return result;
+    })
+})
+
+// localhost:5000/api/vehicle/options/Boston Bar?location=258 Mesa Vista Drive&vehicleType=full-size&startDate=2019-11-23&startTime=12:00:00&toDate=2019-11-24&toTime=12:00:00// gets list of vehicles with optional inputs
+router.get('/options/:city', (req, res) => {
+    const city = req.params.city;
+    const location = req.query.location;
+    const vehicleType = req.query.vehicleType;
+    const startDate = req.query.startDate;
+    const startTime = req.query.startTime;
+    const toDate = req.query.toDate;
+    const toTime = req.query.toTime;
+
+    vehicle.retrieveVehiclesWithOptions(city, location, vehicleType, startDate,
+        startTime, toDate, toTime, (err, vehicles) => {
+        if (err)
+            return res.json(err);
+        let result = res.json(count);
         return result;
     })
 })
