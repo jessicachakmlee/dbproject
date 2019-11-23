@@ -57,18 +57,20 @@ class Vehicle {
     }
 
     // all parameters filled
-    // localhost:5000/api/vehicle/options/Boston Bar?location=258 Mesa Vista Drive&vehicleType=full-size&startDate=2019-11-23&startTime=12:00:00&toDate=2019-11-24&toTime=12:00:00    //localhost:5000/api/vehicle/options/?city=Boston Bar&location=258 Mesa Vista Drive&vehicleType=full-size&startDate=2019-11-23&startTime=12:00:00&toDate=2019-11-24&toTime=12:00:00
+    //
+    // localhost:5000/api/vehicle/options?city=Boston Bar&location=258 Mesa Vista Drive&vehicleType=full-size&startDate=2019-11-23&startTime=12:00:00&toDate=2019-11-24&toTime=12:00:00
     // missing time interval and vtname
-    // localhost:5000/api/vehicle/options/Boston Bar?location=258 Mesa Vista Drive
+    // localhost:5000/api/vehicle/options?city=Boston Bar&location=258 Mesa Vista Drive
     // missing location and time interval
-    // localhost:5000/api/vehicle/options/Vancouver?vehicleType=economy
+    // localhost:5000/api/vehicle/options?city=Vancouver&vehicleType=economy
     // missing location and vtname
-    // localhost:5000/api/vehicle/options/Vancouver?startDate=2019-11-24&startTime=12:00:00&toDate=2019-11-25&toTime=12:00:00
+    // localhost:5000/api/vehicle/options?city=Vancouver&startDate=2019-11-24&startTime=12:00:00&toDate=2019-11-25&toTime=12:00:00
 
     // missing all inputs
     // localhost:5000/api/vehicle/options/Vancouver
     static retrieveVehiclesWithOptions(city, location, vehicleType, startDate,
                                        startTime, toDate, toTime, callback) {
+
         const select = 'SELECT * ';
         const from = 'FROM vehicle v ';
         const where = 'WHERE v.status = \'available\' ';
@@ -138,8 +140,8 @@ class Vehicle {
         // add order to query string
         query.concat(order);
 
-        console.log("The query is: " + query);
-        console.log("The values are: " + vals);
+        // console.log("The query is: " + query);
+        // console.log("The values are: " + vals);
 
         db.query(query, vals, function (err, res) {
             if (err.error)

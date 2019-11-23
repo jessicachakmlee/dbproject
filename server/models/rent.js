@@ -11,6 +11,23 @@ class Rent {
         });
     }
 
+    // http://localhost:5000/api/rent/rid/66554
+    // a method that retrieves a rent and corresponding vehicle row by rent id
+    static retrieveByRid(rid, callback) {
+
+        const queryStatement = 'SELECT * ' +
+            'FROM Rent NATURAL JOIN Vehicle ' +
+            'WHERE rid = $1 ';
+
+        const vals = [rid];
+
+        db.query(queryStatement, vals, function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
     // http://localhost:5000/api/rent/12:00:00/2019-05-03/12:00:00/2019-05-03/
     // a method that retrieves list of all rented vehicles in the db
     static retrieveByTimeInterval(fromTime, fromDate, toTime, toDate, callback) {
@@ -225,21 +242,20 @@ class Rent {
     }
 
     // a method that inserts new rent row into the database
-    static insert (rid, vlicense, cellphone, fromDate, fromTime,
+    static insert (rid, vlicense, dlicense, fromDate, fromTime,
                    toDate, toTime, odometer, cardName,
                    cardNo, expDate, confNo, callback) {
 
-        const insertQuery = {
-            text: 'INSERT INTO rent(rid, vlicense, cellphone, fromDate, ' +
-            'fromTime, toDate, toTime, odometer, cardName, ' +
-            'cardNo, expDate, confNo) ' +
-            'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)',
-            values: [rid, vlicense, cellphone, fromDate, fromTime,
+        console.log("the rid is: " + rid);
+        const insertQuery = 'INSERT INTO rent(rid, vlicense, dlicense, fromdate, ' +
+            'fromtime, todate, totime, odometer, cardname, ' +
+            'cardno, expdate, confno) ' +
+            'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)';
+        const values = [rid, vlicense, dlicense, fromDate, fromTime,
                 toDate, toTime, odometer, cardName,
-                cardNo, expDate, confNo]
-        };
+                cardNo, expDate, confNo];
 
-        db.query(insertQuery, (err, res) => {
+        db.query(insertQuery, values, (err, res) => {
             if (err.error)
                 return callback(err);
             callback(res);
