@@ -24,6 +24,7 @@ class Vehicle {
         });
     }
 
+    // TODO: finish this kudasai
     // a method that retrieves list of all rented vehicles in the db
     static retrieveRentedByTimeInterval(fromDateTime, toDateTime, callback) {
         db.query('SELECT * FROM Vehicle ' +
