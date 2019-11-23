@@ -111,14 +111,15 @@ const App = () => {
         fetch(`/api/vehicleType/${cit}/${loc}/${vt}/${sd}/${st}/displayVehicleTypes/`)
             .then(res => res.text())
             .then(res => {
-                if (res.error === 'Database error.') {
+                let resp = JSON.parse(res);
+                if (resp.error === 'Database error.') {
                     alert('There is an issue with this search. Please try again.');
                 } else {
-                    if (res.length === 0) {
+                    if (resp.length === 0) {
                         alert(' There are no available vehicles with the given search parameters.' +
                             'Please adjust the parameters and try again');
                     }
-                    setVehiclesOutput(res);
+                    setVehiclesOutput(resp);
                 }
             })
     };
