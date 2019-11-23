@@ -109,7 +109,7 @@ const App = () => {
         const st = startTime === '' ? null : startTime;
         const vt = vehicleType === 'All' ? null : vehicleType;
         fetch(`/api/vehicleType/${cit}/${loc}/${vt}/${sd}/${st}/displayVehicleTypes/`)
-            .then(res => res.json())
+            .then(res => res.text())
             .then(res => {
                 if (res.error === 'Database error.') {
                     alert('There is an issue with this search. Please try again.');
