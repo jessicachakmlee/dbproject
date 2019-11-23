@@ -80,7 +80,7 @@ const App = () => {
     const [startTime, setStartTime] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [endTime, setEndTime] = useState(null);
-    const [table, setTable] = useState(null);
+    const [table, setTable] = useState('reservation');
     const [tableOutput, setTableOutput] = useState(null);
 
     const cityDropdownItems = [
@@ -113,13 +113,17 @@ const App = () => {
         const et = endTime === null ? '' : `toTime=${endTime}&`;
 
         const finalQuery = endpointString.concat(cit).concat(loc).concat(vt).concat(sd).concat(st).concat(ed).concat(et).slice(0, -1);
-        console.log(finalQuery);
+        let myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
 
-        fetch(finalQuery)
+        fetch(finalQuery, {
+            method: 'GET',
+            headers: myHeaders
+        })
             .then(res => res.json())
             .then(res => {
                 if (res.error === 'Database error.') {
-                    alert('There is an issue with this search. Please try again.');
+                    alert('Responded with Database error.There is an issue with this search. Please try again.');
                 } else {
                     if (res.length === 0) {
                         alert(' There are no available vehicles with the given search parameters.' +
@@ -130,28 +134,30 @@ const App = () => {
             })
     };
 
-    const endPointForIndividualTable = () => {
+    const endPointForTables = () => {
         switch(table) {
             case'reservation':
                 return '/api/reservation';
             case 'rental':
                 return '/api/rent/all';
             case 'vehicle':
-                return '/api/vehicle';
+                return '/api/vehicle/all';
             case 'vehicleType':
                 return '/api/vehicleType';
             case 'customer':
                 return '/api/customer';
             case 'return':
-                return '/api/return';
+                return '/api/return/all';
             case 'all tables':
                 return '/api/databaseManipulations/allTables';
+            default:
+                return;
         }
     };
 
     const displayTablesInDatabase = (err, res) => {
-        const endpoint = endPointForIndividualTable();
-        fetch(endpoint).then(res => res.json()).then(res => setTableOutput(res)).catch(err => console.log(err));
+        const endpoint = endPointForTables();
+        fetch(endpoint).then(res => res.json()).then(res => setTableOutput(res));
     };
 
     useEffect(() => {
@@ -306,6 +312,7 @@ const App = () => {
             <Table>
                 <thead>
                 <tr>
+                    <th>City</th>
                     <th>Location</th>
                     <th>VehicleType</th>
                     <th>Vlicense</th>
@@ -314,13 +321,13 @@ const App = () => {
                     <th>Year</th>
                     <th>Odometer</th>
                     <th>Status</th>
-                    <th>features</th>
                 </tr>
                 </thead>
                 <tbody>
                 {vehiclesOutput.map(vo => {
                     return (
                         <tr key={vo.vlicense + '_' + vo.vlicense}>
+                            <td>{vo.city}</td>
                             <td >{vo.location}</td>
                             <td>{vo.vtname}</td>
                             <td>{vo.vlicense}</td>
