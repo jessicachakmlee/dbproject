@@ -80,7 +80,7 @@ class Vehicle {
         const order = 'ORDER BY v.location, v.city, v.vtname ';
 
         // what are the parameters passed in
-        console.log("The location is: " + location);
+        // console.log("The location is: " + location);
 
         // initiate array to hold string values. city should always be given
         var vals = [city];
@@ -143,8 +143,8 @@ class Vehicle {
         // add order to query string
         query.concat(order);
 
-        console.log("The query is: " + query);
-        console.log("The values are: " + vals);
+        // console.log("The query is: " + query);
+        // console.log("The values are: " + vals);
 
         db.query(query, vals, function (err, res) {
             if (err.error)
