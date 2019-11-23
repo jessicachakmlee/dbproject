@@ -7,4 +7,4 @@ CREATE TABLE Returns (
     value       float,
     PRIMARY KEY (rid),
     FOREIGN KEY (rid) REFERENCES Rent
-);
+);          
