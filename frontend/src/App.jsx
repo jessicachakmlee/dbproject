@@ -89,11 +89,11 @@ const App = () => {
 
     const locationDropdownItems = [
         '1001 96 Ave', '4190 Kinchant St', '1278 Granville St', '1131 Haaglund Rd', '258 Mesa Vista Drive',
-        'asdfStreet', '280 Semiahmoo Drive', 'All'
+        'asdfStreet', '280 Semiahmoo Drive', 'All', ''
     ];
 
     const carTypeDropdownItems = [
-        'economy', 'compact', 'midsize', 'standard', 'full-size', 'suv', 'truck', 'All'
+        'economy', 'compact', 'midsize', 'standard', 'full-size', 'suv', 'truck', 'All', ''
     ];
 
     const tableDropdownItems = [
@@ -103,12 +103,19 @@ const App = () => {
     const disableMakeReservation = city && location && vehicleType && startDate && startTime && endDate && endTime;
 
     const getAllVehiclesFromGivenData = (err, res) => {
-        const cit = city === 'All' ? null : city;
-        const loc = location === 'All' ? null : location;
-        const sd = startDate === '' ? null : startDate;
-        const st = startTime === '' ? null : startTime;
-        const vt = vehicleType === 'All' ? null : vehicleType;
-        fetch(`/api/vehicleType/${cit}/${loc}/${vt}/${sd}/${st}/displayVehicleTypes/`)
+        const endpointString = `/api/vehicle/options?`;
+        const cit = city === 'All' ? '' : `city=${city}&`;
+        const loc = location === 'All' || location === '' ? '' : `location=${location}&`;
+        const vt = vehicleType === 'All' || vehicleType === '' || vehicleType === null ? '' : `vehicleType=${vehicleType}&`;
+        const sd = startDate === null ? '' : `startDate=${startDate}&`;
+        const st = startTime === null ? '' : `startTime=${startTime}&`;
+        const ed = endDate === null ? '' : `toDate=${endDate}&`;
+        const et = endTime === null ? '' : `toTime=${endTime}&`;
+
+        const finalQuery = endpointString.concat(cit).concat(loc).concat(vt).concat(sd).concat(st).concat(ed).concat(et).slice(0, -1);
+        console.log(finalQuery);
+
+        fetch(finalQuery)
             .then(res => res.json())
             .then(res => {
                 if (res.error === 'Database error.') {
@@ -120,7 +127,7 @@ const App = () => {
                     }
                     setVehiclesOutput(res);
                 }
-            }).catch(err => console.log(err));
+            })
     };
 
     const endPointForIndividualTable = () => {
@@ -322,7 +329,6 @@ const App = () => {
                             <td>{vo.year}</td>
                             <td>{vo.odometer}</td>
                             <td>{vo.status}</td>
-                            <td>{vo.features}</td>
                         </tr>
                     )
                 })}

@@ -69,33 +69,28 @@ class Vehicle {
     // localhost:5000/api/vehicle/options/Vancouver
     static retrieveVehiclesWithOptions(city, location, vehicleType, startDate,
                                        startTime, toDate, toTime, callback) {
-        // default branch location
-        const DEFAULT_LOCATION = '1278 Granville St'
+        const select = 'SELECT * ';
+        const from = 'FROM vehicle v ';
+        const where = 'WHERE v.status = \'available\' ';
+        const order = 'ORDER BY v.location, v.city, v.vtname;';
 
-        const select = 'SELECT * '
-        const from = 'FROM vehicle v '
-        const where = 'WHERE v.status = \'available\' ' +
-            'AND city = $1 ';
-        const locationClause = 'AND location = $2 ';
-        const order = 'ORDER BY v.location, v.city, v.vtname ';
+        let query = select.concat(from, where);
+        // initiate array to hold string values.
+        let vals = [];
 
-        // what are the parameters passed in
-        console.log("The location is: " + location);
-
-        // initiate array to hold string values. city should always be given
-        var vals = [city];
+        if (city !== undefined && city !== null) {
+            const cityClause = `AND city = $${vals.length + 1} `;
+            query = query.concat(cityClause);
+            vals.push(city);
+        }
 
         // set the location value as the param or default value
         if (location !== undefined && location !== null) {
             // add location to values
+            let locationClause = `AND location = $${vals.length + 1} `;
+            query = query.concat(locationClause);
             vals.push(location);
-        } else {
-            // add location to values
-            vals.push(DEFAULT_LOCATION);
         }
-
-        // Make the base query
-        var query = select.concat(from, where, locationClause);
 
         // a variable for vehicle name
         var vtnameClause;

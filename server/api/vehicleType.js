@@ -3,20 +3,6 @@ const vehicleType = require('../models/vehicleType');
 
 const router = express.Router();
 
-router.get('/:city/:location/:vehicleType/:startDate/:startTime/displayVehicleTypes/', function (req, res) {
-    const city = req.params.city;
-    const location = req.params.location;
-    const carType = req.params.vehicleType;
-    const startDate = req.params.startDate;
-    const startTime = req.params.startTime;
-
-    vehicleType.retrieveVehicleTypesWithOptions(city, location, carType, startDate, startTime, function (err, vehicle) {
-        if (err)
-            return res.json(err);
-        return res.json(vehicle);
-    })
-});
-
 router.get('/', function (req, res) {
     vehicleType.retrieveAll(function (err, vehicleType) {
         if (err)
