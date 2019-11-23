@@ -127,7 +127,25 @@ class Rent {
         });
     }
 
-    // TODO:
+    // gets sums of all rentals in the company
+    static retrieveDaySum(fromDate, callback) {
+
+        const queryStatement = 'SELECT COUNT(*) ' +
+            'FROM Rent r NATURAL JOIN Vehicle v ' +
+            'WHERE r.fromDate = $1 ' +
+            'AND v.status = \'being_rented\''
+
+        const vals = [fromDate];
+
+        db.query(queryStatement, vals, function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
+    // 0 rows: http://localhost:5000/api/rent/report/sum_type/2019-12-22
+    // 1 row: http://localhost:5000/api/rent/report/sum_type/2019-11-22
     // gets sums of all rentals grouped by vehicle category (vtname)
     static retrieveDaySumByVCategory(fromDate, callback) {
 
@@ -146,7 +164,27 @@ class Rent {
         });
     }
 
-    // TODO
+    // 0 rows: http://localhost:5000/api/rent/report/sum_branch/2019-12-22
+    // 1 row: http://localhost:5000/api/rent/report/sum_branch/2019-11-22
+    // gets sums of all rentals grouped by branch
+    static retrieveDaySumByBranch(fromDate, callback) {
+
+        const queryStatement = 'SELECT v.location, v.city, COUNT(*) ' +
+            'FROM Rent r NATURAL JOIN Vehicle v ' +
+            'WHERE r.fromDate = $1 ' +
+            'AND v.status = \'being_rented\' ' +
+            'GROUP BY v.city, v.location';
+
+        const vals = [fromDate];
+
+        db.query(queryStatement, vals, function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
+    // http://localhost:5000/api/rent/branch_report/sum_type/1131%20Haaglund%20Rd/Oliver/2019-11-22
     // gets sums of all rentals in a branch grouped by vehicle category (vtname)
     static retrieveDaySumByVCategoryInBranch(fromDate, location, city, callback) {
 
