@@ -1,0 +1,14 @@
+INSERT INTO Customer VALUES (6041111234, 'Robbie Williams', '992  Brew Creek Rd', 1234567, NULL, NULL);
+INSERT INTO Customer VALUES (7781234567, 'Baymax', '675 Robson St', 1111111, NULL, NULL);
+INSERT INTO Customer VALUES (6043335555, 'Steven Hawkings', '3787 Mesa Vista Drive', 2222222, NULL, NULL);
+INSERT INTO Customer VALUES (6045159278, 'Goku Son', '472 Essendene Avenue', 3333333, 100, 20);
+INSERT INTO Customer VALUES (7787534890, 'Gandalf', '295 Sixth Street', 4444444, 1, 20);
+INSERT INTO Customer VALUES (6048294312, 'Sherlock Holmes', '3966 Tchesinkut Lake Rd', 5555555, 3, 20);
+INSERT INTO Customer VALUES (6044849278, 'James Bond', '3170 Roger Street', 6666666, 2000, 20);
+INSERT INTO Customer VALUES (6047779999, 'Severus Snape', '3860 Coldstream Avenue', 7777777, 6000, 20);
+INSERT INTO Customer VALUES (7785789982, 'Albus Dumbledore', '2860 Wallace Street', 8888888, NULL, NULL);
+INSERT INTO Customer VALUES (7784813671, 'Fitzwilliam Darcy', '1061 Glover Road', 9999999, NULL, NULL);
+INSERT INTO Customer VALUES (7785016092, 'Elizabeth Bennet', '408 Kinchant St', 1010101, 350, 20);
+INSERT INTO Customer VALUES (6044949956, 'Jack Sparrow', '4331 Old Spallumcheen Rd', 2020202, 30, 20);
+INSERT INTO Customer VALUES (7781558897, 'James T. Kirk', '3556 Blind Bay Road', 3030303, 8, 20);
+INSERT INTO Customer VALUES (7783234565, 'Homer Simpson', '4450 Tchesinkut Lake Rd', 4040404, NULL, NULL);
