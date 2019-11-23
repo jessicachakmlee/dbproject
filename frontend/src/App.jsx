@@ -112,10 +112,10 @@ const App = () => {
             .then(res => res.text())
             .then(res => {
                 console.log(res);
-                if (resp.error === 'Database error.') {
+                if (res.error === 'Database error.') {
                     alert('There is an issue with this search. Please try again.');
                 } else {
-                    if (resp.length === 0) {
+                    if (res.length === 0) {
                         alert(' There are no available vehicles with the given search parameters.' +
                             'Please adjust the parameters and try again');
                     }
