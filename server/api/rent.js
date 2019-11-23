@@ -12,12 +12,42 @@ router.get('/', function (req, res) {
     })
 });
 
-router.get(':fromTime/:fromDate/:toTime/:toDate', (req, res) => {
+router.get('/:fromTime/:fromDate/:toTime/:toDate', (req, res) => {
     const fromDate = req.params.fromDate;
     const fromTime = req.params.fromTime;
     const toDate = req.params.toDate;
     const toTime = req.params.toTime;
+    // console.log("The datetime parameters being passed are: " +
+    //     fromTime + ", " + fromDate);
     rent.retrieveByTimeInterval(fromTime, fromDate, toTime, toDate, (err, rentals) => {
+        if (err)
+            return res.json(err);
+        return res.json(rentals);
+    })
+});
+
+router.get('/vid/:fromTime/:fromDate/:toTime/:toDate', (req, res) => {
+    const fromDate = req.params.fromDate;
+    const fromTime = req.params.fromTime;
+    const toDate = req.params.toDate;
+    const toTime = req.params.toTime;
+    // console.log("The datetime parameters being passed are: " +
+    //     fromTime + ", " + fromDate);
+    rent.retrieveVidByTimeInterval(fromTime, fromDate, toTime, toDate, (err, rentals) => {
+        if (err)
+            return res.json(err);
+        return res.json(rentals);
+    })
+});
+
+router.get('/vehicle/:fromTime/:fromDate/:toTime/:toDate', (req, res) => {
+    const fromDate = req.params.fromDate;
+    const fromTime = req.params.fromTime;
+    const toDate = req.params.toDate;
+    const toTime = req.params.toTime;
+    // console.log("The datetime parameters being passed are: " +
+    //     fromTime + ", " + fromDate);
+    rent.retrieveVehiclesByTimeInterval(fromTime, fromDate, toTime, toDate, (err, rentals) => {
         if (err)
             return res.json(err);
         return res.json(rentals);
