@@ -136,7 +136,7 @@ INSERT INTO Reservation VALUES (113554,
 
 INSERT INTO Reservation VALUES (241756,
                                 (SELECT vtname FROM VehicleType WHERE vtname = 'suv'),
-                                (SELECT cellphone FROM Customer WHERE cellphone = 6048294312),
+                                (SELECT cellphone FROM Customer WHERE dlicense = 5555555),
                                 (SELECT dlicense FROM Customer WHERE dlicense = 5555555),
                                 '2019-12-12',
                                 '13:30:00',
