@@ -108,7 +108,7 @@ const App = () => {
         const sd = startDate === '' ? null : startDate;
         const st = startTime === '' ? null : startTime;
         const vt = vehicleType === 'All' ? null : vehicleType;
-        fetch(`/api/vehicleType/${cit}/${loc}/${vt}/${sd}/${st}/displayVehicleTypes`)
+        fetch(`/api/vehicleType/${cit}/${loc}/${vt}/${sd}/${st}/displayVehicleTypes/`)
             .then(res => res.json())
             .then(res => {
                 if (res.error === 'Database error.') {
