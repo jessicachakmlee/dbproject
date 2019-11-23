@@ -109,9 +109,8 @@ const App = () => {
         const st = startTime === '' ? null : startTime;
         const vt = vehicleType === 'All' ? null : vehicleType;
         fetch(`/api/vehicleType/${cit}/${loc}/${vt}/${sd}/${st}/displayVehicleTypes/`)
-            .then(res => res.text())
+            .then(res => res.json())
             .then(res => {
-                console.log(res);
                 if (res.error === 'Database error.') {
                     alert('There is an issue with this search. Please try again.');
                 } else {
@@ -121,7 +120,7 @@ const App = () => {
                     }
                     setVehiclesOutput(res);
                 }
-            })
+            }).catch(err => console.log(err));
     };
 
     const endPointForIndividualTable = () => {
@@ -145,7 +144,7 @@ const App = () => {
 
     const displayTablesInDatabase = (err, res) => {
         const endpoint = endPointForIndividualTable();
-        fetch(endpoint).then(res => res.json()).then(res => setTableOutput(res))
+        fetch(endpoint).then(res => res.json()).then(res => setTableOutput(res)).catch(err => console.log(err));
     };
 
     useEffect(() => {
