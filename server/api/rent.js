@@ -54,6 +54,23 @@ router.get('/vehicle/:fromTime/:fromDate/:toTime/:toDate', (req, res) => {
     })
 });
 
+router.get('/vehicle/:location/:city/:fromTime/:fromDate/:toTime/:toDate', (req, res) => {
+    const fromDate = req.params.fromDate;
+    const fromTime = req.params.fromTime;
+    const toDate = req.params.toDate;
+    const toTime = req.params.toTime;
+    const location = req.params.location;
+    const city = req.params.city;
+    // console.log("The datetime parameters being passed are: " +
+    //     fromTime + ", " + fromDate);
+    rent.retrieveBranchVehiclesByTimeInterval(fromTime, fromDate, toTime, toDate,
+        location, city, (err, rentals) => {
+        if (err)
+            return res.json(err);
+        return res.json(rentals);
+    })
+});
+
 router.post('/', function (req, res) {
     const rid = req.body.rid;
     const vid = req.body.vid;

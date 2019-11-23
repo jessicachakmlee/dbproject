@@ -59,6 +59,27 @@ class Rent {
         });
     }
 
+    // gets all vehicles being rented at the time for one branch
+    static retrieveBranchVehiclesByTimeInterval(fromTime, fromDate, toTime, toDate,
+                                                location, city, callback) {
+
+        const queryStatement = 'SELECT * ' +
+            'FROM Rent r, Vehicle v ' +
+            'WHERE r.fromTime <= $1 AND r.fromDate <= $2 ' +
+            'AND r.toTime >= $3 AND r.toDate >= $4 ' +
+            'AND v.status = \'being_rented\' ' +
+            'AND v.location = $5 AND v.city = $6';
+
+        const vals = [fromTime, fromDate, toTime, toDate, location, city];
+
+        db.query(queryStatement, vals, function (err, res) {
+            if (err.error)
+                return callback(err);
+            callback(res);
+        });
+    }
+
+    // a method that inserts new rent row into the database
     static insert (rid, vlicense, cellphone, fromDate, fromTime,
                    toDate, toTime, odometer, cardName,
                    cardNo, expDate, confNo, callback) {
