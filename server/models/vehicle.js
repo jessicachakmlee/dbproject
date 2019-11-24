@@ -68,10 +68,10 @@ class Vehicle {
 
     // missing all inputs
     // localhost:5000/api/vehicle/options/Vancouver
-    static retrieveVehiclesWithOptions(city, location, vehicleType, startDate,
+    static retrieveVehiclesWithOptions(isCount, city, location, vehicleType, startDate,
                                        startTime, toDate, toTime, callback) {
 
-        const select = 'SELECT * ';
+        const select = isCount === 'true' ? 'SELECT COUNT(distinct v.vid) ' : 'SELECT * ';
         const from = 'FROM vehicle v ';
         const where = 'WHERE v.status = \'available\' ';
         const order = 'ORDER BY v.location, v.city, v.vtname;';

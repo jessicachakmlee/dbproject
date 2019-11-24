@@ -15,14 +15,14 @@ import {
     Button,
     ListGroup,
     ListGroupItem,
-    Table
+    Table, Label, Input, FormGroup
 } from 'reactstrap';
 import TextField from '@material-ui/core/TextField';
 import {Link, Route, Switch} from "react-router-dom";
 import MakeReservationModal from '../src/components/MakeReservationModal.jsx';
 import DataDisplayModal from "./components/DataDisplayModal";
 
-const Title = styled.h1`
+ const Title = styled.h1`
 text-align: center;
 `;
 
@@ -60,21 +60,47 @@ margin-bottom: 30px;
 const StylingButtonsAndDropdown = styled.div`
 display: flex;
 justify-items: space-between;
+
+div {
+button {
+    background: white;
+    color: black;
+    margin-right: 10px;
+}
+}
 `;
 
 const App = () => {
+    const getCurrentDate =  () => {
+        let d = new Date(),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+    };
     const [dropdownCityOpen, setDropdownCityOpen] = useState(false);
     const [dropdownLocationOpen, setDropdownLocationOpen] = useState(false);
     const [dropdownCarTypeOpen, setDropdownCarTypeOpen] = useState(false);
     const [dropdownTableOpen, setDropdownTableOpen] = useState(false);
+    const [dropdownClerkReportOpen, setDropdownClerkReportOpen] = useState(false);
+
     const [city, setCity] = useState('Vancouver');
     const [location, setLocation] = useState('1278 Granville St');
     const [vehiclesOutput, setVehiclesOutput] = useState([]);
+    const [vehiclesNum, setVehiclesNum] = useState(0);
     const [vehicleType, setVehicleType] = useState(null);
+
     const toggleCity = () => setDropdownCityOpen(!dropdownCityOpen);
     const toggleLocation = () => setDropdownLocationOpen(!dropdownLocationOpen);
     const toggleCarType = () => setDropdownCarTypeOpen(!dropdownCarTypeOpen);
     const toggleTable = () => setDropdownTableOpen(!dropdownTableOpen);
+    const toggleReport = () => setDropdownClerkReportOpen(!dropdownClerkReportOpen);
 
     const [startDate, setStartDate] = useState(null);
     const [startTime, setStartTime] = useState(null);
@@ -82,6 +108,12 @@ const App = () => {
     const [endTime, setEndTime] = useState(null);
     const [table, setTable] = useState('reservation');
     const [tableOutput, setTableOutput] = useState(null);
+    const [clerkReport, setClerkReport] = useState('Daily Rentals');
+    const [clerkReportOutput, setClerkReportOutput] = useState([]);
+    const [reportDate, setReportDate] = useState(getCurrentDate());
+    const [locationReport, setLocationReport] = useState('');
+    const [cityReport, setCityReport] = useState('');
+    const [isRunQuery, setIsRunQuery] = useState(true);
 
     const cityDropdownItems = [
         'Boston Bar', 'Haney', 'Oliver', 'Surrey', 'Vancouver', 'All'
@@ -100,10 +132,14 @@ const App = () => {
         'reservation', 'rental', 'vehicle', 'vehicleType', 'customer', 'return', 'all tables'
     ];
 
+    const reportDropdownItems = [
+        'Daily Rentals', 'Daily Rentals for Branch', 'Daily Returns', 'Daily Returns for Branch'
+    ];
+
     const disableMakeReservation = city && location && vehicleType && startDate && startTime && endDate && endTime;
 
-    const getAllVehiclesFromGivenData = (err, res) => {
-        const endpointString = `/api/vehicle/options?`;
+    const getAllVehiclesFromGivenData = (isCount) => {
+        const endpointString = `/api/vehicle/${isCount}/options?`;
         const cit = city === 'All' ? '' : `city=${city}&`;
         const loc = location === 'All' || location === '' ? '' : `location=${location}&`;
         const vt = vehicleType === 'All' || vehicleType === '' || vehicleType === null ? '' : `vehicleType=${vehicleType}&`;
@@ -113,29 +149,30 @@ const App = () => {
         const et = endTime === null ? '' : `toTime=${endTime}&`;
 
         const finalQuery = endpointString.concat(cit).concat(loc).concat(vt).concat(sd).concat(st).concat(ed).concat(et).slice(0, -1);
-        let myHeaders = new Headers();
-        myHeaders.append('Content-Type', 'application/json');
 
-        fetch(finalQuery, {
-            method: 'GET',
-            headers: myHeaders
-        })
+        fetch(finalQuery)
             .then(res => res.json())
             .then(res => {
                 if (res.error === 'Database error.') {
                     alert('Responded with Database error.There is an issue with this search. Please try again.');
                 } else {
-                    if (res.length === 0) {
+                    if (res.length === 0 || res[0].count === '0') {
+                        setVehiclesNum(0);
                         alert(' There are no available vehicles with the given search parameters.' +
                             'Please adjust the parameters and try again');
+                    } else if (res[0].count) {
+                        setVehiclesNum(res[0].count);
+                        setVehiclesOutput([]);
+                    } else {
+                        setVehiclesOutput(res);
+                        setVehiclesNum(res.length);
                     }
-                    setVehiclesOutput(res);
                 }
             })
     };
 
     const endPointForTables = () => {
-        switch(table) {
+        switch (table) {
             case'reservation':
                 return '/api/reservation';
             case 'rental':
@@ -155,18 +192,95 @@ const App = () => {
         }
     };
 
+    const dailyRentalsEndpoints = [
+        `/api/rent/report/${reportDate}`,
+        `/api/rent/report/sum_type/${reportDate}`,
+        `/api/rent/report/sum_branch/${reportDate}`,
+        `/api/rent/report/sum/${reportDate}`
+    ];
+
+    const dailyRentalsForBranchEndpoints = [
+        `/api/rent/branch_report/${locationReport}/${cityReport}/${reportDate}`,
+        `/api/rent/branch_report/sum_type/${locationReport}/${cityReport}/${reportDate}`,
+        `/api/rent/branch_report/sum/${locationReport}/${cityReport}/${reportDate}`,
+    ];
+
+    const dailyReturnsEndpoints = [
+        `/api/return/report/vehicle/${reportDate}`,
+        `/api/return/report/sum_type/${reportDate}`,
+        `/api/return/report/sum_branch/${reportDate}`,
+        `/api/return/report/sum/${reportDate}`,
+    ];
+
+    const dailyReturnsForBranchEndpoints = [
+        `/api/return/branch_report/${locationReport}/${cityReport}/${reportDate}`,
+        `/api/return/branch_report/sum_type/${locationReport}/${cityReport}/${reportDate}`,
+    ];
+
+    const reportEndpoints = () => {
+        switch (clerkReport) {
+            case reportDropdownItems[0]:
+                return reportDate ? dailyRentalsEndpoints : null;
+            case reportDropdownItems[1]:
+                return locationReport && cityReport && reportDate ? dailyRentalsForBranchEndpoints : null;
+            case reportDropdownItems[2]:
+                return reportDate ? dailyReturnsEndpoints : null;
+            case reportDropdownItems[3]:
+                return locationReport && cityReport && reportDate ? dailyReturnsForBranchEndpoints : null;
+            default:
+                return;
+        }
+    };
+
     const displayTablesInDatabase = (err, res) => {
         const endpoint = endPointForTables();
         fetch(endpoint).then(res => res.json()).then(res => setTableOutput(res));
     };
 
+    const compareFunction = (a, b) => {
+        if(a.order < b.order){
+            return -1;
+        } else if (a.order > b.order)
+            return 1;
+        else return 0;
+    };
+
+    const displayClerkQueries = () => {
+        const reportEP = reportEndpoints();
+        if(reportEP !== null) {
+            setIsRunQuery(false);
+            reportEP.map( (ep, index) => {
+                fetch(ep).then(res => res.json()).then(res => {
+                    clerkReportOutput.push({order: index, output: res});
+                });
+            });
+            console.log(clerkReportOutput);
+        } else {
+            alert('Please input the proper parameters before running the query');
+        }
+    };
+
+    const deleteReservation = (err, res) => {
+        const endpoint = '/api/databaseManipulations/reservation/delete?vtname=suv';
+        fetch(endpoint, {
+            method: 'DELETE',
+        }).then(res => res.json()).then(res => {
+            setTableOutput(res);
+        });
+    };
+
     useEffect(() => {
-        getAllVehiclesFromGivenData();
+        getAllVehiclesFromGivenData(true);
     }, []);
 
     useEffect(() => {
         displayTablesInDatabase();
     }, [table]);
+
+    useEffect(() => {
+        setIsRunQuery(true);
+        setClerkReportOutput([]);
+    }, [clerkReport, reportDate, locationReport, cityReport]);
 
     return (
         <Container fluid className={'centered'}>
@@ -188,25 +302,97 @@ const App = () => {
                     <Jumbotron>
                         <Title className={'display-3'}>Car Rental</Title>
                         <StylingButtonsAndDropdown>
-                        <Dropdown isOpen={dropdownTableOpen} toggle={toggleTable}>
-                            <DropdownToggle caret>
-                                { table ? 'Table: ' + table : 'Table: select one'}
-                            </DropdownToggle>
-                            <DropdownMenu>
-                                {tableDropdownItems.map(str => {
-                                    return <DropdownItem key={str + '_tableDropDown'}
-                                                         onClick={() => setTable(str)}>{str}</DropdownItem>
-                                })}
-                            </DropdownMenu>
-                        </Dropdown>
-                        <Button color={'info'}>
-                            <StyledModalButton to={{pathname: '/displayData', state: {
-                                    isModal: true, dataDisplay: tableOutput
-                                }}}>
-                                Display Table
-                            </StyledModalButton>
-                        </Button>
+                            <Dropdown isOpen={dropdownTableOpen} toggle={toggleTable}>
+                                <DropdownToggle caret>
+                                    {table ? 'Table: ' + table : 'Table: select one'}
+                                </DropdownToggle>
+                                <DropdownMenu>
+                                    {tableDropdownItems.map(str => {
+                                        return <DropdownItem key={str + '_tableDropDown'}
+                                                             onClick={() => setTable(str)}>{str}</DropdownItem>
+                                    })}
+                                </DropdownMenu>
+                            </Dropdown>
+                            <Button color={'info'}>
+                                <StyledModalButton to={{
+                                    pathname: '/displayData', state: {
+                                        isModal: true, dataDisplay: tableOutput
+                                    }
+                                }}>
+                                    Display Table
+                                </StyledModalButton>
+                            </Button>
+                            <Button color={'info'}>
+                                <StyledModalButton to={{
+                                    pathname: '/displayData', state: {
+                                        isModal: true, insertData: tableOutput
+                                    }
+                                }}>
+                                    Insert Data
+                                </StyledModalButton>
+                            </Button>
                         </StylingButtonsAndDropdown>
+                    </Jumbotron>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Jumbotron>
+                        <Title>Clerk</Title>
+                        {/*<div>*/}
+                        {/*    <Button color={'primary'}>Renting a Vehicle</Button>*/}
+                        {/*    <Button color={'primary'}>Returning a Vehicle</Button>*/}
+                        {/*</div>*/}
+                        <div>
+                            <p>Generate a report for:</p>
+                            <Dropdown isOpen={dropdownClerkReportOpen} toggle={toggleReport}>
+                                <DropdownToggle caret>
+                                    {clerkReport ? 'Report: ' + clerkReport : 'Report: select one'}
+                                </DropdownToggle>
+                                <DropdownMenu>
+                                    {reportDropdownItems.map(str => {
+                                        return <DropdownItem key={str + '_clerkDropDown'}
+                                                             onClick={() => setClerkReport(str)}>{str}</DropdownItem>
+                                    })}
+                                </DropdownMenu>
+                            </Dropdown>
+                            <TextField
+                                id="reportdate"
+                                label="Report Date"
+                                type="date"
+                                defaultValue={reportDate}
+                                onChange={e => setReportDate(e.target.value)}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            <FormGroup>
+                                <Label for="locationReport">Report Location</Label>
+                                <Input type="locationReport" name="locationReport" id="locationReport"
+                                       value={locationReport} onChange={e => setLocationReport(e.target.value)}/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="cityReport">Report City</Label>
+                                <Input type="cityReport" name="cityReport" id="cityReport"
+                                       value={cityReport} onChange={e => setCityReport(e.target.value)}/>
+                            </FormGroup>
+                            <div>
+                            {isRunQuery ?
+                                <Button color={'primary'} onClick={() => displayClerkQueries()}>Run Query</Button>
+                                :
+                                <Button color={'info'}>
+                                    <StyledModalButton to={{
+                                        pathname: '/displayData', state: {
+                                            isModal: true, clerkReport: clerkReport, clerkReportData: clerkReportOutput,
+                                            locationReport: locationReport, cityReport: cityReport, reportDate: reportDate
+                                        }
+                                    }}>
+                                        Display Query
+                                    </StyledModalButton>
+                                </Button>
+                            }
+                            </div>
+                        </div>
                     </Jumbotron>
                 </Col>
             </Row>
@@ -239,7 +425,7 @@ const App = () => {
                                 </DropdownMenu>
                             </Dropdown>
                             <TextField
-                                id="date"
+                                id="Fromdate"
                                 label="From Date"
                                 type="date"
                                 defaultValue={startDate}
@@ -249,7 +435,7 @@ const App = () => {
                                 }}
                             />
                             <TextField
-                                id="time"
+                                id="Fromtime"
                                 label="From Time"
                                 type="time"
                                 defaultValue={startTime}
@@ -262,7 +448,7 @@ const App = () => {
                                 }}
                             />
                             <TextField
-                                id="date"
+                                id="enDdate"
                                 label="To Date"
                                 type="date"
                                 defaultValue={endDate}
@@ -272,7 +458,7 @@ const App = () => {
                                 }}
                             />
                             <TextField
-                                id="time"
+                                id="Totime"
                                 label="To Time"
                                 type="time"
                                 defaultValue={startTime}
@@ -286,8 +472,8 @@ const App = () => {
                             />
                         </StylingForDropDown>
                         <StyledButton>
-                            <Button color={'primary'} onClick={() => getAllVehiclesFromGivenData()}>Get
-                                Vehicles</Button>
+                            <Button color={'primary'} onClick={() => getAllVehiclesFromGivenData(true)}>Get
+                                Vehicle Number</Button>
                             <Button color={!disableMakeReservation ? 'secondary' : 'danger'}
                                     disabled={!disableMakeReservation}>
                                 <StyledModalButton
@@ -306,7 +492,9 @@ const App = () => {
             <CenteredRow noGutters>
                 <ListGroup>
                     <ListGroupItem>Number of Available Vehicles according to search
-                        parameters: {vehiclesOutput.length}</ListGroupItem>
+                        parameters: {vehiclesNum}</ListGroupItem>
+                    <Button color={'primary'} onClick={() => getAllVehiclesFromGivenData(false)}>Get Vehicle
+                        Details</Button>
                 </ListGroup>
             </CenteredRow>
             <Table>
@@ -328,7 +516,7 @@ const App = () => {
                     return (
                         <tr key={vo.vlicense + '_' + vo.vlicense}>
                             <td>{vo.city}</td>
-                            <td >{vo.location}</td>
+                            <td>{vo.location}</td>
                             <td>{vo.vtname}</td>
                             <td>{vo.vlicense}</td>
                             <td>{vo.make}</td>

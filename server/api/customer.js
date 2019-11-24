@@ -3,9 +3,9 @@ const customer = require('../models/customer.js');
 
 const router = express.Router();
 
-router.get('/:phoneNumber/retrieveCustomer', function (req, res) {
-    const phoneNumber = req.params.phoneNumber;
-    customer.retrieveIndividualCustomerByPhoneNumber(phoneNumber, function (err, customer) {
+router.get('/:dlicense/retrieveCustomer', function (req, res) {
+    const dlicense = req.params.dlicense;
+    customer.retrieveIndividualCustomerByPhoneNumber(dlicense, function (err, customer) {
         if (err)
             return res.json(err);
         return res.json(customer);
@@ -33,5 +33,6 @@ router.post('/new', function (req, res) {
             return res.json(result);
         })
 });
+
 
 module.exports = router;

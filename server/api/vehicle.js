@@ -47,7 +47,8 @@ router.get('/rented/sum', (req, res) => {
 })
 
 // localhost:5000/api/vehicle/options/Boston Bar?location=258 Mesa Vista Drive&vehicleType=full-size&startDate=2019-11-23&startTime=12:00:00&toDate=2019-11-24&toTime=12:00:00// gets list of vehicles with optional inputs
-router.get('/options', (req, res) => {
+router.get('/:isCount/options', (req, res) => {
+    const isCount = req.params.isCount;
     const city = req.query.city;
     const location = req.query.location;
     const vehicleType = req.query.vehicleType;
@@ -56,16 +57,16 @@ router.get('/options', (req, res) => {
     const toDate = req.query.toDate;
     const toTime = req.query.toTime;
 
-    vehicle.retrieveVehiclesWithOptions(city, location, vehicleType, startDate,
+    vehicle.retrieveVehiclesWithOptions(isCount, city, location, vehicleType, startDate,
         startTime, toDate, toTime, (err, vehicles) => {
         if (err)
             return res.json(err);
         let result = res.json(count);
         return result;
     })
-})
+});
 
-router.post('/', function (req, res) {
+router.post('/new', function (req, res) {
     const vid = req.body.vid;
     const vlicense = req.body.vlicense;
     const make = req.body.make;

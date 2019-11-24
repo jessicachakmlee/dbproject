@@ -8,7 +8,7 @@
     toDate          date,
     toTime          time,
     PRIMARY KEY     (confNo),
-    FOREIGN KEY     (vtname) REFERENCES VehicleType(vtname),
+    FOREIGN KEY     (vtname) REFERENCES VehicleType(vtname) ,
     FOREIGN KEY     (cellphone) REFERENCES Customer(cellphone),
-      FOREIGN KEY 	(dlicense) REFERENCES Customer(dlicense)
+    FOREIGN KEY 	(dlicense) REFERENCES Customer(dlicense)
 );

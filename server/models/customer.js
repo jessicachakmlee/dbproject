@@ -2,15 +2,14 @@ const db = require('../database/index');
 const client = require('pg');
 
 class Customer {
-    static retrieveIndividualCustomerByPhoneNumber(phoneNumber, callback) {
-        db.query(`SELECT * from customer WHERE cellphone = $1;`, [phoneNumber],  function (err, res) {
+    static retrieveIndividualCustomerByPhoneNumber(dlicense, callback) {
+        db.query(`SELECT * from customer WHERE dlicense = $1;`, [dlicense],  function (err, res) {
             if (err.error)
                 return callback(err);
             callback(res);
         });
     }
 
-    // TODO need to test if this works
     static insert (cellphone, name, address, dlicense, callback) {
         const insertQuery = 'INSERT INTO customer(cellphone, name, address, dlicense) VALUES ($1, $2, $3, $4);'
 
