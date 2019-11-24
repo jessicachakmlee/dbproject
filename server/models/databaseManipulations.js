@@ -54,7 +54,7 @@ class databaseManipulations {
         let finalSetQuery = assembledSetQuery.trim().substring(0, assembledSetQuery.trim().lastIndexOf(' ')).concat(` WHERE `);
 
         let assembledSetWhereQuery = whereVar.reduce((acc, curr) => {
-            let queryname = Object.keys(curr)[0].substr(1);
+            let queryname = Object.keys(curr)[0].substr(0);
             let queryvar = Object.values(curr)[0];
             let queryString = '';
             if (queryvar !== null && queryvar !== undefined) {
