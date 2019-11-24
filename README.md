@@ -6,6 +6,9 @@
 Vehicle View
 - Error handling and display for invalid time inputs by user.
 
+Customer Signup and Retrieval
+- Should retrieve customer by drivers license since primary key changed for Project 3
+
 Reservations 
 
 (maybe we need an additional method for checking inputs and passing info to reservations)
@@ -14,7 +17,8 @@ Reservations
 - Error handling for making a reservation with vehicle type: all
     - when making a reservation when all vehicles displayed are the same type, it accepts
     - if vehicles displayed have different types, it displays: Error in creating reservation. Please try again.
-- Cannot create reservation with only a cellphone number
+- Cannot create reservation with only a customerPrimaryKey (phone number/drivers license)
+    - i'm not sure which foreign key we need to use
 
 Display Table
 - Refresh page before displaying the table
@@ -30,3 +34,5 @@ Display Table
 substitutions for placeholder variables)
 - Display formatted query on the gui
 
+##### Things to test later:
+- assert making rental adds new customer if customer is new
