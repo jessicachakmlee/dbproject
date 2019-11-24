@@ -18,7 +18,8 @@ class Reservation {
     static insert (confNo, vtname, cellphone, dlicense, fromDate,
                    fromTime, toDate, toTime, callback) {
         const insertQuery = `INSERT INTO reservation(confNo, vtname, cellphone, dlicense, 
-        fromDate, fromTime, toDate, toTime) VALUES($1, $2, $3, $4, $5, $6, $7, $8);`
+        fromDate, fromTime, toDate, toTime) VALUES($1, $2, $3, $4, $5, $6, $7, $8) 
+        RETURNING *;`
         db.query(insertQuery, [confNo, vtname, cellphone, dlicense, fromDate,
             fromTime, toDate, toTime], (err, res) => {
             if (err.error)

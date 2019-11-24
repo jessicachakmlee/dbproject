@@ -112,8 +112,15 @@ class ClerkTransactions{
     }
 
     // TODO: rent a vehicle with no reservation
-    private static rentVehicleNoReserve(fromDate, fromTime, toDate, toTime, vtname, cellphone, dlicense) {
-
+    private static rentVehicleNoReserve(confNo, fromDate, fromTime, toDate, toTime, vtname, cellphone, dlicense) {
+        var reservation = Reservation.insert(confNo, vtname, cellphone, dlicense, fromdate,
+            fromTime, toDate, toTime, (err, res) => {
+                if (err.error) {
+                    return err;
+                }
+                return res;
+            })
+        return reservation;
     }
 
     private static rentVehicleWithReserve(confNo, fromDate, fromTime, toDate, toTime, vtname, cellphone, dlicense) {
