@@ -255,11 +255,12 @@ class Rent {
     // date toDate, time toTime, int odometer, varchar cardName,
     // varchar cardNo, varchar expDate, int confNo)
 
-    // TODO: make sure it can accept if only minimum inputs are given
     // a method that inserts new rent row into the database
     static insert (rid, vlicense, dlicense, fromDate, fromTime,
                    toDate, toTime, odometer, cardName,
                    cardNo, expDate, confNo, callback) {
+
+        // TODO: make sure all inputs are valid (int columns will throw err if passed "")
 
 
         console.log("the rid is: " + rid);

@@ -7,15 +7,20 @@ class ClerkTransactions{
     public static async rentVehicleAsync(confNo){
         let receipt;
 
-        // assign reservation to output from sql query
-        var reservation = await this.getReservationFromConfNo(confNo);
+        try {
+            // assign reservation to output from sql query
+            var reservation = await this.getReservationFromConfNo(confNo);
 
-        // if there is no prior reservation
-        if (!reservation) {
-            this.rentVehicleNoReserve();
-        } else {
-            // pass in first reservation in the list
-            this.rentVehicleWithReserve(reservation[0])
+            // if there is no prior reservation
+            if (!reservation) {
+                this.rentVehicleNoReserve();
+            } else {
+                // pass in first reservation in the list
+                this.rentVehicleWithReserve(reservation[0])
+            }
+        } catch (e) {
+            // display error
+            console.log(e);
         }
     }
 
@@ -32,8 +37,7 @@ class ClerkTransactions{
             (err, res) => {
                 // return error if any
                 if (err) {
-                    LogError(err);
-                    return err;
+                    throw err;
                 }
                 // otherwise, return result
                 return res;
@@ -43,9 +47,8 @@ class ClerkTransactions{
 
         // if there is a weird number of reservations throw an error
         if (reservation.length !== 1 || reservationList.length !== 0) {
-            var msg = "There is an invalid number of reservations for confNo: " + confNo;
-            consoleError(msg);
-            throw msg;
+            var errMsg = "There is an invalid number of reservations for confNo: " + confNo;
+            throw new Error(errMsg);
         }
         // check whether to send by reservation
         if (reservation.length === 1)
@@ -55,9 +58,9 @@ class ClerkTransactions{
         return false;
     }
 
-    // TODO:
-    private static rentVehicleNoReserve() {
-
+    // TODO: rent a vehicle with no reservation
+    private static rentVehicleNoReserve(fromDate, fromTime, toDate, toTime, vtname, cellphone, dlicense) {
+        
     }
 
     private static rentVehicleWithReserve(reservation) {
