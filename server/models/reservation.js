@@ -13,6 +13,7 @@ class Reservation {
         });
     }
 
+    // TODO: type checking?
     // Insert reservation into database
     static insert (confNo, vtname, cellphone, dlicense, fromDate,
                    fromTime, toDate, toTime, callback) {
