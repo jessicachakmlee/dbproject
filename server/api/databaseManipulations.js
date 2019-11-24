@@ -10,8 +10,6 @@ router.get('/allTables', function (req, res) {
     })
 });
 
-
-
 // all deletes
 router.delete('/customer/delete', function (req, res) {
     const cellphone = req.query.cellphone;

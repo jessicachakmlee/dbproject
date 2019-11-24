@@ -22,7 +22,7 @@ import {Link, Route, Switch} from "react-router-dom";
 import MakeReservationModal from '../src/components/MakeReservationModal.jsx';
 import DataDisplayModal from "./components/DataDisplayModal";
 
- const Title = styled.h1`
+const Title = styled.h1`
 text-align: center;
 `;
 
@@ -70,8 +70,20 @@ button {
 }
 `;
 
+const ClerkStyling = styled.div`
+    display: flex;
+    justify-content: space-around;
+`;
+
+const ClerkStyling1 = styled.div`
+    display: flex;
+    margin-top: 30px;
+    flex-direction: column;
+    
+`;
+
 const App = () => {
-    const getCurrentDate =  () => {
+    const getCurrentDate = () => {
         let d = new Date(),
             month = '' + (d.getMonth() + 1),
             day = '' + d.getDate(),
@@ -237,36 +249,18 @@ const App = () => {
         fetch(endpoint).then(res => res.json()).then(res => setTableOutput(res));
     };
 
-    const compareFunction = (a, b) => {
-        if(a.order < b.order){
-            return -1;
-        } else if (a.order > b.order)
-            return 1;
-        else return 0;
-    };
-
     const displayClerkQueries = () => {
         const reportEP = reportEndpoints();
-        if(reportEP !== null) {
+        if (reportEP !== null) {
             setIsRunQuery(false);
-            reportEP.map( (ep, index) => {
+            reportEP.map((ep, index) => {
                 fetch(ep).then(res => res.json()).then(res => {
                     clerkReportOutput.push({order: index, output: res});
                 });
             });
-            console.log(clerkReportOutput);
         } else {
             alert('Please input the proper parameters before running the query');
         }
-    };
-
-    const deleteReservation = (err, res) => {
-        const endpoint = '/api/databaseManipulations/reservation/delete?vtname=suv';
-        fetch(endpoint, {
-            method: 'DELETE',
-        }).then(res => res.json()).then(res => {
-            setTableOutput(res);
-        });
     };
 
     useEffect(() => {
@@ -338,59 +332,70 @@ const App = () => {
             <Row>
                 <Col>
                     <Jumbotron>
-                        <Title>Clerk</Title>
+                        <Title>Clerk Reports</Title>
                         {/*<div>*/}
                         {/*    <Button color={'primary'}>Renting a Vehicle</Button>*/}
                         {/*    <Button color={'primary'}>Returning a Vehicle</Button>*/}
                         {/*</div>*/}
                         <div>
-                            <p>Generate a report for:</p>
-                            <Dropdown isOpen={dropdownClerkReportOpen} toggle={toggleReport}>
-                                <DropdownToggle caret>
-                                    {clerkReport ? 'Report: ' + clerkReport : 'Report: select one'}
-                                </DropdownToggle>
-                                <DropdownMenu>
-                                    {reportDropdownItems.map(str => {
-                                        return <DropdownItem key={str + '_clerkDropDown'}
-                                                             onClick={() => setClerkReport(str)}>{str}</DropdownItem>
-                                    })}
-                                </DropdownMenu>
-                            </Dropdown>
-                            <TextField
-                                id="reportdate"
-                                label="Report Date"
-                                type="date"
-                                defaultValue={reportDate}
-                                onChange={e => setReportDate(e.target.value)}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                            <FormGroup>
-                                <Label for="locationReport">Report Location</Label>
-                                <Input type="locationReport" name="locationReport" id="locationReport"
-                                       value={locationReport} onChange={e => setLocationReport(e.target.value)}/>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="cityReport">Report City</Label>
-                                <Input type="cityReport" name="cityReport" id="cityReport"
-                                       value={cityReport} onChange={e => setCityReport(e.target.value)}/>
-                            </FormGroup>
+                            <Blurb>Generate a report for:</Blurb>
+                            <ClerkStyling>
+                                <Dropdown isOpen={dropdownClerkReportOpen} toggle={toggleReport}>
+                                    <DropdownToggle caret>
+                                        {clerkReport ? 'Report: ' + clerkReport : 'Report: select one'}
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        {reportDropdownItems.map(str => {
+                                            return <DropdownItem key={str + '_clerkDropDown'}
+                                                                 onClick={() => setClerkReport(str)}>{str}</DropdownItem>
+                                        })}
+                                    </DropdownMenu>
+                                </Dropdown>
+                                <TextField
+                                    id="reportdate"
+                                    label="Report Date"
+                                    type="date"
+                                    defaultValue={reportDate}
+                                    onChange={e => setReportDate(e.target.value)}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </ClerkStyling>
+                            <ClerkStyling1>
+                                <FormGroup>
+                                    <Label for="locationReport">Report Location</Label>
+                                    <Input type="locationReport" name="locationReport" id="locationReport"
+                                           value={locationReport} onChange={e => setLocationReport(e.target.value)}/>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="cityReport">Report City</Label>
+                                    <Input type="cityReport" name="cityReport" id="cityReport"
+                                           value={cityReport} onChange={e => setCityReport(e.target.value)}/>
+                                </FormGroup>
+                            </ClerkStyling1>
                             <div>
-                            {isRunQuery ?
-                                <Button color={'primary'} onClick={() => displayClerkQueries()}>Run Query</Button>
-                                :
-                                <Button color={'info'}>
-                                    <StyledModalButton to={{
-                                        pathname: '/displayData', state: {
-                                            isModal: true, clerkReport: clerkReport, clerkReportData: clerkReportOutput,
-                                            locationReport: locationReport, cityReport: cityReport, reportDate: reportDate
-                                        }
-                                    }}>
-                                        Display Query
-                                    </StyledModalButton>
-                                </Button>
-                            }
+                                {isRunQuery ?
+                                    <Button color={'primary'} onClick={() => {
+                                        displayClerkQueries()
+
+                                    }}>Run Query</Button>
+                                    :
+                                    <Button color={'info'}>
+                                        <StyledModalButton to={{
+                                            pathname: '/displayData', state: {
+                                                isModal: true,
+                                                clerkReport: clerkReport,
+                                                clerkReportData: clerkReportOutput,
+                                                locationReport: locationReport,
+                                                cityReport: cityReport,
+                                                reportDate: reportDate
+                                            }
+                                        }}>
+                                            Display Query
+                                        </StyledModalButton>
+                                    </Button>
+                                }
                             </div>
                         </div>
                     </Jumbotron>

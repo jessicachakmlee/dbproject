@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import {Table} from "reactstrap";
@@ -51,9 +51,9 @@ font-weight: 800;
 `;
 
 const DataDisplayModal = props => {
-    let placeholderArray = [];
+    const [finalClerkData, setFinalClerkData] = useState([]);
     const sortedClerkReportData = () => props.location.state.clerkReportData.slice().sort(compareFunction).map(curr => {
-        placeholderArray.push(curr.output);
+        return curr.output;
     });
     const compareFunction = (a, b) => {
         if(a.order < b.order){
@@ -64,9 +64,10 @@ const DataDisplayModal = props => {
     };
     useEffect(() => {
         if (props.location.state.clerkReportData) {
-            sortedClerkReportData();
+            let temp = sortedClerkReportData();
+            setFinalClerkData(temp);
         }
-    });
+    }, [props.location.state.clerkReportData]);
     if (props.location.state.dataDisplay) {
         const TableHeaders = Object.keys(props.location.state.dataDisplay[0]);
         return (
@@ -117,7 +118,7 @@ const DataDisplayModal = props => {
             </OverlayWrapper>
         )
     } else if (props.location.state.clerkReportData) {
-        console.log(placeholderArray);
+
         const dailyRentals = [`Vehicles RENTED OUT on ${props.location.state.reportDate}`,
             `# of vehicles rented per vehicleType`, `# of rentals at each branch`, `Total # of new rentals across company`];
         const dailyRentalsForBranch = [`Vehicles rented out on ${props.location.state.reportDate}`, `# of vehicles rented per vehicleType`,
@@ -149,37 +150,38 @@ const DataDisplayModal = props => {
                             <p>Branch
                                 Location: {props.location.state.locationReport} in {props.location.state.cityReport}</p> : null
                         }
-                        {/*{props.location.state.clerkReportData.map(*/}
-                        {/*    (table, index) => {*/}
-                        {/*        const isEmptyTable = table.length === 0;*/}
-                        {/*        const tableHeaders = isEmptyTable ? [] : Object.keys(table[0]);*/}
-                        {/*        return (*/}
-                        {/*            <div>*/}
-                        {/*                <TableBlurbs>{tableBlurbs[index]}</TableBlurbs>*/}
-                        {/*                <Table>*/}
-                        {/*                    <thead>*/}
-                        {/*                    <tr>*/}
-                        {/*                        {tableHeaders.map(header => {*/}
-                        {/*                            return <th>{header}</th>*/}
-                        {/*                        })}*/}
-                        {/*                    </tr>*/}
-                        {/*                    </thead>*/}
-                        {/*                    <tbody>*/}
-                        {/*                    {isEmptyTable ? 'No results found' : table.map((obj, index) => {*/}
-                        {/*                        const values = Object.values(obj);*/}
-                        {/*                        return (*/}
-                        {/*                            <tr key={values[0] + index + values[1]}>*/}
-                        {/*                                {values.map((v, index) => {*/}
-                        {/*                                    return <td key={v + index}>{v}</td>*/}
-                        {/*                                })}*/}
-                        {/*                            </tr>*/}
-                        {/*                        )*/}
-                        {/*                    })}*/}
-                        {/*                    </tbody>*/}
-                        {/*                </Table>*/}
-                        {/*            </div>*/}
-                        {/*        )*/}
-                        {/*    })}*/}
+                        {finalClerkData.map(
+                            (table, index) => {
+                                console.log(table);
+                                const isEmptyTable = table.length === 0;
+                                const tableHeaders = isEmptyTable ? [] : Object.keys(table[0]);
+                                return (
+                                    <div>
+                                        <TableBlurbs>{tableBlurbs[index]}</TableBlurbs>
+                                        <Table>
+                                            <thead>
+                                            <tr>
+                                                {tableHeaders.map(header => {
+                                                    return <th>{header}</th>
+                                                })}
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {isEmptyTable ? 'No results found' : table.map((obj, index) => {
+                                                const values = Object.values(obj);
+                                                return (
+                                                    <tr key={values[0] + index + values[1]}>
+                                                        {values.map((v, index) => {
+                                                            return <td key={v + index}>{v}</td>
+                                                        })}
+                                                    </tr>
+                                                )
+                                            })}
+                                            </tbody>
+                                        </Table>
+                                    </div>
+                                )
+                            })}
                     </ContentDiv>
                 </OverlaySpan>
             </OverlayWrapper>
