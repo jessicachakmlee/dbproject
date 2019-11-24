@@ -19,9 +19,18 @@ Reservations
     - if vehicles displayed have different types, it displays: Error in creating reservation. Please try again.
 - Cannot create reservation with only a customerPrimaryKey (phone number/drivers license)
     - i'm not sure which foreign key we need to use
+    - Make sure rid, dlicense, odometer, confNo are always integers when passing them into the post function
+
+Rent
+-Make sure rid, dlicense, odometer, confNo are always integers when passing them into the post function
+
 
 Display Table
 - Refresh page before displaying the table
+
+#### Database bugs
+Reservation
+- need to fix up keys so that they will work with gui inputs
 
 #### Required Features:
 
