@@ -60,10 +60,10 @@ class ClerkTransactions{
 
     // TODO: rent a vehicle with no reservation
     private static rentVehicleNoReserve(fromDate, fromTime, toDate, toTime, vtname, cellphone, dlicense) {
-        
+
     }
 
-    private static rentVehicleWithReserve(reservation) {
+    private static rentVehicleWithReserve(confNo, fromDate, fromTime, toDate, toTime, vtname, cellphone, dlicense) {
 
     }
 
