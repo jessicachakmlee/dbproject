@@ -134,7 +134,7 @@ class Vehicle {
             vals.push(startDate + " " + startTime, toDate + " " + toTime);
         } else {
             // the time interval is not valid
-            console.warn("The time interval is undefined")
+            // console.warn("The time interval is undefined")
         }
 
         // add order to query string
