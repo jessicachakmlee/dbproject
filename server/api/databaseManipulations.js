@@ -159,7 +159,7 @@ router.put('/customer/update', function (req, res) {
     const setVar = [{scellphone}, {sname}, {saddress}, {sdlicense},{spoints}, {sfees}]
     const whereVar = [{cellphone}, {name}, {address}, {dlicense},{points}, {fees}];
 
-    databaseManipulations.delete(tableName, setVar, whereVar, function (err, result) {
+    databaseManipulations.update(tableName, setVar, whereVar, function (err, result) {
         if(err)
             return res.json(err);
         return res.json(result)
@@ -199,7 +199,7 @@ router.put('/rent/update', function(req, res) {
     const whereVar = [{rid}, {vlicense}, {dlicense}, {fromDate}, {fromTime}, {toDate}, {toTime}, {odometer}, {cardName}, {cardNo},
         {ExpDate}, {confNo}];
 
-    databaseManipulations.delete(tableName, setVar, whereVar, function (err, result) {
+    databaseManipulations.update(tableName, setVar, whereVar, function (err, result) {
         if(err)
             return res.json(err);
         return res.json(result)
@@ -230,7 +230,7 @@ router.put('/reservation/update', function (req, res) {
     const setVar = [{sconfNo}, {svtname}, {scellphone}, {sdlicense}, {sfromDate}, {sfromTime}, {stoDate}, {stoTime}];
     const whereVar = [{confNo}, {vtname}, {cellphone}, {dlicense}, {fromDate}, {fromTime}, {toDate}, {toTime}];
 
-    databaseManipulations.delete(tableName, setVar, whereVar,  function (err, result) {
+    databaseManipulations.update(tableName, setVar, whereVar,  function (err, result) {
         if(err)
             return res.json(err);
         return res.json(result)
@@ -256,7 +256,7 @@ router.put('/returns/update', function (req, res) {
     const setVar = [{srid}, {sdate}, {stime}, {sodometer}, {sfulltank}, {svalue}];
     const whereVar = [{rid}, {date}, {time}, {odometer}, {fulltank}, {value}];
 
-    databaseManipulations.delete(tableName, setVar, whereVar, function (err, result) {
+    databaseManipulations.update(tableName, setVar, whereVar, function (err, result) {
         if(err)
             return res.json(err);
         return res.json(result)
@@ -294,7 +294,7 @@ router.put('/vehicle/update', function (req, res) {
     const setVar = [{svid}, {svlicense}, {smake}, {smodel}, {syear}, {scolor},
         {sodometer}, {sstatus}, {svtname}, {slocation}, {scity}];
 
-    databaseManipulations.delete(tableName, setVar, whereVar, function (err, result) {
+    databaseManipulations.update(tableName, setVar, whereVar, function (err, result) {
         if(err)
             return res.json(err);
         return res.json(result)
@@ -328,7 +328,7 @@ router.put('/vehicleType/update', function (req, res) {
     const whereVar = [{vtname}, {features}, {wrate}, {drate}, {hrate}, {wirate},
         {dirate}, {hirate}, {krate}];
 
-    databaseManipulations.delete(tableName, setVar, whereVar, function (err, result) {
+    databaseManipulations.update(tableName, setVar, whereVar, function (err, result) {
         if(err)
             return res.json(err);
         return res.json(result)
