@@ -3,6 +3,7 @@ const Report = require('server/models/Report');
 const Reservation = require('server/models/reservation');
 const Vehicle = require('server/models/vehicle');
 const DBManipulation = require('server/models/databaseManipulations');
+const Rent = require('server/models/rent');
 
 class ClerkTransactions{
     /*TODO: rent a vehicle with or without any reservation*/
@@ -11,6 +12,21 @@ class ClerkTransactions{
         let receipt;
 
         try {
+            // rent parameters
+            var rid;
+            var vlicense;
+            var dlicense;
+            var fromdate;
+            var fromtime;
+            var todate;
+            var totime;
+            var odometer;
+            var cardname;
+            var cardno;
+            var expdate;
+            var confno;
+
+
             // retrieve the reservation
             var reservation = await this.getReservationFromConfNo(confNo);
 
@@ -23,11 +39,17 @@ class ClerkTransactions{
 
             // if there is no prior reservation
             if (!reservation) {
-                this.rentVehicleNoReserve();
+
             } else {
                 // pass in first reservation in the list
                 this.rentVehicleWithReserve(reservation)
             }
+
+            // insert new rental into Rent database
+            var rent = await this.insertVehicleAsync(rid, vlicense, dlicense, fromdate, fromtime, todate, totime,
+                odometer, cardname, cardno, expdate, confno);
+
+            return rent;
         } catch (e) {
             // display error
             console.log(e);
@@ -111,20 +133,20 @@ class ClerkTransactions{
         return result;
     }
 
-    // TODO: rent a vehicle with no reservation
-    private static rentVehicleNoReserve(confNo, fromDate, fromTime, toDate, toTime, vtname, cellphone, dlicense) {
-        var reservation = Reservation.insert(confNo, vtname, cellphone, dlicense, fromdate,
-            fromTime, toDate, toTime, (err, res) => {
+    // Insert new rental entry into the Rent database
+    public static async insertVehicleAsync(rid, vlicense, dlicense, fromdate, fromtime, todate, totime,
+                               odometer, cardname, cardno, expdate, confno) {
+
+        // add put request to Rent database
+        var rent = await Rent.insert(rid, vlicense, dlicense, fromdate, fromtime, todate, totime,
+            odometer, cardname, cardno, expdate, confno, (err, res) => {
                 if (err.error) {
                     return err;
                 }
                 return res;
             })
-        return reservation;
-    }
-
-    private static rentVehicleWithReserve(confNo, fromDate, fromTime, toDate, toTime, vtname, cellphone, dlicense) {
-
+        // console.log("A new rental was added: " + rent);
+        return rent;
     }
 
     /*TODO: Return a vehicle*/
