@@ -21,7 +21,7 @@ router.delete('/customer/delete', function (req, res) {
     const points = req.query.points;
     const fees = req.query.fees;
 
-    const tableName = 'customer';
+    const tableName = 'Customer';
     const allvars = [{cellphone}, {name}, {address}, {dlicense},{points}, {fees}];
 
     databaseManipulations.delete(tableName, allvars, function (err, result) {
@@ -45,7 +45,7 @@ router.delete('/rent/delete', function(req, res) {
     const ExpDate = req.query.ExpDate;
     const confNo =  req.query.confNo;
 
-    const tableName = 'rent';
+    const tableName = 'Rent';
     const allvars = [{rid}, {vlicense}, {dlicense}, {fromDate}, {fromTime}, {toDate}, {toTime}, {odometer}, {cardName}, {cardNo},
         {ExpDate}, {confNo}];
 
@@ -67,7 +67,7 @@ router.delete('/reservation/delete', function (req, res) {
     const toDate = req.query.toDate;
     const toTime = req.query.toTime;
 
-    const tableName = 'reservation';
+    const tableName = 'Reservation';
     const allvars = [{confNo}, {vtname}, {cellphone}, {dlicense}, {fromDate}, {fromTime}, {toDate}, {toTime}];
 
     databaseManipulations.delete(tableName, allvars, function (err, result) {
@@ -108,7 +108,7 @@ router.delete('/vehicle/delete', function (req, res) {
     const location = req.query.location;
     const city = req.query.city;
 
-    const tableName = 'vehicle';
+    const tableName = 'Vehicle';
     const allvars = [{vid}, {vlicense}, {make}, {model}, {year}, {color},
         {odometer}, {status}, {vtname}, {location}, {city}];
 
@@ -130,7 +130,7 @@ router.delete('/vehicleType/delete', function (req, res) {
     const hirate = req.query.hirate;
     const krate = req.query.krate;
 
-    const tableName = 'vehicleType';
+    const tableName = 'VehicleType';
     const allvars = [{vtname}, {features}, {wrate}, {drate}, {hrate}, {wirate},
         {dirate}, {hirate}, {krate}];
 
@@ -157,7 +157,7 @@ router.put('/customer/update', function (req, res) {
     const spoints = req.body.points;
     const sfees = req.body.fees;
 
-    const tableName = 'customer';
+    const tableName = 'Customer';
     const setVar = [{scellphone}, {sname}, {saddress}, {sdlicense},{spoints}, {sfees}]
     const whereVar = [{cellphone}, {name}, {address}, {dlicense},{points}, {fees}];
 
@@ -195,7 +195,7 @@ router.put('/rent/update', function(req, res) {
     const sExpDate = req.body.ExpDate;
     const sconfNo =  req.body.confNo;
 
-    const tableName = 'rent';
+    const tableName = 'Rent';
     const setVar = [{srid}, {svlicense}, {sdlicense}, {sfromDate}, {sfromTime}, {stoDate}, {stoTime}, {sodometer}, {scardName}, {scardNo},
         {sExpDate}, {sconfNo}];
     const whereVar = [{rid}, {vlicense}, {dlicense}, {fromDate}, {fromTime}, {toDate}, {toTime}, {odometer}, {cardName}, {cardNo},
@@ -228,7 +228,7 @@ router.put('/reservation/update', function (req, res) {
     const stoDate = req.body.toDate;
     const stoTime = req.body.toTime;
 
-    const tableName = 'reservation';
+    const tableName = 'Reservation';
     const setVar = [{sconfNo}, {svtname}, {scellphone}, {sdlicense}, {sfromDate}, {sfromTime}, {stoDate}, {stoTime}];
     const whereVar = [{confNo}, {vtname}, {cellphone}, {dlicense}, {fromDate}, {fromTime}, {toDate}, {toTime}];
 
@@ -290,7 +290,7 @@ router.put('/vehicle/update', function (req, res) {
     const slocation = req.body.location;
     const scity = req.body.city;
 
-    const tableName = 'vehicle';
+    const tableName = 'Vehicle';
     const whereVar = [{vid}, {vlicense}, {make}, {model}, {year}, {color},
         {odometer}, {status}, {vtname}, {location}, {city}];
     const setVar = [{svid}, {svlicense}, {smake}, {smodel}, {syear}, {scolor},
@@ -324,7 +324,7 @@ router.put('/vehicleType/update', function (req, res) {
     const shirate = req.query.hirate;
     const skrate = req.query.krate;
 
-    const tableName = 'vehicleType';
+    const tableName = 'VehicleType';
     const setVar = [{svtname}, {sfeatures}, {swrate}, {sdrate}, {shrate}, {swirate},
         {sdirate}, {shirate}, {skrate}];
     const whereVar = [{vtname}, {features}, {wrate}, {drate}, {hrate}, {wirate},
