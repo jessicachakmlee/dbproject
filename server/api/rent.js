@@ -194,8 +194,8 @@ router.get('/branch_report/sum_type/:location/:city/:fromDate', (req, res) => {
 // see here for how to send a post request and use this router
 // https://www.freecodecamp.org/news/here-is-the-most-popular-ways-to-make-an-http-request-in-javascript-954ce8c95aaa/
 // add a new rent row (Clerk transaction)
-router.post('/new', function (req, res) {
-    const rid = req.body.rid;
+router.post('/new', (req, res) => {
+
     const vlicense = req.body.vlicense;
     const dlicense = req.body.dlicense;
     const fromDate = req.body.fromDate;
@@ -209,10 +209,10 @@ router.post('/new', function (req, res) {
     const confNo = req.body.confNo;
 
     // console.log("in router, the req is: " + JSON.stringify(req.body));
-    rent.insert(rid, vlicense, dlicense, fromDate, fromTime,
+    rent.insert(vlicense, dlicense, fromDate, fromTime,
         toDate, toTime, odometer, cardName,
         cardNo, expDate, confNo, function (err, result) {
-            if(err)
+            if (err)
                 return res.json(err);
             return res.json(result);
         })

@@ -6,27 +6,12 @@ const DBManipulation = require('server/models/databaseManipulations');
 const Rent = require('server/models/rent');
 
 class ClerkTransactions{
-    /*TODO: rent a vehicle with or without any reservation*/
+    /*Rent a vehicle with or without any reservation*/
     public static async rentVehicleAsync(confNo, city, location, fromDate, fromTime, toDate, toTime,
-                                         vtname, cellphone, dlicense){
+                                         vtname, cellphone, dlicense, cardName, cardNo, expDate){
         let receipt;
 
         try {
-            // rent parameters
-            var rid;
-            var vlicense;
-            var dlicense;
-            var fromdate;
-            var fromtime;
-            var todate;
-            var totime;
-            var odometer;
-            var cardname;
-            var cardno;
-            var expdate;
-            var confno;
-
-
             // retrieve the reservation
             var reservation = await this.getReservationFromConfNo(confNo);
 
@@ -35,19 +20,15 @@ class ClerkTransactions{
                 fromDate, fromTime, toDate, toTime);
 
             // update vehicle status to being_rented
-            var vehicleStatusChanged = await this.updateRentalVehicleStatus(vehicle);
+            this.updateRentalVehicleStatus(vehicle);
 
-            // if there is no prior reservation
-            if (!reservation) {
-
-            } else {
-                // pass in first reservation in the list
-                this.rentVehicleWithReserve(reservation)
-            }
+            // vehicle info
+            var vlicense = vehicle["vlicense"];
+            var odometer = vehicle["odometer"];
 
             // insert new rental into Rent database
-            var rent = await this.insertVehicleAsync(rid, vlicense, dlicense, fromdate, fromtime, todate, totime,
-                odometer, cardname, cardno, expdate, confno);
+            var rent = await this.insertVehicleAsync(vlicense, dlicense, fromDate, fromTime, toDate, toTime,
+                odometer, cardName, cardNo, expDate, confNo);
 
             return rent;
         } catch (e) {
@@ -101,15 +82,17 @@ class ClerkTransactions{
             });
 
         // return error if no vehicles are available
-        if (vehicle.length === 0) {
+        if (vehicle.length === 0 && vtname !== undefined) {
             // tell the customer you're sorry for poor design choices
-            var errMsg = "Sorry, there are no more vehicles of that type available. There was literally no point " +
-                "in reserving a vehicle type";
+            var errMsg = "Sorry, there are no more vehicles of that type available.";
             return new Error(errMsg);
+        } else if (vehicle.length === 0) {
+            var errMsg = "Sorry, there are no vehicles available at:" + location + ", " + city;
+            return new Error(errMsg);
+        } else {
+            // return the first vehicle in the list
+            return vehicle[0];
         }
-
-        // return the first vehicle in the list
-        return vehicle[0];
     }
 
     // update given vehicle status to being_rented and returns the updated object
@@ -134,7 +117,7 @@ class ClerkTransactions{
     }
 
     // Insert new rental entry into the Rent database
-    public static async insertVehicleAsync(rid, vlicense, dlicense, fromdate, fromtime, todate, totime,
+    public static async insertVehicleAsync(vlicense, dlicense, fromdate, fromtime, todate, totime,
                                odometer, cardname, cardno, expdate, confno) {
 
         // add put request to Rent database

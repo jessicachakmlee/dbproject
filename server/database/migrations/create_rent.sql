@@ -1,5 +1,5 @@
 CREATE TABLE Rent (
-    rid             int,
+    rid             SERIAL,
     vlicense        char(7),
     dlicense        int,
     fromDate        date,
