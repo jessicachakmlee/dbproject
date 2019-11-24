@@ -7,61 +7,52 @@ class ClerkTransactions{
     public static async rentVehicleAsync(confNo){
         let receipt;
 
-        // `1.) Check if there's already a reservation
-        // 1.a.) Yes reservation:
-        //           1.a.i) From Reservation, get:
-        //                     - confNo,
-        //                     - fromDate
-        //                     - fromTime
-        //                     - toDate
-        //                     - toTime
-        //                     - vtname
-        //                     - cellphone/dlicense
-        //             1.a.iii.) Using vtname from Reservation, Join with ForRent View:
-        //                     - Get vlicense/vid of an available car
-        //                     - Get odometer(? I don't know where the odometer is supposed to come from. Frontend as another choose qualifier like vtname? Or like... display the odometer of the car currently......)
-        //                     - Update VEHICLE table so that that car is 'being_rented'
-        //             1.a.iii) From frontend input, get:
-        //                     - odometer (??? see previous note)
-        //                     - cardName
-        //                     - cardNo
-        //                     - ExpDate
-        //                     - confNo
-        //             1.a.iv) Using those inputs, INSERT new tuple into RENT table`
+        // assign reservation to output from sql query
+        var reservation = await this.getReservationFromConfNo(confNo);
 
-        if (typeof confNo !== "number") {
-            var msg = "The input for confNo is of invalid type " + typeof  confNo;
-            consoleError(msg);
-            throw msg;
+        // if there is no prior reservation
+        if (!reservation) {
+            this.rentVehicleNoReserve();
+        } else {
+            // pass in first reservation in the list
+            this.rentVehicleWithReserve(reservation[0])
         }
-        // verify the reservation number
-        // assign resResult to output from sql query
-        var reservationList = await Reservation.retrieveByConfNo(confNo,
+    }
+
+    // Gives reservation from given confirmation number
+    // or false if not a valid confirmation number
+    private static async getReservationFromConfNo(confNo) {
+
+        // if no confirmation number is given
+        if (typeof confNo !== "number")
+            return false;
+
+        // check reservations for confirmation number
+        var reservation = await Reservation.retrieveByConfNo(confNo,
             (err, res) => {
                 // return error if any
                 if (err) {
                     LogError(err);
                     return err;
                 }
-                // otherwies, set this
+                // otherwise, return result
                 return res;
             })
 
+        Console.log("The reservation is: " + reservation);
+
         // if there is a weird number of reservations throw an error
-        if (reservationList.length !== 1 || reservationList.length !== 0) {
+        if (reservation.length !== 1 || reservationList.length !== 0) {
             var msg = "There is an invalid number of reservations for confNo: " + confNo;
             consoleError(msg);
             throw msg;
         }
+        // check whether to send by reservation
+        if (reservation.length === 1)
+            return reservation[0];
 
-        Console.log("The reservationList is: " + reservationList);
-        // if there is no prior reservation
-        if (reservationList.length == 0) {
-            this.rentVehicleNoReserve();
-        } else {
-            // pass in first reservation in the list
-            this.rentVehicleWithReserve(reservationList[0])
-        }
+        Console.log("The confirmation number submitted does not exist");
+        return false;
     }
 
     // TODO:
