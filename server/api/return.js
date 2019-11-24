@@ -173,7 +173,7 @@ router.get('/branch_report/sum_type/:location/:city/:fromDate', (req, res) => {
     })
 });
 
-router.post('/', function (req, res) {
+router.post('/new', function (req, res) {
     const rid = req.body.rid;
     const date = req.body.date;
     const time = req.body.time;

@@ -247,9 +247,7 @@ class Rent {
                    cardNo, expDate, confNo, callback) {
 
         console.log("the rid is: " + rid);
-        const insertQuery = 'INSERT INTO rent(rid, vlicense, dlicense, fromdate, ' +
-            'fromtime, todate, totime, odometer, cardname, ' +
-            'cardno, expdate, confno) ' +
+        const insertQuery = 'INSERT INTO rent(rid, vlicense, dlicense, fromdate, fromtime, todate, totime, odometer, cardname, cardno, expdate, confno) ' +
             'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)';
         const values = [rid, vlicense, dlicense, fromDate, fromTime,
                 toDate, toTime, odometer, cardName,

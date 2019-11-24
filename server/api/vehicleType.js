@@ -12,7 +12,7 @@ router.get('/', function (req, res) {
 });
 
 
-router.post('/', function (req, res) {
+router.post('/new', function (req, res) {
     const vtname = req.body.vtname;
     const features = req.body.features;
     const wrate = req.body.wrate;

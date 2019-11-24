@@ -41,25 +41,33 @@ const ContentDiv = styled.div`
     overflow: auto;
 `;
 
+const StyledRetrieveCustomer = styled(FormGroup)`
+display: flex;
+`;
+
+const StyledRetrieveButton = styled(Button)`
+    height: 38px;
+    margin: 32px 10px 0;
+`;
 const StyledXButtonLink = styled(Link)``;
 
 const MakeReservationModal = props => {
-    const [name, setName] = useState(null);
-    const [phoneNumber, setPhoneNumber] = useState(null);
-    const [dLicense, setDLicense] = useState(null);
-    const [address, setAddress] = useState(null);
+    const [name, setName] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [dLicense, setDLicense] = useState('');
+    const [address, setAddress] = useState('');
     const [confNo, setConfNo] = useState(null);
 
-
     const retrieveCustomerInformation = (err, res) => {
-        fetch(`/api/customer/${phoneNumber}/retrieveCustomer`)
+        fetch(`/api/customer/${dLicense}/retrieveCustomer`)
             .then(res => res.json())
             .then(res => {
                 if (res.length === 0) {
                     alert('Customer does not exist in database. Please create new customer file.');
                 } else {
+                    console.log(res[0].cellphone);
                     setName(res[0].name);
-                    setDLicense(res[0].dlicense);
+                    setPhoneNumber(res[0].cellphone);
                     setAddress(res[0].address);
                 }
             })
@@ -72,7 +80,7 @@ const MakeReservationModal = props => {
             name: name,
             address: address,
             dlicense: dLicense,
-        }
+        };
         var myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
         fetch('/api/customer/new', {
@@ -87,7 +95,7 @@ const MakeReservationModal = props => {
                 alert('Customer is created');
             }
         }).catch(err => alert('Error creating Customer. Please try again'))
-    }
+    };
 
     const creatingAReservation = (err, res) => {
         let data = {
@@ -103,7 +111,7 @@ const MakeReservationModal = props => {
         let alertReservationNotCreated = () => alert(`Error in creating reservation. Please try again.`);
         var myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
-        fetch(`/api/reservation/create`, {
+        fetch(`/api/reservation/new`, {
             method: "POST",
             headers: myHeaders,
             body: JSON.stringify(data)
@@ -141,29 +149,32 @@ const MakeReservationModal = props => {
                         <Row>
                             <h3>Customer Information</h3>
                             <Form>
-                                <FormGroup>
-                                    <Label for="phoneNumber">Phone Number</Label>
-                                    <Input type="phoneNumber" name="phoneNumber" id="examplePhoneNumber"
-                                           onChange={e => setPhoneNumber(e.target.value)}/>
-                                    <Button color={'primary'} onClick={() => retrieveCustomerInformation()}>Retrieve
-                                        Customer</Button>
-                                </FormGroup>
+                                <StyledRetrieveCustomer>
+                                    <div>
+                                        <Label for="exampleDLicense">Driver's License</Label>
+                                        <Input type="dLicense" name="dLicense" id="exampleDLicense"
+                                               onChange={e => setDLicense(e.target.value)}/>
+                                    </div>
+                                    <StyledRetrieveButton color={'primary'} onClick={() => retrieveCustomerInformation()}>Retrieve
+                                        Customer</StyledRetrieveButton>
+                                </StyledRetrieveCustomer>
                                 <FormGroup>
                                     <Label for="name">First Name Last Name</Label>
                                     <Input type="name" name="name" id="exampleName" placeholder="ie: Jon Snow"
                                            value={name} onChange={e => setName(e.target.value)}/>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="exampleDLicense">Driver's License</Label>
-                                    <Input type="dLicense" name="dLicense" id="exampleDLicense" value={dLicense}
-                                           onChange={e => setDLicense(e.target.value)}/>
+                                    <Label for="phoneNumber">Phone Number</Label>
+                                    <Input type="phoneNumber" name="phoneNumber" id="examplePhoneNumber" value={phoneNumber}
+                                           onChange={e => setPhoneNumber(e.target.value)}/>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="exampleAddress">Address</Label>
                                     <Input type="address" name="address" id="exampleAddress" value={address}
                                            onChange={e => setAddress(e.target.value)}/>
                                 </FormGroup>
-                                <Button color={'primary'} onClick={() => creatingACustomerFile()}>Create Customer</Button>
+                                <Button color={'primary'} onClick={() => creatingACustomerFile()}>Create
+                                    Customer</Button>
                             </Form>
                         </Row>
                         <Row><h3>Reservation Details</h3></Row>
