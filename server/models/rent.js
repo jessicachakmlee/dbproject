@@ -241,10 +241,26 @@ class Rent {
         });
     }
 
+    // Rent(rid, vid, cellphone, fromDate, fromTime, toDate, toTime, odometer, cardName, cardNo,
+    // ExpDate, confNo)
+    // • Represents: the entity set Rent and the relationship sets RecordRent and the
+    // relationship sets IsRented, Signs, Rented_for, and Rent-Reserve
+    //     • Foreign Keys:
+    //     o (vid) references vehicle
+    //     o (dlicense) references Customer
+    //     o (fromDate, fromTime, toDate, toTime) references TimePeriod
+    //     o (confNo) references Reservation ; it can be null
+
+    // (int rid, char vlicense, int dlicense, date fromDate, time fromTime,
+    // date toDate, time toTime, int odometer, varchar cardName,
+    // varchar cardNo, varchar expDate, int confNo)
+
+    // TODO: make sure it can accept if only minimum inputs are given
     // a method that inserts new rent row into the database
     static insert (rid, vlicense, dlicense, fromDate, fromTime,
                    toDate, toTime, odometer, cardName,
                    cardNo, expDate, confNo, callback) {
+
 
         console.log("the rid is: " + rid);
         const insertQuery = 'INSERT INTO rent(rid, vlicense, dlicense, fromdate, fromtime, todate, totime, odometer, cardname, cardno, expdate, confno) ' +
