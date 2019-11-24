@@ -11,7 +11,7 @@ CREATE TABLE Vehicle (
     location    char(50),
     city        char(50),
     PRIMARY KEY (vlicense),
-    FOREIGN KEY (vtname) REFERENCES VehicleType(vtname),
+    FOREIGN KEY (vtname) REFERENCES VehicleType(vtname) ON DELETE CASCADE ON UPDATE CASCADE,
     CHECK (status = 'being_rented' 
             or status = 'in_shop' 
             or status = 'available')

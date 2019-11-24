@@ -8,7 +8,7 @@
     toDate          date,
     toTime          time,
     PRIMARY KEY     (confNo),
-    FOREIGN KEY     (vtname) REFERENCES VehicleType(vtname) ,
-    FOREIGN KEY     (cellphone) REFERENCES Customer(cellphone),
-    FOREIGN KEY 	(dlicense) REFERENCES Customer(dlicense)
+    FOREIGN KEY     (vtname) REFERENCES VehicleType(vtname) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY     (cellphone) REFERENCES Customer(cellphone) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY 	(dlicense) REFERENCES Customer(dlicense) ON DELETE CASCADE ON UPDATE CASCADE
 );
