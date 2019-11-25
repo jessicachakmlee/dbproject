@@ -1,4 +1,6 @@
-INSERT INTO Rent VALUES ((SELECT vlicense FROM ForRent WHERE vlicense = 'BBB-123'),
+INSERT INTO Rent(vlicense, dlicense, fromDate, fromTime, toDate, toTime,
+    odometer, cardName, cardNo, ExpDate, confNo)
+    VALUES ((SELECT vlicense FROM ForRent WHERE vlicense = 'BBB-123'),
                         (SELECT dlicense FROM Customer WHERE dlicense = 1234567),
                         '2019-11-22',
                         '17:00:00',
@@ -15,7 +17,9 @@ SET status = 'being_rented'
 WHERE vlicense = 'BBB-123';
 
 
-INSERT INTO Rent VALUES ((SELECT vlicense FROM ForRent WHERE vlicense = 'SAV-EME'),
+INSERT INTO Rent(vlicense, dlicense, fromDate, fromTime, toDate, toTime,
+    odometer, cardName, cardNo, ExpDate, confNo)
+    VALUES ((SELECT vlicense FROM ForRent WHERE vlicense = 'SAV-EME'),
                         (SELECT dlicense FROM Customer WHERE dlicense = 2020202),
                         '2019-05-03',
                         '10:00:00',
@@ -31,7 +35,9 @@ UPDATE Vehicle
 SET status = 'being_rented'
 WHERE vlicense = 'SAV-EME';
 
-INSERT INTO Rent VALUES ((SELECT vlicense FROM Vehicle WHERE vlicense = 'AAA-123'),
+INSERT INTO Rent(vlicense, dlicense, fromDate, fromTime, toDate, toTime,
+    odometer, cardName, cardNo, ExpDate, confNo)
+    VALUES ((SELECT vlicense FROM Vehicle WHERE vlicense = 'AAA-123'),
                         (SELECT dlicense FROM Customer WHERE dlicense = 2020202),
                         '2019-05-03',
                         '10:00:00',
@@ -47,7 +53,9 @@ UPDATE Vehicle
 SET status = 'being_rented'
 WHERE vlicense = 'AAA-123';
 
-INSERT INTO Rent VALUES ((SELECT vlicense FROM Vehicle WHERE vlicense = 'CCC-123'),
+INSERT INTO Rent(vlicense, dlicense, fromDate, fromTime, toDate, toTime,
+    odometer, cardName, cardNo, ExpDate, confNo)
+     VALUES ((SELECT vlicense FROM Vehicle WHERE vlicense = 'CCC-123'),
                         (SELECT dlicense FROM Customer WHERE dlicense = 2020202),
                         '2019-05-03',
                         '10:00:00',
@@ -63,7 +71,9 @@ UPDATE Vehicle
 SET status = 'being_rented'
 WHERE vlicense = 'CCC-123';
 
-INSERT INTO Rent VALUES ((SELECT vlicense FROM Vehicle WHERE vlicense = 'DDD-123'),
+INSERT INTO Rent(vlicense, dlicense, fromDate, fromTime, toDate, toTime,
+    odometer, cardName, cardNo, ExpDate, confNo)
+     VALUES ((SELECT vlicense FROM Vehicle WHERE vlicense = 'DDD-123'),
                         (SELECT dlicense FROM Customer WHERE dlicense = 2020202),
                         '2019-05-03',
                         '10:00:00',
@@ -79,7 +89,9 @@ UPDATE Vehicle
 SET status = 'being_rented'
 WHERE vlicense = 'DDD-123';
 
-INSERT INTO Rent VALUES ((SELECT vlicense FROM Vehicle WHERE vlicense = 'BYE-BYE'),
+INSERT INTO Rent(vlicense, dlicense, fromDate, fromTime, toDate, toTime,
+    odometer, cardName, cardNo, ExpDate, confNo)
+     VALUES ((SELECT vlicense FROM Vehicle WHERE vlicense = 'BYE-BYE'),
                         (SELECT dlicense FROM Customer WHERE dlicense = 1010101),
                         '2019-05-01',
                         '10:00:00',

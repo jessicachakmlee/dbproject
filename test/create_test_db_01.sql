@@ -4,15 +4,14 @@ DROP SCHEMA public cascade;
 CREATE SCHEMA public;
 
 CREATE TABLE Customer (
-      cellphone       BIGINT NOT NULL,
-      name            varchar(30),
-      address         varchar(50),
-      dlicense        INT,
-      points          int,
-      fees            float,
-      PRIMARY KEY     (dlicense),
-      UNIQUE(dlicense, cellphone)
-  );
+    cellphone       varchar(15) UNIQUE NOT NULL,
+    name            char(50),
+    address         char(100),
+    dlicense        int,
+    points          int,
+    fees            float,
+    PRIMARY KEY     (dlicense)
+);
 
 INSERT INTO Customer(cellphone, name, address, dlicense) VALUES
 	(7784567890, 'Cliff Wu', '123 Easy St', 8994255),
@@ -34,9 +33,10 @@ INSERT INTO Customer VALUES (6044949956, 'Jack Sparrow', '4331 Old Spallumcheen 
 INSERT INTO Customer VALUES (7781558897, 'James T. Kirk', '3556 Blind Bay Road', 3030303, 8, 20);
 INSERT INTO Customer VALUES (7783234565, 'Homer Simpson', '4450 Tchesinkut Lake Rd', 4040404, NULL, NULL);
 
+
 CREATE TABLE VehicleType (
-    vtname          varchar(50),
-    features        varchar(100),
+    vtname          char(50),
+    features        char(100),
     wrate           float,
     drate           float,
     hrate           float,
@@ -74,16 +74,6 @@ CREATE TABLE Vehicle (
             or status = 'available')
 );
 
-INSERT INTO Vehicle(vlicense, make, model, year,
-	color, odometer, status, vtname, location, city) VALUES
-	('V3TOL3', 'Honda', 'Civic', 2005, 'Silver',
-		1000, 'available', 'standard', '1001 96 Ave', 'Surrey' ),
-	('MSY600Y', 'BMW', 'X1', 2005, 'White',
-		2000, 'available', 'suv', '1001 96 Ave', 'Vancouver' ),
-	('J8O2T4', 'Nissan', 'Leaf', 2010, 'Blue',
-		30000, 'available', 'economy', '280 Semiahmoo Drive', 'Surrey' ),
-	('F1F8B8', 'Toyota', 'Sienna', 2005, 'Silver',
-		10000, 'available', 'standard', 'asdfStreet', 'Surrey' );
 INSERT INTO Vehicle VALUES (0, 'AAA-123', 'Ford', 'Convertible', 2019, 'red', 15000, 'available', (SELECT vtname FROM VehicleType WHERE vtname = 'standard'), '1278 Granville St', 'Vancouver');
 INSERT INTO Vehicle VALUES (1, 'BBB-123', 'Toyota', 'Corolla', 2009, 'silver', 2000, 'available', (SELECT vtname FROM VehicleType WHERE vtname = 'economy'), '1131 Haaglund Rd', 'Oliver');
 INSERT INTO Vehicle VALUES (2, 'CCC-123', 'Toyota', 'Corolla', 2000, 'red', 1000, 'available', (SELECT vtname FROM VehicleType WHERE vtname = 'economy'), '258 Mesa Vista Drive', 'Boston Bar');
@@ -98,27 +88,42 @@ INSERT INTO Vehicle VALUES (10, 'BAB-888', 'Ford', 'Fiesta', 2015, 'blue', 80000
 INSERT INTO Vehicle VALUES (11, 'DAC-484', 'Toyota', 'Corolla', 2010, 'black', 90000, 'available', (SELECT vtname FROM VehicleType WHERE vtname = 'economy'), '1278 Granville St', 'Vancouver');
 INSERT INTO Vehicle VALUES (12, 'SAV-EME', 'Toyota', 'Highlander', 2019, 'white', 10000, 'available', (SELECT vtname FROM VehicleType WHERE vtname = 'suv'), '258 Mesa Vista Drive', 'Boston Bar');
 INSERT INTO Vehicle VALUES (13, 'HEL-PME', 'Toyota', 'Corolla', 2018, 'white', 20000, 'available', (SELECT vtname FROM VehicleType WHERE vtname = 'economy'), '1278 Granville St', 'Vancouver');
+
+
 INSERT INTO Vehicle VALUES (14, 'BMW-123', 'BMW', 'X1', 2019, 'blue', 10000, 'available', (SELECT vtname FROM VehicleType WHERE vtname = 'suv'), '1278 Granville St', 'Vancouver');
 INSERT INTO Vehicle VALUES (15, 'FOR-WIN', 'Toyota', 'Corolla-Hybrid', 2019, 'red', 10000, 'available', (SELECT vtname FROM VehicleType WHERE vtname = 'compact'), '1278 Granville St', 'Vancouver');
 INSERT INTO Vehicle VALUES (16, 'BYE-BYE', 'Toyota', 'Corolla', 2002, 'green', 100000, 'available', (SELECT vtname FROM VehicleType WHERE vtname = 'economy'), '1278 Granville St', 'Vancouver');
 INSERT INTO Vehicle VALUES (17, 'CUL-8ER', 'Toyota', 'Yaris', 2018, 'black', 50000, 'available', (SELECT vtname FROM VehicleType WHERE vtname = 'compact'), '1278 Granville St', 'Vancouver');
 
-CREATE TABLE Reservation (
+INSERT INTO Vehicle(vid, vlicense, make, model, year,
+	color, odometer, status, vtname, location, city) VALUES
+	(18, 'V3TOL3', 'Honda', 'Civic', 2005, 'Silver', 1000, 'available', (SELECT vtname FROM VehicleType WHERE vtname = 'truck'), '1001 96 Ave', 'Surrey' ),
+	(19, 'MSY600Y', 'BMW', 'X1', 2005, 'White', 2000, 'available', (SELECT vtname FROM VehicleType WHERE vtname = 'suv'), '1001 96 Ave', 'Vancouver' ),
+	(20, 'J8O2T4', 'Nissan', 'Leaf', 2010, 'Blue', 30000, 'available', (SELECT vtname FROM VehicleType WHERE vtname = 'economy'), '280 Semiahmoo Drive', 'Surrey' ),
+	(21, 'F1F8B8', 'Toyota', 'Sienna', 2005, 'Silver', 10000, 'available', (SELECT vtname FROM VehicleType WHERE vtname = 'mid-size'), 'asdfStreet', 'Surrey' );
+
+CREATE VIEW ForRent AS
+    SELECT vid, vlicense, make, model, year, color, odometer, status, vtname, location, city
+    FROM Vehicle v
+    WHERE status = 'available';
+
+    CREATE TABLE Reservation (
     confNo          int,
-    vtname          varchar(50) NOT NULL,
-    cellphone       BIGINT NOT NULL,
-    dlicense        INT NOT NULL,
+    vtname          char(50) NOT NULL,
+    cellphone       varchar(15) NOT NULL,
+    dlicense        int NOT NULL,
     fromDate        date,
     fromTime        time,
     toDate          date,
     toTime          time,
     PRIMARY KEY     (confNo),
-    FOREIGN KEY     (vtname) REFERENCES VehicleType(vtname),
-    FOREIGN KEY     (dlicense, cellphone) REFERENCES Customer(dlicense, cellphone)
+    FOREIGN KEY     (vtname) REFERENCES VehicleType(vtname) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY     (cellphone) REFERENCES Customer(cellphone) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY 	(dlicense) REFERENCES Customer(dlicense) ON DELETE CASCADE ON UPDATE CASCADE
 );
 INSERT INTO Reservation VALUES (172525,
                                 (SELECT vtname FROM VehicleType WHERE vtname = 'economy'),
-                                (SELECT cellphone FROM Customer WHERE cellphone = 6041111234),
+                                (SELECT cellphone FROM Customer WHERE dlicense = 1234567),
                                 (SELECT dlicense FROM Customer WHERE dlicense = 1234567),
                                 '2019-11-22',
                                 '17:00:00',
@@ -127,7 +132,7 @@ INSERT INTO Reservation VALUES (172525,
 
 INSERT INTO Reservation VALUES (113554,
                                 (SELECT vtname FROM VehicleType WHERE vtname = 'compact'),
-                                (SELECT cellphone FROM Customer WHERE cellphone = 6045159278),
+                                (SELECT cellphone FROM Customer WHERE dlicense = 3333333),
                                 (SELECT dlicense FROM Customer WHERE dlicense = 3333333),
                                 '2020-01-01',
                                 '10:30:00',
@@ -153,7 +158,7 @@ INSERT INTO Reservation VALUES (437664,
                                '21:00:00');
 
 CREATE TABLE Rent (
-    rid             int,
+    rid             SERIAL,
     vlicense        char(7),
     dlicense        int,
     fromDate        date,
@@ -166,19 +171,20 @@ CREATE TABLE Rent (
     ExpDate         varchar(5) NOT NULL,
     confNo          int,
     PRIMARY KEY     (rid),
-    FOREIGN KEY     (vlicense) REFERENCES Vehicle,
-    FOREIGN KEY     (dlicense) REFERENCES Customer(dlicense),
-    FOREIGN KEY     (confNo) REFERENCES Reservation(confNo)
+    FOREIGN KEY     (vlicense) REFERENCES Vehicle ON DELETE CASCADE,
+    FOREIGN KEY     (dlicense) REFERENCES Customer(dlicense) ON DELETE CASCADE,
+    FOREIGN KEY     (confNo) REFERENCES Reservation(confNo) ON DELETE CASCADE
 );
 
-INSERT INTO Rent VALUES (66554,
-                        (SELECT vlicense FROM Vehicle WHERE vlicense = 'BBB-123'),
+INSERT INTO Rent(vlicense, dlicense, fromDate, fromTime, toDate, toTime,
+    odometer, cardName, cardNo, ExpDate, confNo)
+    VALUES ((SELECT vlicense FROM ForRent WHERE vlicense = 'BBB-123'),
                         (SELECT dlicense FROM Customer WHERE dlicense = 1234567),
                         '2019-11-22',
                         '17:00:00',
                         '2019-12-22',
                         '17:00:00',
-                        (SELECT odometer FROM Vehicle WHERE vlicense = 'BBB-123'),
+                        (SELECT odometer FROM ForRent WHERE vlicense = 'BBB-123'),
                         'mastercard',
                         '5221 2233 3672 9298',
                         '12/22',
@@ -189,14 +195,15 @@ SET status = 'being_rented'
 WHERE vlicense = 'BBB-123';
 
 
-INSERT INTO Rent VALUES (49480,
-                        (SELECT vlicense FROM Vehicle WHERE vlicense = 'SAV-EME'),
+INSERT INTO Rent(vlicense, dlicense, fromDate, fromTime, toDate, toTime,
+    odometer, cardName, cardNo, ExpDate, confNo)
+    VALUES ((SELECT vlicense FROM ForRent WHERE vlicense = 'SAV-EME'),
                         (SELECT dlicense FROM Customer WHERE dlicense = 2020202),
                         '2019-05-03',
                         '10:00:00',
                         '2019-05-10',
                         '15:00:00',
-                        (SELECT odometer FROM Vehicle WHERE vlicense = 'SAV-EME'),
+                        (SELECT odometer FROM ForRent WHERE vlicense = 'SAV-EME'),
                         'mastercard',
                         '5127 1771 7400 1290',
                         '12/21',
@@ -206,8 +213,9 @@ UPDATE Vehicle
 SET status = 'being_rented'
 WHERE vlicense = 'SAV-EME';
 
-INSERT INTO Rent VALUES (49481,
-                        (SELECT vlicense FROM Vehicle WHERE vlicense = 'AAA-123'),
+INSERT INTO Rent(vlicense, dlicense, fromDate, fromTime, toDate, toTime,
+    odometer, cardName, cardNo, ExpDate, confNo)
+    VALUES ((SELECT vlicense FROM Vehicle WHERE vlicense = 'AAA-123'),
                         (SELECT dlicense FROM Customer WHERE dlicense = 2020202),
                         '2019-05-03',
                         '10:00:00',
@@ -223,8 +231,9 @@ UPDATE Vehicle
 SET status = 'being_rented'
 WHERE vlicense = 'AAA-123';
 
-INSERT INTO Rent VALUES (49482,
-                        (SELECT vlicense FROM Vehicle WHERE vlicense = 'CCC-123'),
+INSERT INTO Rent(vlicense, dlicense, fromDate, fromTime, toDate, toTime,
+    odometer, cardName, cardNo, ExpDate, confNo)
+     VALUES ((SELECT vlicense FROM Vehicle WHERE vlicense = 'CCC-123'),
                         (SELECT dlicense FROM Customer WHERE dlicense = 2020202),
                         '2019-05-03',
                         '10:00:00',
@@ -240,8 +249,9 @@ UPDATE Vehicle
 SET status = 'being_rented'
 WHERE vlicense = 'CCC-123';
 
-INSERT INTO Rent VALUES (49483,
-                        (SELECT vlicense FROM Vehicle WHERE vlicense = 'DDD-123'),
+INSERT INTO Rent(vlicense, dlicense, fromDate, fromTime, toDate, toTime,
+    odometer, cardName, cardNo, ExpDate, confNo)
+     VALUES ((SELECT vlicense FROM Vehicle WHERE vlicense = 'DDD-123'),
                         (SELECT dlicense FROM Customer WHERE dlicense = 2020202),
                         '2019-05-03',
                         '10:00:00',
@@ -257,8 +267,9 @@ UPDATE Vehicle
 SET status = 'being_rented'
 WHERE vlicense = 'DDD-123';
 
-INSERT INTO Rent VALUES (49484,
-                        (SELECT vlicense FROM Vehicle WHERE vlicense = 'BYE-BYE'),
+INSERT INTO Rent(vlicense, dlicense, fromDate, fromTime, toDate, toTime,
+    odometer, cardName, cardNo, ExpDate, confNo)
+     VALUES ((SELECT vlicense FROM Vehicle WHERE vlicense = 'BYE-BYE'),
                         (SELECT dlicense FROM Customer WHERE dlicense = 1010101),
                         '2019-05-01',
                         '10:00:00',
@@ -290,13 +301,13 @@ CREATE TABLE Returns (
     fulltank    int,
     value       float,
     PRIMARY KEY (rid),
-    FOREIGN KEY (rid) REFERENCES Rent
+    FOREIGN KEY (rid) REFERENCES Rent ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 INSERT INTO Returns
-    VALUES ((SELECT rid FROM Rent WHERE rid = 49480),
+    VALUES ((SELECT rid FROM Rent WHERE vlicense = 'SAV-EME'),
         '2019-05-11', '17:00:00',
-        (SELECT odometer FROM Rent WHERE rid = 49480) + 10000,
+        (SELECT odometer FROM Rent WHERE vlicense = 'SAV-EME') + 10000,
         100, 40.00);
 
 UPDATE Vehicle
@@ -304,9 +315,9 @@ SET odometer = odometer + 10000, status = 'available'
 WHERE vlicense = 'SAV-EME';
 
 INSERT INTO Returns
-    VALUES ((SELECT rid FROM Rent WHERE rid = 49481),
+    VALUES ((SELECT rid FROM Rent WHERE vlicense = 'AAA-123'),
         '2019-05-11', '14:00:00',
-        (SELECT odometer FROM Rent WHERE rid = 49481)+ 314,
+        (SELECT odometer FROM Rent WHERE vlicense = 'AAA-123')+ 314,
         90, 30.64);
 
 UPDATE Vehicle
@@ -314,27 +325,14 @@ SET odometer = odometer + 314, status = 'available'
 WHERE vlicense = 'AAA-123';
 
 INSERT INTO Returns
-    VALUES ((SELECT rid FROM Rent WHERE rid = 49482),
+    VALUES ((SELECT rid FROM Rent WHERE vlicense = 'CCC-123'),
         '2019-05-15', '12:00:00',
-        (SELECT odometer FROM Rent WHERE rid = 49482)+ 6054,
+        (SELECT odometer FROM Rent WHERE vlicense = 'CCC-123')+ 6054,
         90, 30.64);
 
 UPDATE Vehicle
 SET odometer = odometer + 6054, status = 'available'
 WHERE vlicense = 'CCC-123';
-
---INSERT INTO Rent(rid, vid, cellphone, fromDate, fromTime,
---                 toDate, toTime, odometer, cardName,
---                 cardNo, expDate, confNo) VALUES
---	('12345', 'Honda', 'Civic', 2005, 'Silver',
---		1000, 'available', 'Sedan', '1001 96 Ave', 'Surrey' ),
---	('MSY600Y', 'BMW', 'X1', 2005, 'White',
---		2000, 'available', 'SUV', '1001 96 Ave', 'Vancouver' ),
---	('J8O2T4', 'Nissan', 'Leaf', 2010, 'Blue',
---		30000, 'available', 'Coupe', '280 Semiahmoo Drive', 'Surrey' );
---	('F1F8B8', 'Toyota', 'Sienna', 2005, 'Silver',
---		10000, 'available', 'Sedan', 'asdfStreet', 'Surrey' );
-
 
 
 -- SELECT * FROM Customers;
