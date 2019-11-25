@@ -136,7 +136,7 @@ class Return {
     // gets sums of all Returnsals in the company
         static retrieveDaySum(fromDate, callback) {
 
-            const queryStatement = 'SELECT COUNT(*) ' +
+            const queryStatement = 'SELECT COUNT(*), SUM(value) ' +
                 'FROM Returns r ' +
                 'WHERE date = $1 ';
 
@@ -153,7 +153,7 @@ class Return {
     // gets sums of all returns grouped by vehicle category (vtname)
         static retrieveDaySumByVCategory(fromDate, callback) {
 
-            const queryStatement = 'SELECT v.vtname, COUNT(*) ' +
+            const queryStatement = 'SELECT v.vtname, COUNT(*), SUM(r.value)  ' +
                 'FROM Returns r INNER JOIN Rent re ON r.rid = re.rid ' +
                 'INNER JOIN Vehicle v ON re.vlicense = v.vlicense ' +
                 'WHERE date = $1 ' +
@@ -172,7 +172,7 @@ class Return {
     // gets sums of all returns grouped by branch
         static retrieveDaySumByBranch(fromDate, callback) {
 
-            const queryStatement = 'SELECT v.location, v.city, COUNT(*) ' +
+            const queryStatement = 'SELECT v.location, v.city, COUNT(*), SUM(r.value)  ' +
                 'FROM Returns r INNER JOIN Rent re ON r.rid = re.rid ' +
                 'INNER JOIN Vehicle v ON re.vlicense = v.vlicense ' +
                 'WHERE date = $1 ' +
@@ -191,7 +191,7 @@ class Return {
     // gets sums of all returns in the company
         static retrieveDaySumInBranch(fromDate, location, city, callback) {
 
-            const queryStatement = 'SELECT COUNT(*) ' +
+            const queryStatement = 'SELECT COUNT(*), SUM(r.value) ' +
                 'FROM Returns r INNER JOIN Rent re ON r.rid = re.rid ' +
                 'INNER JOIN Vehicle v ON re.vlicense = v.vlicense ' +
                 'WHERE date = $1 ' +
@@ -210,7 +210,7 @@ class Return {
     // gets sums of all returns in a branch grouped by vehicle category (vtname)
         static retrieveDaySumByVCategoryInBranch(fromDate, location, city, callback) {
 
-            const queryStatement = 'SELECT v.vtname, COUNT(*) ' +
+            const queryStatement = 'SELECT v.vtname, COUNT(*), SUM(r.value) ' +
                 'FROM Returns r INNER JOIN Rent re ON r.rid = re.rid ' +
                 'INNER JOIN Vehicle v ON re.vlicense = v.vlicense ' +
                 'WHERE date = $1 ' +
