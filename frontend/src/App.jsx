@@ -23,6 +23,7 @@ import {Link, Route, Switch} from "react-router-dom";
 import MakeReservationModal from '../src/components/MakeReservationModal.jsx';
 import DataDisplayModal from "./components/DataDisplayModal";
 import MakeRentalModal from "./MakeRentalModal";
+import Spinner from "reactstrap/es/Spinner";
 
 const Title = styled.h1`
 text-align: center;
@@ -61,7 +62,8 @@ margin-bottom: 30px;
 
 const StylingButtonsAndDropdown = styled.div`
 display: flex;
-justify-items: space-between;
+justify-content: center;
+margin-top: 30px;
 
 div {
 button {
@@ -149,9 +151,11 @@ const App = () => {
     const [locationReport, setLocationReport] = useState('');
     const [cityReport, setCityReport] = useState('');
     const [isRunQuery, setIsRunQuery] = useState(true);
+    const [isVehicleAvailable, setIsVehicleAvailable] = useState(false);
     const [reservationConfNo, setReservationConfNo] = useState('');
     const [reservationOutput, setReservationOutput] = useState([]);
     const [resTempModalOpen, setResTempModalOpen] = useState(false);
+    const [showSpinner, setShowSpinner] = useState(false);
 
     const cityDropdownItems = [
         'Boston Bar', 'Haney', 'Oliver', 'Surrey', 'Vancouver', 'All'
@@ -174,7 +178,7 @@ const App = () => {
         'Daily Rentals', 'Daily Rentals for Branch', 'Daily Returns', 'Daily Returns for Branch'
     ];
 
-    const disableMakeReservation = city && location && vehicleType && startDate && startTime && endDate && endTime;
+    const disableMakeReservation = city && location && vehicleType && startDate && startTime && endDate && endTime && isVehicleAvailable;
 
     const getAllVehiclesFromGivenData = (isCount) => {
         const endpointString = `/api/vehicle/${isCount}/options?`;
@@ -191,6 +195,7 @@ const App = () => {
         fetch(finalQuery)
             .then(res => res.json())
             .then(res => {
+                setShowSpinner(false);
                 if (res.error === 'Database error.') {
                     alert('Responded with Database error.There is an issue with this search. Please try again.');
                 } else {
@@ -206,7 +211,8 @@ const App = () => {
                         setVehiclesNum(res.length);
                     }
                 }
-            })
+            });
+
     };
 
     const endPointForTables = () => {
@@ -356,15 +362,6 @@ const App = () => {
                                     }
                                 }}>
                                     Display Table
-                                </StyledModalButton>
-                            </Button>
-                            <Button color={'info'}>
-                                <StyledModalButton to={{
-                                    pathname: '/displayData', state: {
-                                        isModal: true, insertData: tableOutput
-                                    }
-                                }}>
-                                    Insert Data
                                 </StyledModalButton>
                             </Button>
                         </StylingButtonsAndDropdown>
@@ -562,12 +559,16 @@ const App = () => {
                             />
                         </StylingForDropDown>
                         <StyledButton>
-                            <Button color={'primary'} onClick={() => getAllVehiclesFromGivenData(true)}>Get
-                                Vehicle Number</Button>
+                            <Button outline color={'primary'} onClick={() => {
+                                getAllVehiclesFromGivenData(true);
+                                setIsVehicleAvailable(true);
+                                setShowSpinner(true);
+                                }}>Search for Vehicles</Button>
                             <Button color={!disableMakeReservation ? 'secondary' : 'danger'}
-                                    disabled={!disableMakeReservation}>
+                                    disabled={!disableMakeReservation} >
                                 <StyledModalButton
-                                    onClick={() => !disableMakeReservation ? alert('Please input information first to see if there are available vehicles before making a reservation.') : null}
+                                    onClick={() => !disableMakeReservation ? alert('Please first search to see if there are available vehicles before making a reservation.' +
+                                        ' After searching, You may make a reservation by filling in all of the form.') : null}
                                     to={{
                                         pathname: !disableMakeReservation ? '/' : '/makeReservation', state: {
                                             isModal: true, city: city, vehicleType: vehicleType, location: location,
@@ -575,15 +576,16 @@ const App = () => {
                                         }
                                     }}>Make a Reservation</StyledModalButton>
                             </Button>
-                            <Button color={!disableMakeReservation ? 'secondary' : 'danger'}>
+                            <Button color={!disableMakeReservation ? 'secondary' : 'danger'} disabled={!disableMakeReservation}>
                                 <StyledModalButton
-                                    onClick={() => !disableMakeReservation ? alert('Please input information first to see if there are available vehicles before making a rental.') : null}
+                                    onClick={() => !disableMakeReservation ? alert('Please first search to see if there are available vehicles before making a rental.' +
+                                        ' After searching, You may make a rental by filling in all of the form.') : null}
                                     to={{
                                         pathname: !disableMakeReservation ? '/' : '/makeRental', state: {
                                             isModal: true, reservationObj: {city: city, vehicleType: vehicleType, location: location,
                                                 fromdate: startDate, fromtime: startTime, todate: endDate, totime: endTime}
                                         }
-                                    }}>Make Rental</StyledModalButton>
+                                    }}>Make a Rental</StyledModalButton>
                             </Button>
                         </StyledButton>
                     </Jumbotron>
