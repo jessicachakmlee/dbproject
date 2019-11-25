@@ -242,6 +242,44 @@ class Return {
         });
     }
 
+    static retrieveDayTotalRevenue(date, location, city, callback) {
+
+        const queryStatement = 'SELECT v.vtname, SUM(value) , v.city, v.location, v.vtname ' +
+        'FROM Returns r INNER JOIN Rent re ON r.rid = re.rid ' +
+        'INNER JOIN Vehicle v ON re.vlicense = v.vlicense ' +
+        'WHERE date = $1 ' +
+        'GROUP BY v.city, v.location, v.vtname';
+
+
+            const vals = [date, location, city];
+
+            db.query(queryStatement, vals, function (err, res) {
+                if (err.error)
+                    return callback(err);
+                callback(res);
+            });
+        
+        }
+
+        static retrieveDayTotalRevenueForBranch(date, location, city, callback) {
+
+            const queryStatement = 'SELECT v.vtname, SUM(value) ' +
+                'FROM Returns r INNER JOIN Rent re ON r.rid = re.rid ' +
+                'INNER JOIN Vehicle v ON re.vlicense = v.vlicense ' +
+                'WHERE date = $1 ' +
+                'AND v.location = $2 AND v.city = $3 ' +
+                'GROUP BY v.city, v.location, v.vtname';
+    
+                const vals = [date, location, city];
+    
+                db.query(queryStatement, vals, function (err, res) {
+                    if (err.error)
+                        return callback(err);
+                    callback(res);
+                });
+            
+            }
+
 }
 
 module.exports = Return;
