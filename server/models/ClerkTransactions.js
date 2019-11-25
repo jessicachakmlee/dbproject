@@ -1,15 +1,13 @@
-const Receipt = require('server/models/Receipt');
-const Report = require('server/models/Report');
-const Reservation = require('server/models/reservation');
-const Vehicle = require('server/models/vehicle');
-const DBManipulation = require('server/models/databaseManipulations');
-const Rent = require('server/models/rent');
-const Returns = require('server/models/return');
-const TimeHelper = require('server/models/timePeriod');
+const Reservation = require('../models/reservation');
+const Vehicle = require('../models/vehicle');
+const DBManipulation = require('../models/databaseManipulations');
+const Rent = require('../models/rent');
+const Returns = require('../models/return');
+const TimeHelper = require('../models/timePeriod');
 
 class ClerkTransactions{
     /*Rent a vehicle with or without any reservation*/
-    static async rentVehicleAsync(confNo, city, location, fromDate, fromTime, toDate, toTime,
+    async rentVehicleAsync(confNo, city, location, fromDate, fromTime, toDate, toTime,
                                          vtname, cellphone, dlicense, cardName, cardNo, expDate){
         try {
             // retrieve the reservation
@@ -40,7 +38,7 @@ class ClerkTransactions{
 
     // Gives reservation from given confirmation number
     // or false if not a valid confirmation number
-    public static async getReservationFromConfNo(confNo) {
+    async getReservationFromConfNo(confNo) {
 
         // if no confirmation number is given
         if (typeof confNo !== "number")
@@ -73,7 +71,7 @@ class ClerkTransactions{
     }
 
     // Gives available vehicle given the branch, vehicle type, and time interval
-    public static async getVehicleToRent(city, location, vtname, fromDate, fromTime, toDate, toTime) {
+    async getVehicleToRent(city, location, vtname, fromDate, fromTime, toDate, toTime) {
         // query the vehicle database to find a vehicle
         var vehicle = await Vehicle.retrieveVehiclesWithOptions(false, city, location, vtname,
             fromDate, fromTime, toDate, toTime, (err, res) => {
@@ -97,7 +95,7 @@ class ClerkTransactions{
     }
 
     // update given vehicle status to being_rented and returns the updated object
-    private static async updateRentalVehicleStatus(vehicle) {
+    async updateRentalVehicleStatus(vehicle) {
         // setter options for put request
         var setVar = {
             status: "being_rented"
@@ -118,7 +116,7 @@ class ClerkTransactions{
     }
 
     // Insert new rental entry into the Rent database
-    public static async insertRentalAsync(vlicense, dlicense, fromdate, fromtime, todate, totime,
+    async insertRentalAsync(vlicense, dlicense, fromdate, fromtime, todate, totime,
                                odometer, cardname, cardno, expdate, confno) {
 
         // add put request to Rent database
@@ -134,7 +132,7 @@ class ClerkTransactions{
     }
 
     // Return a vehicle given the rent id, date and time of return, odometer, and fuel status
-    public static async returnVehicleAsync(rid, odometer, fulltank){
+     public async returnVehicleAsync(rid, odometer, fulltank){
 
         try {
             // Search the Rent database for the given rid
@@ -157,7 +155,7 @@ class ClerkTransactions{
     }
 
     // Insert a new return entry into the rent database
-    public static async insertReturnAsync(rid, odometer, fulltank) {
+    async insertReturnAsync(rid, odometer, fulltank) {
 
         // TODO: use the following for cost calculation inputs
         // retrieve the rent and corresponding vehicle info from the database
@@ -195,7 +193,7 @@ class ClerkTransactions{
         return ret;
     }
 
-    private static calculateRentalCosts(minutes, kmTravelled, fulltank) {
+    calculateRentalCosts(minutes, kmTravelled, fulltank) {
         // Apparently we can calculate the value however we like
         const PER_KM_RATE = 0.129;
         const MINUTE_RATE = 0.40;
@@ -203,9 +201,9 @@ class ClerkTransactions{
     }
 
     /*TODO: Make report*/
-    public static makeReport(){
+    makeReport(){
 
     }
 }
 
-module.exports(ClerkTransactions);
+module.exports = ClerkTransactions;

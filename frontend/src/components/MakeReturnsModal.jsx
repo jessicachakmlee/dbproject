@@ -75,9 +75,7 @@ const MakeReturnsModal = props => {
     const [rid, setRid] = useState(null);
     const [odometer, setOdometer] = useState(null);
     const [fulltank, setfulltank] = useState(null);
-    // special sale on rentals. return now, and only pay $200!
 
-    // now use rent info to create the return
     const createReturns = () => {
 
         // Check the rid value
