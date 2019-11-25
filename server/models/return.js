@@ -229,7 +229,7 @@ class Return {
     static insert (rid, date, time, odometer,
                    fulltank, value, callback) {
 
-        const insertQuery = 'INSERT INTO return(rid, date, time, odometer, ' +
+        const insertQuery = 'INSERT INTO returns(rid, date, time, odometer, ' +
             'fulltank, value) ' +
             'VALUES ($1, $2, $3, $4, $5, $6) ' +
             'RETURNING *';

@@ -147,7 +147,7 @@ class ClerkTransactions{
             }
 
             // add new return to database
-            var ret = await this.insertReturnAsync();
+            var ret = await this.insertReturnAsync(rid, odometer, fulltank);
             return ret;
         } catch (e) {
             console.error("Error was found in the returnVehicleAsync: " + e);
