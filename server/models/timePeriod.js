@@ -24,6 +24,35 @@ class TimePeriod {
         return currentTime;
     }
 
+    // gets date from postgres server
+    static retrieveNowDate(callback) {
+        let currentDate;
+        currentTime = db.query('SELECT date NOW()', (err, res) => {
+            if (err.error)
+                return callback(err);
+            // console.log("received from select now(): " + res[0].now);
+            // console.log("received from select now() type: " + typeof res[0].now);
+            // return the first row of query result which has timestamp
+            return callback(res);
+        });
+        // console.log("received from query: " + currentTime);
+        return currentDate;
+    }
+    // gets date from postgres server
+    static retrieveNowTime(callback) {
+        let currentDate;
+        currentTime = db.query('SELECT time NOW()', (err, res) => {
+            if (err.error)
+                return callback(err);
+            // console.log("received from select now(): " + res[0].now);
+            // console.log("received from select now() type: " + typeof res[0].now);
+            // return the first row of query result which has timestamp
+            return callback(res);
+        });
+        // console.log("received from query: " + currentTime);
+        return currentDate;
+    }
+
     // TODO: Reminder postgres uses the following format for DATE: yyyy-mm-dd
     static insert (fromDate, fromTime, toDate, toTime, callback) {
         const insertQuery = {

@@ -4,13 +4,13 @@ const Reservation = require('server/models/reservation');
 const Vehicle = require('server/models/vehicle');
 const DBManipulation = require('server/models/databaseManipulations');
 const Rent = require('server/models/rent');
+const Returns = require('server/models/return');
+const TimeHelper = require('server/models/timePeriod');
 
 class ClerkTransactions{
     /*Rent a vehicle with or without any reservation*/
     public static async rentVehicleAsync(confNo, city, location, fromDate, fromTime, toDate, toTime,
                                          vtname, cellphone, dlicense, cardName, cardNo, expDate){
-        let receipt;
-
         try {
             // retrieve the reservation
             var reservation = await this.getReservationFromConfNo(confNo);
@@ -27,13 +27,14 @@ class ClerkTransactions{
             var odometer = vehicle["odometer"];
 
             // insert new rental into Rent database
-            var rent = await this.insertVehicleAsync(vlicense, dlicense, fromDate, fromTime, toDate, toTime,
+            var rent = await this.insertRentalAsync(vlicense, dlicense, fromDate, fromTime, toDate, toTime,
                 odometer, cardName, cardNo, expDate, confNo);
 
             return rent;
         } catch (e) {
             // display error
             console.log(e);
+            return e;
         }
     }
 
@@ -117,7 +118,7 @@ class ClerkTransactions{
     }
 
     // Insert new rental entry into the Rent database
-    public static async insertVehicleAsync(vlicense, dlicense, fromdate, fromtime, todate, totime,
+    public static async insertRentalAsync(vlicense, dlicense, fromdate, fromtime, todate, totime,
                                odometer, cardname, cardno, expdate, confno) {
 
         // add put request to Rent database
@@ -132,10 +133,73 @@ class ClerkTransactions{
         return rent;
     }
 
-    /*TODO: Return a vehicle*/
-    public static returnVehicle(){
+    // Return a vehicle given the rent id, date and time of return, odometer, and fuel status
+    public static async returnVehicleAsync(rid, odometer, fulltank){
 
-        receipt.printReciept();
+        try {
+            // Search the Rent database for the given rid
+            var ridExists = await this.insertReturnAsync(rid, odometer, fulltank)
+
+            // check if any rid was returned from the Rent table search
+            if (ridExists.length === 0) {
+                var errMsg = "Invalid request: The rent id given " + rid + " does not exist";
+                return new Error(errMsg);
+            }
+
+            // add new return to database
+            var ret = await this.insertReturnAsync();
+            return ret;
+        } catch (e) {
+            console.error("Error was found in the returnVehicleAsync: " + e);
+            return e;
+        }
+
+    }
+
+    // Insert a new return entry into the rent database
+    public static async insertReturnAsync(rid, odometer, fulltank) {
+
+        // TODO: use the following for cost calculation inputs
+        // retrieve the rent and corresponding vehicle info from the database
+        var rent = await Rent.retrieveByRid(rid, (err, res) => {
+            if (err)
+                return err;
+            return res;
+        });
+
+        // calculate cost of rental
+        // var value = this.calculateRentalCosts();
+        var value = 200;
+
+        var date = TimeHelper.retrieveNowDate((date, err) => {
+            if (err) {
+                return new error(err);
+            }
+            return date[0].now;
+        });
+
+        var time = TimeHelper.retrieveNowTime((time, err) => {
+            if (err) {
+                return new error(err);
+            }
+            return time[0].now;
+        });
+
+        // add Insert request to Return database
+        var ret = await Returns.insert(rid, date, time, odometer, fulltank, value, (err, res) => {
+            if (err.error)
+                return err;
+            return res;
+        })
+        // console.log("A new return was added: " + return);
+        return ret;
+    }
+
+    private static calculateRentalCosts(minutes, kmTravelled, fulltank) {
+        // Apparently we can calculate the value however we like
+        const PER_KM_RATE = 0.129;
+        const MINUTE_RATE = 0.40;
+        return 0;
     }
 
     /*TODO: Make report*/
