@@ -1,5 +1,6 @@
 
 ### Running the Project
+Remember to first run `npm install` to install all dependencies
 Run `yarn dev` in the dbproject folder
 
 OR 

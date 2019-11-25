@@ -152,7 +152,9 @@ const MakeReturnsModal = props => {
                             </FormGroup>
                         </FormatLeftCol>
                         </Row>
-                        <Row><Button color={'success'} onClick={() => createReturns()}>Return Vehicle</Button></Row>
+                        <Row><Button color={'success'} onClick={() => {
+                            createReturns();
+                        }}>Return Vehicle</Button></Row>
                     </ContentDiv>
                 </OverlaySpan>
             </OverlayWrapper>
