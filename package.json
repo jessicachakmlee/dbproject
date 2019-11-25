@@ -8,7 +8,8 @@
     "frontend": "npm start --prefix frontend",
     "server": "nodemon server",
     "start": "node server",
-    "heroku-postbuild": "cd frontend && npm install && npm run build"
+    "heroku-postbuild": "cd frontend && npm install && npm run build",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -21,8 +22,10 @@
   },
   "homepage": "https://github.com/jessicachakmlee/dbproject#readme",
   "devDependencies": {
+    "chai": "^4.2.0",
     "concurrently": "^5.0.0",
     "grunt-connect-proxy": "git+https://github.com/drewzboto/grunt-connect-proxy.git",
+    "mocha": "^6.2.2",
     "nodemon": "^1.19.4"
   },
   "dependencies": {
