@@ -30,7 +30,7 @@ const OverlaySpan = styled.span`
 `;
 
 const ContentDiv = styled.div`
-    max-width: calc(90%);
+    max-width: 1000px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 60px 20px;
     transform: scale(1);
     display: flex;
@@ -49,7 +49,15 @@ const StyledRetrieveButton = styled(Button)`
     height: 38px;
     margin: 32px 10px 0;
 `;
-const StyledXButtonLink = styled(Link)``;
+
+const StyledXButtonLink = styled(Link)`
+color: black;
+font-weight: 800;
+position: absolute;
+z-index: 2002;
+top: 0;
+left: 10px;
+`;
 
 const MakeReservationModal = props => {
     const [name, setName] = useState('');
@@ -143,9 +151,11 @@ const MakeReservationModal = props => {
     return (
         <OverlayWrapper>
             <OverlaySpan>
-                <StyledXButtonLink to={'/'}>X</StyledXButtonLink>
                 <ContentDiv>
+                    <StyledXButtonLink to={'/'}>X</StyledXButtonLink>
                     <Container>
+                        <Row>
+                        <Col>
                         <Row>
                             <h3>Customer Information</h3>
                             <Form>
@@ -177,6 +187,8 @@ const MakeReservationModal = props => {
                                     Customer</Button>
                             </Form>
                         </Row>
+                        </Col>
+                        <Col>
                         <Row><h3>Reservation Details</h3></Row>
                         <Row><p>City: {props.location.state.city}</p></Row>
                         <Row><p>location: {props.location.state.location}</p></Row>
@@ -187,6 +199,8 @@ const MakeReservationModal = props => {
                         <Row><p>ToTime: {props.location.state.toTime}</p></Row>
                         <Row>
                             <Button color={'danger'} onClick={() => creatingAReservation()}>Create Reservation</Button>
+                        </Row>
+                        </Col>
                         </Row>
                     </Container>
                 </ContentDiv>

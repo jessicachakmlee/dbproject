@@ -29,8 +29,8 @@ router.post('/new', function (req, res) {
         })
 });
 
-router.get('/', function (req, res) {
-    const confNo = req.body.confNo;
+router.get('/:confNo', function (req, res) {
+    const confNo = req.params.confNo;
     reservation.retrieveByConfNo(confNo, function(err, reservation) {
         if (err)
             return res.json(err);

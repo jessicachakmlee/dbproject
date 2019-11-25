@@ -25,7 +25,7 @@ const OverlaySpan = styled.span`
 `;
 
 const ContentDiv = styled.div`
-    max-width: calc(90%);
+    max-width: 1000px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 60px 20px;
     transform: scale(1);
     display: flex;
@@ -75,7 +75,8 @@ const DataDisplayModal = props => {
                 <OverlaySpan>
                     <ContentDiv>
                         <StyledXButtonLink to={'/'}>Close X</StyledXButtonLink>
-                        <Table>
+                        <Title>{props.location.state.dataDisplayTable}</Title>
+                        <Table striped>
                             <thead>
                             <tr>
                                 {TableHeaders.map(h => {
@@ -158,7 +159,7 @@ const DataDisplayModal = props => {
                                 return (
                                     <div>
                                         <TableBlurbs>{tableBlurbs[index]}</TableBlurbs>
-                                        <Table>
+                                        <Table striped>
                                             <thead>
                                             <tr>
                                                 {tableHeaders.map(header => {

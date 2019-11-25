@@ -15,12 +15,14 @@ import {
     Button,
     ListGroup,
     ListGroupItem,
-    Table, Label, Input, FormGroup
+    Table, Label, Input, FormGroup,
+    Modal, ModalHeader, ModalBody, ModalFooter
 } from 'reactstrap';
 import TextField from '@material-ui/core/TextField';
 import {Link, Route, Switch} from "react-router-dom";
 import MakeReservationModal from '../src/components/MakeReservationModal.jsx';
 import DataDisplayModal from "./components/DataDisplayModal";
+import MakeRentalModal from "./MakeRentalModal";
 
 const Title = styled.h1`
 text-align: center;
@@ -82,6 +84,25 @@ const ClerkStyling1 = styled.div`
     
 `;
 
+const StylingForRetrieveReservation = styled.div`
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin: 50px;
+div {
+    input {
+        width: 300px;
+    }
+}
+`;
+
+const Separator = styled.div`
+text-align: center;
+font-weight: 800;
+margin-bottom: 50px;
+`;
+
 const App = () => {
     const getCurrentDate = () => {
         let d = new Date(),
@@ -96,6 +117,7 @@ const App = () => {
 
         return [year, month, day].join('-');
     };
+
     const [dropdownCityOpen, setDropdownCityOpen] = useState(false);
     const [dropdownLocationOpen, setDropdownLocationOpen] = useState(false);
     const [dropdownCarTypeOpen, setDropdownCarTypeOpen] = useState(false);
@@ -113,6 +135,7 @@ const App = () => {
     const toggleCarType = () => setDropdownCarTypeOpen(!dropdownCarTypeOpen);
     const toggleTable = () => setDropdownTableOpen(!dropdownTableOpen);
     const toggleReport = () => setDropdownClerkReportOpen(!dropdownClerkReportOpen);
+    const toggleModal = () => setResTempModalOpen(!resTempModalOpen);
 
     const [startDate, setStartDate] = useState(null);
     const [startTime, setStartTime] = useState(null);
@@ -126,6 +149,9 @@ const App = () => {
     const [locationReport, setLocationReport] = useState('');
     const [cityReport, setCityReport] = useState('');
     const [isRunQuery, setIsRunQuery] = useState(true);
+    const [reservationConfNo, setReservationConfNo] = useState('');
+    const [reservationOutput, setReservationOutput] = useState([]);
+    const [resTempModalOpen, setResTempModalOpen] = useState(false);
 
     const cityDropdownItems = [
         'Boston Bar', 'Haney', 'Oliver', 'Surrey', 'Vancouver', 'All'
@@ -263,6 +289,22 @@ const App = () => {
         }
     };
 
+    const retrieveReservation = () => {
+        if (reservationConfNo === '') {
+            alert('Please input your reservation confirmation number.');
+        } else {
+            fetch(`/api/reservation/${reservationConfNo}`).then(res => res.json()).then(res => {
+                if (res.error === 'Database error.') {
+                    alert('Responded with Database error.There is an issue with this search. Please try again.');
+                } else {
+                    setReservationOutput(res);
+                    console.log(reservationOutput);
+                    setResTempModalOpen(true);
+                }
+            })
+        }
+    };
+
     useEffect(() => {
         getAllVehiclesFromGivenData(true);
     }, []);
@@ -310,7 +352,7 @@ const App = () => {
                             <Button color={'info'}>
                                 <StyledModalButton to={{
                                     pathname: '/displayData', state: {
-                                        isModal: true, dataDisplay: tableOutput
+                                        isModal: true, dataDisplayTable: table, dataDisplay: tableOutput
                                     }
                                 }}>
                                     Display Table
@@ -333,10 +375,6 @@ const App = () => {
                 <Col>
                     <Jumbotron>
                         <Title>Clerk Reports</Title>
-                        {/*<div>*/}
-                        {/*    <Button color={'primary'}>Renting a Vehicle</Button>*/}
-                        {/*    <Button color={'primary'}>Returning a Vehicle</Button>*/}
-                        {/*</div>*/}
                         <div>
                             <Blurb>Generate a report for:</Blurb>
                             <ClerkStyling>
@@ -400,12 +438,59 @@ const App = () => {
                         </div>
                     </Jumbotron>
                 </Col>
+                <Col>
+                    <Jumbotron>
+                        <Title>Returns</Title>
+                    </Jumbotron>
+                </Col>
             </Row>
             <Row>
                 <Col>
                     <Jumbotron>
-                        <Title>View Vehicles</Title>
-                        <Blurb>Select at least one of the following options to view available vehicles.</Blurb>
+                        <Title>Reservations & Rentals</Title>
+                        <Blurb>Retrieve your reservation and/or select at least one of the following options to view available vehicles.</Blurb>
+                        <StylingForRetrieveReservation>
+                            <FormGroup>
+                                <Label for="reservationConfNo">Reservation Confirmation Number</Label>
+                                <Input type="reservationConfNo" name="reservationConfNo" id="reservationConfNo"
+                                       value={reservationConfNo} onChange={e => setReservationConfNo(e.target.value)}/>
+                            </FormGroup>
+                            <Button color={'primary'} onClick={() => retrieveReservation()}>Retrieve Reservation</Button>
+                            <Modal
+                                isOpen={resTempModalOpen}
+                                toggle={toggleModal}
+                            >
+                                {reservationOutput && reservationOutput.length  === 0 ?
+                                    <div>
+                                        <ModalHeader toggle={toggleModal}>No Reservation Found</ModalHeader>
+                                        <ModalBody>You can make a reservation or a rental below the reservation retrieval area by
+                                            selecting at least one of the following options to view available vehicles.</ModalBody>
+                                        <ModalFooter>
+                                            <Button color="primary" onClick={toggleModal}>Go Back</Button>
+                                        </ModalFooter>
+                                    </div>
+                                    :
+                                    <div>
+                                        <ModalHeader toggle={toggleModal}>Reservation Found</ModalHeader>
+                                        <ModalBody>You can make a rental with this reservation.</ModalBody>
+                                        <ModalFooter>
+                                            <Button color={'danger'} onClick={toggleModal}>
+                                            <StyledModalButton
+                                                to={{
+                                                    pathname: '/makeRental', state: {
+                                                        isModal: true, reservationObj: reservationOutput[0]
+                                                    }
+                                                }}>Make Rental</StyledModalButton>
+                                            </Button>
+                                            <Button color="primary" onClick={toggleModal}>Go Back</Button>
+                                        </ModalFooter>
+                                    </div>
+                                }
+                            </Modal>
+                        </StylingForRetrieveReservation>
+                        <Separator>
+                            <h2>OR</h2>
+                        </Separator>
                         <StylingForDropDown>
                             <Dropdown isOpen={dropdownCarTypeOpen} toggle={toggleCarType}>
                                 <DropdownToggle caret>
@@ -490,6 +575,16 @@ const App = () => {
                                         }
                                     }}>Make a Reservation</StyledModalButton>
                             </Button>
+                            <Button color={!disableMakeReservation ? 'secondary' : 'danger'}>
+                                <StyledModalButton
+                                    onClick={() => !disableMakeReservation ? alert('Please input information first to see if there are available vehicles before making a rental.') : null}
+                                    to={{
+                                        pathname: !disableMakeReservation ? '/' : '/makeRental', state: {
+                                            isModal: true, reservationObj: {city: city, vehicleType: vehicleType, location: location,
+                                                fromdate: startDate, fromtime: startTime, todate: endDate, totime: endTime}
+                                        }
+                                    }}>Make Rental</StyledModalButton>
+                            </Button>
                         </StyledButton>
                     </Jumbotron>
                 </Col>
@@ -537,9 +632,10 @@ const App = () => {
             <Switch>
                 <Route exact path="/makeReservation" component={props => <MakeReservationModal {...props}/>}/>
                 <Route exact path="/displayData" component={props => <DataDisplayModal {...props}/>}/>
+                <Route exact path="/makeRental" component={props => <MakeRentalModal {...props}/>}/>
             </Switch>
         </Container>
     );
 };
 
-export default App;
+export default App
