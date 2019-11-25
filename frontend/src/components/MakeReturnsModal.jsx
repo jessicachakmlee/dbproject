@@ -63,7 +63,6 @@ const MakeReturnsModal = props => {
     const [fulltank, setfulltank] = useState(null);
     const [value, setValue] = useState(null);
 
-
     const createReturns = () => {
         const bodyVar = {
             rid: rid,
