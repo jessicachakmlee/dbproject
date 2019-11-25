@@ -9,7 +9,7 @@ const TimeHelper = require('server/models/timePeriod');
 
 class ClerkTransactions{
     /*Rent a vehicle with or without any reservation*/
-    public static async rentVehicleAsync(confNo, city, location, fromDate, fromTime, toDate, toTime,
+    static async rentVehicleAsync(confNo, city, location, fromDate, fromTime, toDate, toTime,
                                          vtname, cellphone, dlicense, cardName, cardNo, expDate){
         try {
             // retrieve the reservation

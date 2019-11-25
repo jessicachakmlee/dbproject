@@ -23,6 +23,7 @@ import {Link, Route, Switch} from "react-router-dom";
 import MakeReservationModal from '../src/components/MakeReservationModal.jsx';
 import DataDisplayModal from "./components/DataDisplayModal";
 import MakeRentalModal from "./components/MakeRentalModal";
+import MakeReturnsModal from "./components/MakeReturnsModal";
 
 const Title = styled.h1`
 text-align: center;
@@ -437,6 +438,13 @@ const App = () => {
                 <Col>
                     <Jumbotron>
                         <Title>Returns</Title>
+                        <Button color={'primary'}>
+                            <StyledModalButton to={{
+                                pathname: '/makeReturn', state: {
+                                    isModal: true}}}>
+                                Return Vehicle
+                            </StyledModalButton>
+                        </Button>
                     </Jumbotron>
                 </Col>
             </Row>
@@ -634,6 +642,7 @@ const App = () => {
                 <Route exact path="/makeReservation" component={props => <MakeReservationModal {...props}/>}/>
                 <Route exact path="/displayData" component={props => <DataDisplayModal {...props}/>}/>
                 <Route exact path="/makeRental" component={props => <MakeRentalModal {...props}/>}/>
+                <Route exact path="/makeReturn" component={props => <MakeReturnsModal {...props}/>}/>
             </Switch>
         </Container>
     );

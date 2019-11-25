@@ -105,7 +105,6 @@ const DataDisplayModal = props => {
                     </ContentDiv>
                 </OverlaySpan>
             </OverlayWrapper>
-
         )
     } else if (props.location.state.insertData) {
         return (
