@@ -12,6 +12,9 @@ Run `npm start` in the frontend folder AND Run `nodemon server` in the server fo
 You can also access our app through https://car-rental-304-2019.herokuapp.com/.
 
 ### Setting up the database
+1. Open SQLShell
+2. Login as postgres (aka. admin) 
+3. Type `CREATE DATABASE dbproject;` (This will create a database called dbproject locally)
 
 #### Dropping all the tables
 Run `node server/database/setUpFunctions dropTables`
