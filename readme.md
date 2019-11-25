@@ -7,6 +7,10 @@ OR
 
 Run `npm start` in the frontend folder AND Run `nodemon server` in the server folder
 
+### Other Environments
+
+You can also access our app through https://car-rental-304-2019.herokuapp.com/.
+
 ### Setting up the database
 
 #### Dropping all the tables
