@@ -1,5 +1,5 @@
 CREATE TABLE Rent (
-    rid             int,
+    rid             SERIAL,
     vlicense        char(7),
     dlicense        int,
     fromDate        date,
@@ -12,7 +12,7 @@ CREATE TABLE Rent (
     ExpDate         varchar(5) NOT NULL,
     confNo          int,
     PRIMARY KEY     (rid),
-    FOREIGN KEY     (vlicense) REFERENCES Vehicle,
-    FOREIGN KEY     (dlicense) REFERENCES Customer(dlicense),
-    FOREIGN KEY     (confNo) REFERENCES Reservation(confNo)
+    FOREIGN KEY     (vlicense) REFERENCES Vehicle ON DELETE CASCADE,
+    FOREIGN KEY     (dlicense) REFERENCES Customer(dlicense) ON DELETE CASCADE,
+    FOREIGN KEY     (confNo) REFERENCES Reservation(confNo) ON DELETE CASCADE
 );

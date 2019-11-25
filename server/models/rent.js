@@ -255,17 +255,18 @@ class Rent {
     // date toDate, time toTime, int odometer, varchar cardName,
     // varchar cardNo, varchar expDate, int confNo)
 
-    // TODO: make sure it can accept if only minimum inputs are given
     // a method that inserts new rent row into the database
-    static insert (rid, vlicense, dlicense, fromDate, fromTime,
+    static insert (vlicense, dlicense, fromDate, fromTime,
                    toDate, toTime, odometer, cardName,
                    cardNo, expDate, confNo, callback) {
 
+        // TODO: make sure all inputs are valid (int columns will throw err if passed "")
 
-        console.log("the rid is: " + rid);
-        const insertQuery = 'INSERT INTO rent(rid, vlicense, dlicense, fromdate, fromtime, todate, totime, odometer, cardname, cardno, expdate, confno) ' +
-            'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)';
-        const values = [rid, vlicense, dlicense, fromDate, fromTime,
+        const insertQuery = 'INSERT INTO rent(vlicense, dlicense, fromdate, fromtime, todate, totime, ' +
+            'odometer, cardname, cardno, expdate, confno) ' +
+            'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) ' +
+            'RETURNING *';
+        const values = [vlicense, dlicense, fromDate, fromTime,
                 toDate, toTime, odometer, cardName,
                 cardNo, expDate, confNo];
 

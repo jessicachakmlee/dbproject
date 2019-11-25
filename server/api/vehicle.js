@@ -66,7 +66,7 @@ router.get('/:isCount/options', (req, res) => {
     })
 });
 
-router.post('/new', function (req, res) {
+router.post('/new', (req, res) => {
     const vid = req.body.vid;
     const vlicense = req.body.vlicense;
     const make = req.body.make;

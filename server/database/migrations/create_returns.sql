@@ -6,5 +6,5 @@ CREATE TABLE Returns (
     fulltank    int, 
     value       float,
     PRIMARY KEY (rid),
-    FOREIGN KEY (rid) REFERENCES Rent
+    FOREIGN KEY (rid) REFERENCES Rent ON DELETE CASCADE ON UPDATE CASCADE
 );          
