@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import moment from "moment";
 import styled from 'styled-components';
 import {
     Container,
@@ -181,6 +182,11 @@ const App = () => {
     const disableMakeReservation = city && location && vehicleType && startDate && startTime && endDate && endTime && isVehicleAvailable;
 
     const getAllVehiclesFromGivenData = (isCount) => {
+        const DateValidation = startDate && startTime && endDate && endTime ?
+            !moment(startDate).isSameOrAfter(getCurrentDate()) || !moment(startDate).isBefore(endDate, 'day') : false;
+        if(DateValidation) {
+            alert('Your From Date can not be a day in the past and must be before your toDate. You can not rent a car for less than a day.')
+        } else {
         const endpointString = `/api/vehicle/${isCount}/options?`;
         const cit = city === 'All' ? '' : `city=${city}&`;
         const loc = location === 'All' || location === '' ? '' : `location=${location}&`;
@@ -213,7 +219,7 @@ const App = () => {
                 }
             });
 
-    };
+    }};
 
     const endPointForTables = () => {
         switch (table) {
