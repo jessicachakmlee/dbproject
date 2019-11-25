@@ -22,8 +22,7 @@ import TextField from '@material-ui/core/TextField';
 import {Link, Route, Switch} from "react-router-dom";
 import MakeReservationModal from '../src/components/MakeReservationModal.jsx';
 import DataDisplayModal from "./components/DataDisplayModal";
-import MakeRentalModal from "./MakeRentalModal";
-import Spinner from "reactstrap/es/Spinner";
+import MakeRentalModal from "./components/MakeRentalModal";
 
 const Title = styled.h1`
 text-align: center;
