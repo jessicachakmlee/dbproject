@@ -56,18 +56,53 @@ margin-right: 50px;
 `;
 
 const MakeReturnsModal = props => {
+    const currDate = () => {
+        let d = new Date();
+        return d.getFullYear() + "-"
+            + (d.getMonth() + 1) + "-"
+            + d.getDate();
+    };
+    const currTime = () => {
+        let d = new Date();
+        return d.getHours() + ":"
+            + d.getMinutes() + ":"
+            + d.getSeconds();
+    };
+
+    const value = 200;
+
+    // form values
     const [rid, setRid] = useState(null);
-    const [date, setDate] = useState();
-    const [time, setTime] = useState(null);
     const [odometer, setOdometer] = useState(null);
     const [fulltank, setfulltank] = useState(null);
-    const [value, setValue] = useState(null);
 
     const createReturns = () => {
+
+        // Check the rid value
+        const getRentVehicleInfo = () => {
+            // search rent db for given rid
+            var myHeaders = new Headers();
+            myHeaders.append('Content-Type', 'application/json');
+            fetch(`/api/rent/${rid}`)
+                .then(res => res.json())
+                .then(res => {
+                    if (res.error === 'Database error.') {
+                        alert(res.error);
+                    } else if (res.length === 0) {
+                        alert('The following rent id does not exist. Please check your id and try again.');
+                    } else if (res.length > 1) {
+                        alert('Database has been corrupted. More than one rid was found');
+                    } else {
+                        return res[0];
+                    }
+                })
+                .catch(err => alert('Error retrieving rent info from rid. Please try again.'))
+        }
+
         const bodyVar = {
             rid: rid,
-            date: date,
-            time: time,
+            date: currDate(),
+            time: currTime(),
             odometer: odometer,
             fulltank: fulltank,
             value: value
@@ -80,7 +115,7 @@ const MakeReturnsModal = props => {
             body: JSON.stringify(bodyVar)
         }).then(res => res.json()).then(res => {
                 if (res.error === 'Database error.') {
-                    alert('Error creating rental. Please try again.');
+                    alert('Error creating return. Please try again.');
                 } else {
                     alert(`Return Agreement created. Your rid is ${rid}. Here are the details:
                     rid: ${bodyVar.rid}
@@ -108,24 +143,12 @@ const MakeReturnsModal = props => {
                                 <Input value={rid} onChange={e => setRid(e.target.value)}/>
                             </FormGroup>
                             <FormGroup>
-                                <Label for="date">Date</Label>
-                                <Input value={date} onChange={e => setDate(e.target.value)}/>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="time">Time</Label>
-                                <Input value={time} onChange={e => setTime(e.target.value)}/>
-                            </FormGroup>
-                            <FormGroup>
                                 <Label for="odometer">Odometer</Label>
                                 <Input value={odometer} onChange={e => setOdometer(e.target.value)}/>
                             </FormGroup>
                             <FormGroup>
                                 <Label for="fulltank">Full Tank</Label>
                                 <Input value={fulltank} onChange={e => setfulltank(e.target.value)}/>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="value">Value</Label>
-                                <Input value={value} onChange={e => setValue(e.target.value)}/>
                             </FormGroup>
                         </FormatLeftCol>
                         </Row>
